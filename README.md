@@ -83,6 +83,7 @@ CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
 ```
 ## EXAMPLE 2
 
+```R
 # TESTS
 library(hydroEvents)
 library(zoo)
@@ -154,3 +155,4 @@ plotevents(data=dataBassRiver,events=Min_res,main="eventMinima")
 plotevents(data=dataBassRiver,events=PoT_res,main="eventPOT")
 plotevents(data=dataBassRiver,events=BF_res,main="eventBaseflow")
 
+```
