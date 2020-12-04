@@ -2,6 +2,8 @@
 
 
 # EXAMPLE 1
+
+```R
 ######### Aim: to see how different event methods affect C-Q relationship #######################
 ############# best illustrated with continuous water quality data ###############################
 
@@ -78,3 +80,5 @@ par(mar=c(2,2,2,1))
 CQ_event(ECzoo,Qzoo,BF_res,"Baseflow method")
 CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
 
+```
+## EXAMPLE 2
