@@ -82,3 +82,75 @@ CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
 
 ```
 ## EXAMPLE 2
+
+# TESTS
+library(hydroEvents)
+library(zoo)
+data("dataBassRiver")
+length(dataBassRiver)
+fakedate = seq(as.Date("2000-01-01"),as.Date("2000-01-01")+66,by="days")
+Basszoo = zoo(dataBassRiver,fakedate)
+plot(dataBassRiver)
+plot(Basszoo)
+
+source("R/newfunctions_DG_20201027.R")
+#source("C:/Users/danlug/OneDrive - The University of Melbourne/Potential/EventPackage/hydroEvents001/R/newfunctions_DG_20201027.R")
+# ALL EVENT METHODS SO FAR
+Max_res = eventMaxima(dataBassRiver, delta.y = 200, delta.x = 1)
+Min_res = eventMinima(dataBassRiver, delta.x = 5, delta.y = 20)
+PoT_res = eventPOT(dataBassRiver, threshold = 0, min.diff = 1)
+BF_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
+
+
+# added function - smoothing
+# flexible parameters are nsteps to smooth over, and weighting for the middle value (with all other weightings to be 1)
+# DEMO
+plot(dataBassRiver,type="o")
+lines(smoothing(dataBassRiver,nstep=1),type="o",col="RED") # 1+1+1 = 3d MA
+lines(smoothing(dataBassRiver,nstep=2),type="o",col="blue") # 2+1+2 = 5d MA
+
+# added function - plotevents
+# plot events in two diff ways - line over or shaded
+# DEMO
+plotevents(data=dataBassRiver,events=Min_res)
+plotevents(data=dataBassRiver,events=Min_res,type="bound")
+
+# updated function - baseFlow_DG with BFI
+# DEMO
+plot(dataBassRiver,type="o")
+baseFlow_DG(dataBassRiver)$bfi
+
+# added function - eventBaseflow
+# DEMO
+BF_res = eventBaseflow(dataBassRiver)
+plotevents(data=dataBassRiver,events=BF_res)
+# added argument to extract raw ev with event.style = "raw"
+eventBaseflow(dataBassRiver,out.style="raw")
+eventBaseflow(dataBassRiver,out.style="summary") # default
+
+# added function - limbs (use identified events to do R/F limb separation)
+# DEMO
+BF_risfal_res = limbs(data=dataBassRiver,events=BF_res)
+Max_risfal_res = limbs(data=dataBassRiver,events=Max_res)
+
+# argument "filter" in limbs indicates whether rate of change filter is used
+# argument "min.rates" specifies min rate of increase for identifying rising and decrease for falling
+limbs(data=dataBassRiver,events=BF_res,filter=F)
+limbs(data=dataBassRiver,events=BF_res,filter=T,min.rates=c(0,0)) # this has same effects as no filter line above
+limbs(data=dataBassRiver,events=BF_res,filter=T,plot=T,min.rates=c(10,-10))
+limbs(data=dataBassRiver,events=BF_res,filter=T,plot=T,min.rates=c(200,-200))
+
+#########################################################
+# FINAL DEMO - method comparison
+Max_res = eventMaxima(dataBassRiver, delta.y = 200, delta.x = 1)
+Min_res = eventMinima(dataBassRiver, delta.x = 5, delta.y = 20)
+PoT_res = eventPOT(dataBassRiver, threshold = 0, min.diff = 1)
+BF_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
+
+par(mfrow=c(4,1))
+par(mar=c(2,2,2,2))
+plotevents(data=dataBassRiver,events=Max_res,main="eventMaxima")
+plotevents(data=dataBassRiver,events=Min_res,main="eventMinima")
+plotevents(data=dataBassRiver,events=PoT_res,main="eventPOT")
+plotevents(data=dataBassRiver,events=BF_res,main="eventBaseflow")
+
