@@ -1,0 +1,16 @@
+Package: hydroEvents
+Title: Extract event statistics in hyrdrologic time series
+Version: 0.10
+Authors@R: 
+    person(given = "Conrad",
+           family = "Wasko",
+           role = c("aut", "cre"),
+           email = "conrad.wasko@gmail.com")
+Description: What the package does (one paragraph).
+License: `use_gpl3_license()`
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)
