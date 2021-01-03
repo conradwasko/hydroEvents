@@ -1,3 +1,5 @@
+#' NOTE - THE SAME AS 'BASEFLOW.R' EXCEPT FOR THAT THIS CALCULATES BFI TOO (USED IN 'EVENTBASEFLOW.R') - TO CHOOSE A VERSION AND COMBINE
+#' #############################
 #' Baseflow removal (after Ladson et al)
 #'
 #' @description This function removes baseflow based on a recursive digital filter and is based on
