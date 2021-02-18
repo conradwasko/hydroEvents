@@ -2,43 +2,25 @@
 Insert description of package here
 
 ## Example 1
+Aim: To see how different event methods affect C-Q relationship 
 
 ```R
-######### Aim: to see how different event methods affect C-Q relationship #######################
-############# best illustrated with continuous water quality data ###############################
+# Demonstration of different two different methods
+srt = as.Date("2018-05-01")
+end = as.Date("2019-04-30")
+EC = data232210$EC$Mean[which(data232210$EC$Date >= srt & data232210$EC$Date <= end)]
+Q  = data232210$Q$Mean[which(data232210$Q$Date >= srt & data232210$Q$Date <= end)]
 
-#### site that has >5y recent continuous data in both EC and flow - one used for illustration ###
-######### raw data - selected a site from VIC DELWP https://data.water.vic.gov.au/ ##############
-#### 232210 ####
+BF_res = eventBaseflow(Q)
+plotEvents(data = Q, events = BF_res)
+limbs(data = Q, events = BF_res)
 
-EC = read.csv("232210.Conductivity.csv",skip=2)
-Q = read.csv("232210.MeanWaterFlow.csv",skip=2)
+MIN_res = eventMinima(Q, delta.x = 20, delta.y = 100)
+plotEvents(data = Q, events = MIN_res)
+limbs(data = Q, events = MIN_res) #
+```
 
-head(EC)
-head(Q)
 
-EC$Mean[which(EC$Qual>152)] = NA
-Q$Mean[which(Q$Qual>152)] = NA
-
-ECzoo = zoo(EC$Mean,as.Date(strptime(substr(EC$Date,10,20),"%d/%m/%Y")))
-Qzoo = zoo(Q$Mean/83,as.Date(strptime(substr(Q$Date,10,20),"%d/%m/%Y")))
-
-library(hydroEvents)
-library(zoo)
-source("R/newfunctions_DG_20201123.R")
-
-###### select a one-year period to illustrate - based on water year??? (I only did eyeballing) #####
-selstart=as.Date("2018-05-01");selend=as.Date("2019-04-30")
-ECzoo = ECzoo[which(time(ECzoo)>=selstart&time(ECzoo)>=selend)]
-Qzoo = Qzoo[which(time(Qzoo)>=selstart&time(Qzoo)>=selend)]
-
-plot(ECzoo)
-plot(Qzoo)
-
-plot(ECzoo~Qzoo)
-
-CQ = merge.zoo(ECzoo,Qzoo)
-Qvec = as.vector(CQ$Qzoo)
 
 ###### compare CQ-event partition with different event apporoaches - BF and Minima tested
 # a function to plot CQ with different colours by event periods (rising, falling and BF)
