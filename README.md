@@ -1,5 +1,5 @@
 # hydroEvents
-
+Insert description of package here
 
 ## Example 1
 
