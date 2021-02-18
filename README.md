@@ -1,7 +1,7 @@
 # hydroEvents
 
 
-# EXAMPLE 1
+## Example 1
 
 ```R
 ######### Aim: to see how different event methods affect C-Q relationship #######################
