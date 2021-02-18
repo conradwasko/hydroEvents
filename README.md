@@ -20,7 +20,7 @@ plotEvents(data = Q, events = MIN_res)
 limbs(data = Q, events = MIN_res) #
 ```
 
-
+```R
 
 ###### compare CQ-event partition with different event apporoaches - BF and Minima tested
 # a function to plot CQ with different colours by event periods (rising, falling and BF)
@@ -47,14 +47,6 @@ CQ_event = function(C,Q,event_method,methodname) {
 
 }
 
-# test with different event methods: BF and Min
-BF_res = eventBaseflow(Qvec)
-plotevents(data=Qvec,events=BF_res)
-limbs(data=Qvec,events=BF_res)
-
-Min_res = eventMinima(Qvec, delta.x = 20, delta.y = 100)
-plotevents(data=Qvec,events=Min_res)
-limbs(data=Qvec,events=Min_res) # We used different indexing approaches which is why the peaks looks funny here - need to discuss
 
 # Final plot on CQ comparison from two event approaches
 par(mfrow=c(2,2))
