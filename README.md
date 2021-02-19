@@ -5,7 +5,7 @@ Insert description of package here
 Aim: To see how different event methods affect C-Q relationship 
 
 ```R
-# Demonstration of different two different methods
+# Demonstration of two different methods
 srt = as.Date("2018-05-01")
 end = as.Date("2019-04-30")
 EC = data232210$EC$Mean[which(data232210$EC$Date >= srt & data232210$EC$Date <= end)]
