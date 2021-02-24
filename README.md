@@ -153,3 +153,4 @@ plotEvents(data=dataBassRiver-bf,events=Min_res,main="eventMinima")
 plotEvents(data=dataBassRiver-bf,events=PoT_res,main="eventPOT")
 plotEvents(data=dataBassRiver-bf,events=BFI_res,main="eventBaseflow")
 ```
+![example02](https://user-images.githubusercontent.com/39328041/108943839-aaafcd80-76ad-11eb-8d33-438f5c99c560.png)
