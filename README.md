@@ -130,3 +130,26 @@ plotevents(data=dataBassRiver,events=PoT_res,main="eventPOT")
 plotevents(data=dataBassRiver,events=BF_res,main="eventBaseflow")
 
 ```
+# hydroEvents
+Insert description of package here
+
+## Example 3
+Aim: Compare different methods of choosing flow events visually 
+
+```R
+library(hydroEvents)
+data("dataBassRiver")
+
+bf = baseFlow(dataBassRiver)
+Max_res = eventMaxima(dataBassRiver-bf, delta.y = 200, delta.x = 1, thresh = 0)
+Min_res = eventMinima(dataBassRiver-bf, delta.x = 5, delta.y = 20)
+PoT_res = eventPOT(dataBassRiver-bf, threshold = 0, min.diff = 1)
+BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
+
+par(mfrow=c(4,1))
+par(mar=c(2,2,2,2))
+plotEvents(data=dataBassRiver-bf,events=Max_res,main="eventMaxima")
+plotEvents(data=dataBassRiver-bf,events=Min_res,main="eventMinima")
+plotEvents(data=dataBassRiver-bf,events=PoT_res,main="eventPOT")
+plotEvents(data=dataBassRiver-bf,events=BFI_res,main="eventBaseflow")
+```
