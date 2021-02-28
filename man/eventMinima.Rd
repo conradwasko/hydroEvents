@@ -4,7 +4,13 @@
 \alias{eventMinima}
 \title{Event identification (using local minima as a basis)}
 \usage{
-eventMinima(data, delta.x = 5, delta.y = 20, filter.type = "None", ...)
+eventMinima(
+  data,
+  delta.x = 5,
+  delta.y = 20,
+  thresh = -1,
+  out.style = "summary"
+)
 }
 \arguments{
 \item{data}{The data vector (e.g. a streamflow time series)}
@@ -14,8 +20,6 @@ eventMinima(data, delta.x = 5, delta.y = 20, filter.type = "None", ...)
 \item{delta.y}{Maximum difference in data between start and end of an event}
 
 \item{filter.type}{c("simple", "spline") Optional smoothing of data series}
-
-\item{...}{Further arguments passed eventStats}
 }
 \value{
 Returns indices of start and end of events as a two column dataframe and event statistics
@@ -49,6 +53,6 @@ Tang and Carey (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
 Hydrological Processes (31) 2670-2682
 }
 \seealso{
-\code{\link{eventStats}} \code{\link{eventPOT}}
+\code{\link{calcStats}} \code{\link{eventPOT}}
 }
 \keyword{events}
