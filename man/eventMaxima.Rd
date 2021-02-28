@@ -4,22 +4,18 @@
 \alias{eventMaxima}
 \title{Event identification (using local maxima as a basis)}
 \usage{
-eventMaxima(
-  data,
-  delta.y = 200,
-  delta.x = 1,
-  thresh = -1,
-  out.style = "summary"
-)
+eventMaxima(data, delta.y = 200, delta.x = 1, filter.type = "none", ...)
 }
 \arguments{
 \item{data}{The data vector (e.g. a streamflow time series)}
 
 \item{delta.y}{Minimum allowable difference from a peak to a trough}
 
-\item{delta.x}{Minimum spacing between peaks}
+\item{delta.x}{Minimum length for an event}
 
 \item{filter.type}{c("simple", "spline") Optional smoothing of data series}
+
+\item{...}{Further arguments passed eventStats}
 }
 \value{
 Returns indices of start and end of events as a two column dataframe and event statistics
@@ -36,24 +32,23 @@ If \code{delta.y} is negative it is applied a fractional decrease from the peak
 # Example extracting events from quickflow
 bf = baseFlow(dataBassRiver, alpha = 0.925)
 qf = dataBassRiver - bf
-events = eventMaxima(qf, delta.y = 200, delta.x = 1, thresh = 0) # 5 events identified
-# delta.y = 200; delta.x = 1 # 5 events identified
-# delta.y = 500; delta.x = 1 # 3 events identified
-# delta.y = 10;  delta.x = 7 # 2 events identified
+events = eventMaxima(qf, delta.y = 200, delta.x = 1) # 5 events identified
+# delta.y = 200, delta.x = 1 # 5 events identified
+# delta.y = 500, delta.x = 1 # 3 events identified
+# delta.y = 10,  delta.x = 7 # 2 events identified
 plot(1:length(qf), qf, type = "l", lwd = 1, col = "black", main = "Events with maxima identified",
-   ylab = "Quickflow (ML/day)", xlab = "Time index", mgp = c(2, 0.6, 0))
+     ylab = "Quickflow (ML/day)", xlab = "Time index", mgp = c(2, 0.6, 0))
 n.events = nrow(events)
 for (i in 1:n.events) {
- idx = events$srt[i]:events$end[i]
- lines(idx, qf[idx], col = rainbow(nrow(events))[i], lwd = 2)
+  idx = events$srt[i]:events$end[i]
+  lines(idx, qf[idx], col = rainbow(nrow(events))[i], lwd = 2)
 }
-points(events$which.max, qf[events$which.max], cex = 1.2, lwd = 2)
-print(events)
+points(events$srt + events$which.max - 1, qf[events$srt + events$which.max - 1], cex = 1.2, lwd = 2)
 }
 \references{
 Rory?
 }
 \seealso{
-\code{\link{calcStats}} \code{\link{eventPOT}}
+\code{\link{eventStats}} \code{\link{eventPOT}}
 }
 \keyword{events}

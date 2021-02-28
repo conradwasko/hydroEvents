@@ -53,19 +53,16 @@
 #' legend("topright", legend = c("Rainfall", "Start Event", "End Event", "Max"), cex = 0.8,
 #'      lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
 
-plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colpnt = "blue", ymax=max(data),main="events") {
+plotevents <- function(data,dates=NULL,events,type="lineover",colline="red",ymax=max(data),main="events") {
   library(scales)
   if (!is.null(dates)) {
     plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
 
 
   } else {
-
+    plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
     if (type=="lineover") {
-
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
       extevents = eventid = list()
-
       for (k in 1:nrow(events)) {
         extevents[[k]] = data[events$srt[k]:events$end[k]]
 
@@ -78,13 +75,10 @@ plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colp
         lines(extevents[[k]]~eventid[[k]],col=colline,type="o",pch=20,cex=0.7)
         points(data[events$srt[k]]~events$srt[k],col=colline,type="o",pch=20,cex=1.5)
         points(data[events$end[k]]~events$end[k],col=colline,type="o",pch=20,cex=1.5)
-        points(data[events$which.max[k]]~events$which.max[k],col=colpnt,pch=20,cex=1)
 
-        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 0.8)
+        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste("Event",k))
       }
     } else if (type=="bound") {
-
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
 
       if (!is.null(dates)) {
         allS = dates[events$srt]
@@ -97,27 +91,6 @@ plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colp
       abline(v=allE,lty=2,col=colline)
       rect(xleft=allS,xright=allE,ybottom=0,ytop=ymax,border=NA, col=alpha(colline,0.2))
       text(x=apply(cbind(allS,allE),1,mean),y=ymax*0.9,label=paste("Event",1:nrow(events)))
-    } else if (type == "hyet") {
-
-      plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
-      extevents = eventid = list()
-
-      for (k in 1:nrow(events)) {
-
-        extevents[[k]] = data[events$srt[k]:events$end[k]]
-
-        if (!is.null(dates)) {
-          eventid[[k]] = dates[events$srt[k]:events$end[k]]
-        } else {
-          eventid[[k]] = events$srt[k]:events$end[k]
-        }
-
-        lines(extevents[[k]]~eventid[[k]],col=colline,type="h",pch=20,cex=0.7)
-        points(events$srt[k],0,col=colline,type="o",pch=20,cex=1.5)
-        points(events$end[k],0,col=colline,type="o",pch=20,cex=1.5)
-
-        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste("Event",k))
-      }
     }
 
   }

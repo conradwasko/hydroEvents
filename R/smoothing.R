@@ -38,11 +38,3 @@ smoothing <- function(data,nstep=1,med.weight=1) { # default is a 3-d MA
   return(sdata)
 }
 ### need to check validity with ref
-# Conrad's smoothing below
-# Filter
-#n.data = length(data)
-#if (filter.type == "simple") {
-#  data[2:(n.data-1)] = filter(data, c(1, 2, 1)/4)[2:(n.data-1)]
-#} else if (filter.type == "spline") {
-#  data = smooth.spline(data)$y
-#}

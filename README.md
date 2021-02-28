@@ -1,44 +1,26 @@
 # hydroEvents
+Insert description of package here
 
-
-# EXAMPLE 1
+## Example 1
+Aim: To see how different event methods affect C-Q relationship 
 
 ```R
-######### Aim: to see how different event methods affect C-Q relationship #######################
-############# best illustrated with continuous water quality data ###############################
+# Demonstration of two different methods
+srt = as.Date("2018-05-01")
+end = as.Date("2019-04-30")
+EC = data232210$EC$Mean[which(data232210$EC$Date >= srt & data232210$EC$Date <= end)]
+Q  = data232210$Q$Mean[which(data232210$Q$Date >= srt & data232210$Q$Date <= end)]
 
-#### site that has >5y recent continuous data in both EC and flow - one used for illustration ###
-######### raw data - selected a site from VIC DELWP https://data.water.vic.gov.au/ ##############
-#### 232210 ####
+BF_res = eventBaseflow(Q)
+plotEvents(data = Q, events = BF_res)
+limbs(data = Q, events = BF_res)
 
-EC = read.csv("232210.Conductivity.csv",skip=2)
-Q = read.csv("232210.MeanWaterFlow.csv",skip=2)
+MIN_res = eventMinima(Q, delta.x = 20, delta.y = 100)
+plotEvents(data = Q, events = MIN_res)
+limbs(data = Q, events = MIN_res) #
+```
 
-head(EC)
-head(Q)
-
-EC$Mean[which(EC$Qual>152)] = NA
-Q$Mean[which(Q$Qual>152)] = NA
-
-ECzoo = zoo(EC$Mean,as.Date(strptime(substr(EC$Date,10,20),"%d/%m/%Y")))
-Qzoo = zoo(Q$Mean/83,as.Date(strptime(substr(Q$Date,10,20),"%d/%m/%Y")))
-
-library(hydroEvents)
-library(zoo)
-source("R/newfunctions_DG_20201123.R")
-
-###### select a one-year period to illustrate - based on water year??? (I only did eyeballing) #####
-selstart=as.Date("2018-05-01");selend=as.Date("2019-04-30")
-ECzoo = ECzoo[which(time(ECzoo)>=selstart&time(ECzoo)>=selend)]
-Qzoo = Qzoo[which(time(Qzoo)>=selstart&time(Qzoo)>=selend)]
-
-plot(ECzoo)
-plot(Qzoo)
-
-plot(ECzoo~Qzoo)
-
-CQ = merge.zoo(ECzoo,Qzoo)
-Qvec = as.vector(CQ$Qzoo)
+```R
 
 ###### compare CQ-event partition with different event apporoaches - BF and Minima tested
 # a function to plot CQ with different colours by event periods (rising, falling and BF)
@@ -65,14 +47,6 @@ CQ_event = function(C,Q,event_method,methodname) {
 
 }
 
-# test with different event methods: BF and Min
-BF_res = eventBaseflow(Qvec)
-plotevents(data=Qvec,events=BF_res)
-limbs(data=Qvec,events=BF_res)
-
-Min_res = eventMinima(Qvec, delta.x = 20, delta.y = 100)
-plotevents(data=Qvec,events=Min_res)
-limbs(data=Qvec,events=Min_res) # We used different indexing approaches which is why the peaks looks funny here - need to discuss
 
 # Final plot on CQ comparison from two event approaches
 par(mfrow=c(2,2))
@@ -156,3 +130,27 @@ plotevents(data=dataBassRiver,events=PoT_res,main="eventPOT")
 plotevents(data=dataBassRiver,events=BF_res,main="eventBaseflow")
 
 ```
+# hydroEvents
+Insert description of package here
+
+## Example 3
+Aim: Compare different methods of choosing flow events visually 
+
+```R
+library(hydroEvents)
+data("dataBassRiver")
+
+bf = baseFlow(dataBassRiver)
+Max_res = eventMaxima(dataBassRiver-bf, delta.y = 200, delta.x = 1, thresh = 0)
+Min_res = eventMinima(dataBassRiver-bf, delta.x = 5, delta.y = 20)
+PoT_res = eventPOT(dataBassRiver-bf, threshold = 0, min.diff = 1)
+BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
+
+par(mfrow=c(4,1))
+par(mar=c(2,2,2,2))
+plotEvents(data=dataBassRiver-bf,events=Max_res,main="eventMaxima")
+plotEvents(data=dataBassRiver-bf,events=Min_res,main="eventMinima")
+plotEvents(data=dataBassRiver-bf,events=PoT_res,main="eventPOT")
+plotEvents(data=dataBassRiver-bf,events=BFI_res,main="eventBaseflow")
+```
+![example02](https://user-images.githubusercontent.com/39328041/108943839-aaafcd80-76ad-11eb-8d33-438f5c99c560.png)

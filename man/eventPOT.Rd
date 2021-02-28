@@ -4,7 +4,7 @@
 \alias{eventPOT}
 \title{Event identification (using a peak over threshold algorithm)}
 \usage{
-eventPOT(data, threshold = 0, min.diff = 1, out.style = "summary")
+eventPOT(data, threshold = 0, min.diff = 1, ...)
 }
 \arguments{
 \item{data}{The data vector (e.g. a streamflow time series)}
