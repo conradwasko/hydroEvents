@@ -169,3 +169,33 @@ plotEvents(data=dataBassRiver-bf,events=BFI_res,main="eventBaseflow")
 ```
 ![example_02](https://user-images.githubusercontent.com/39328041/109441738-364ca400-7a8a-11eb-81da-0e5a5ac313d2.jpeg)
 
+## Example 4 
+Aim: Demonstrate matching of events and slight pitfalls
+```R
+library(hydroEvents)
+data("dataBassRiver")
+
+library(hydroEvents)
+srt = as.Date("2011-05-01")
+end = as.Date("2011-08-30")
+data = data314213[which(data314213$Date >= srt & data314213$Date <= end),]
+
+events.P = eventPOT(data$precip_mm, threshold = 1, min.diff = 2)
+plotEvents(data = data$precip_mm, events = events.P, main = "Precip", type = "hyet")
+```
+We have identified rainfall events as follows
+
+![Example04_1](https://user-images.githubusercontent.com/39328041/109444083-7b73d480-7a90-11eb-9be0-404f8acd30c3.jpeg)
+
+```R
+bf = baseFlow(data$Flow_ML, alpha = 0.925)
+events.Q1 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 0)
+events.Q2 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 10)
+events.Q3 = eventMaxima(data$Flow_ML-bf, delta.y = 500, delta.x = 1, thresh = 100)
+events.Q4 = eventMaxima(data$Flow_ML-bf, delta.y = 500, delta.x = 7, thresh = 100)
+plotEvents(data = data$Flow_ML-bf, events = events.Q1, main = "Flow", type = "lineover")
+```
+We use four different methods to identify flow events. It is hard to argue that events (8) and (9) are the same event. Though (7) and (8) maybe.
+![Example04_2](https://user-images.githubusercontent.com/39328041/109444245-ea512d80-7a90-11eb-9497-ced93bf773ca.jpeg)
+
+
