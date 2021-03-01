@@ -141,8 +141,8 @@ library(hydroEvents)
 data("dataBassRiver")
 
 bf = baseFlow(dataBassRiver)
-Max_res = eventMaxima(dataBassRiver-bf, delta.y = 200, delta.x = 1, thresh = 0)
-Min_res = eventMinima(dataBassRiver-bf, delta.x = 5, delta.y = 20)
+Max_res = eventMaxima(dataBassRiver-bf, delta.y = 200, delta.x = 1, threshold = 0)
+Min_res = eventMinima(dataBassRiver-bf, delta.x = 5, delta.y = 20, threshold = 0)
 PoT_res = eventPOT(dataBassRiver-bf, threshold = 0, min.diff = 1)
 BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
 
@@ -153,4 +153,5 @@ plotEvents(data=dataBassRiver-bf,events=Min_res,main="eventMinima")
 plotEvents(data=dataBassRiver-bf,events=PoT_res,main="eventPOT")
 plotEvents(data=dataBassRiver-bf,events=BFI_res,main="eventBaseflow")
 ```
-![example02](https://user-images.githubusercontent.com/39328041/108943839-aaafcd80-76ad-11eb-8d33-438f5c99c560.png)
+![example_02](https://user-images.githubusercontent.com/39328041/109441738-364ca400-7a8a-11eb-81da-0e5a5ac313d2.jpeg)
+
