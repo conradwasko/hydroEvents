@@ -198,4 +198,18 @@ plotEvents(data = data$Flow_ML-bf, events = events.Q1, main = "Flow", type = "li
 We use four different methods to identify flow events. It is hard to argue that events (8) and (9) are the same event. Though (7) and (8) maybe.
 ![Example04_2](https://user-images.githubusercontent.com/39328041/109444245-ea512d80-7a90-11eb-9497-ced93bf773ca.jpeg)
 
+```R
+matched.1 = pairEvents(events.P, events.Q1, lag = 5,  type = 1)
+matched.2 = pairEvents(events.P, events.Q2, lag = 10, type = 2)
+matched.3 = pairEvents(events.P, events.Q3, lag = 5,  type = 3)
+matched.4 = pairEvents(events.P, events.Q4, lag = 10, type = 4)
+par(mfrow=c(4,1))
+par(mar=c(2,2,2,2))
+plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.1, type = "hyet", col = rainbow)
+plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.2, type = "hyet", col = rainbow)
+plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.3, type = "hyet", col = rainbow)
+plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.4, type = "hyet", col = rainbow)
+```
+![Example04_3](https://user-images.githubusercontent.com/39328041/109444310-1371be00-7a91-11eb-810a-fd105ff337ba.jpeg)
 
+There are a few things to note here. If you match from flow events (type 3) to rainfall events you are constrained to often misclassify peaks. Also note that if you match from rainfall events you can easily merge flow events thereby choosing events more physically realistically. Note that (2) has an error
