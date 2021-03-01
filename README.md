@@ -190,7 +190,7 @@ We have identified rainfall events as follows
 ```R
 bf = baseFlow(data$Flow_ML, alpha = 0.925)
 events.Q1 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 0)
-events.Q2 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 10)
+events.Q2 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 20)
 events.Q3 = eventMaxima(data$Flow_ML-bf, delta.y = 500, delta.x = 1, thresh = 100)
 events.Q4 = eventMaxima(data$Flow_ML-bf, delta.y = 500, delta.x = 7, thresh = 100)
 plotEvents(data = data$Flow_ML-bf, events = events.Q1, main = "Flow", type = "lineover")
@@ -210,6 +210,6 @@ plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = mat
 plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.3, type = "hyet", col = rainbow)
 plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.4, type = "hyet", col = rainbow)
 ```
-![Example04_3](https://user-images.githubusercontent.com/39328041/109444310-1371be00-7a91-11eb-810a-fd105ff337ba.jpeg)
+![Example04_3](https://user-images.githubusercontent.com/39328041/109444625-ca6e3980-7a91-11eb-900b-b1eda14300b5.jpeg)
 
-There are a few things to note here. If you match from flow events (type 3) to rainfall events you are constrained to often misclassify peaks. Also note that if you match from rainfall events you can easily merge flow events thereby choosing events more physically realistically. Note that (2) has an error
+There are a few things to note here. If you match from flow events (type 3) to rainfall events you are constrained to often misclassify peaks. Also note that if you match from rainfall events you can easily merge flow events thereby choosing events more physically realistically.
