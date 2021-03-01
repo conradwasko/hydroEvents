@@ -130,8 +130,22 @@ plotevents(data=dataBassRiver,events=PoT_res,main="eventPOT")
 plotevents(data=dataBassRiver,events=BF_res,main="eventBaseflow")
 
 ```
-# hydroEvents
-Insert description of package here
+## Example
+Aim: Demonstrate sampling functions on multiple data sets
+```R
+library(hydroEvents)
+data("dataBassRiver")
+data("dataLoch")
+bf = baseFlow(dataBassRiver)
+PoT_res_P = eventPOT(dataLoch, threshold = 1, min.diff = 1)
+PoT_res_Q = eventPOT(dataBassRiver-bf, threshold = 1, min.diff = 1)
+
+par(mfrow=c(2,1))
+par(mar=c(2,2,2,2))
+plotEvents(data=dataLoch,events=PoT_res_P,main="Loch", type = "hyet")
+plotEvents(data=dataBassRiver-bf,events=PoT_res_Q,main="Bass River", type = "lineover")
+```
+![Example01](https://user-images.githubusercontent.com/39328041/109442598-c7bd1580-7a8c-11eb-8956-e891c162f630.jpeg)
 
 ## Example 3
 Aim: Compare different methods of choosing flow events visually 
