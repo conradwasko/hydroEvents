@@ -1,7 +1,7 @@
 #' Event identification (using local minima as a basis)
 #'
 #' @description Events are identified on the basis of local minima with an "event" considered to have
-#' occurred once the data has returned to within a threshold level of the start of the event.
+#' occurred once the data has returned to within a thresholdold level of the start of the event.
 #'
 #' @references Tang and Carey (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
 #' Hydrological Processes (31) 2670-2682
@@ -10,7 +10,6 @@
 #' @param delta.x Minimum length for an event
 #' @param delta.y Maximum difference in data between start and end of an event
 #' @param filter.type c("simple", "spline") Optional smoothing of data series
-#' @param ... Further arguments passed eventStats
 #'
 #' @details filter.type can be a "simple" weigthed moving average or smoothing "spline"
 #'
@@ -18,7 +17,7 @@
 #'
 #' @export
 #' @keywords events
-#' @seealso \code{\link{eventStats}} \code{\link{eventPOT}}
+#' @seealso \code{\link{calcStats}} \code{\link{eventPOT}}
 #' @examples
 #' # Example extracting events from quickflow
 #' bf = baseFlow(dataBassRiver, alpha = 0.925)
@@ -36,15 +35,7 @@
 #' }
 #' points(events$srt + events$which.max - 1, qf[events$srt + events$which.max - 1], cex = 1.2, lwd = 2)
 
-eventMinima <- function(data, delta.x = 5, delta.y = 20, filter.type = "None", ...) {
-  # Filter
-  n.data = length(data)
-  if (filter.type == "simple") {
-    data[2:(n.data-1)] = filter(data, c(1, 2, 1)/4)[2:(n.data-1)]
-  } else if (filter.type == "spline") {
-    data = smooth.spline(data)$y
-  }
-
+eventMinima <- function(data, delta.x = 5, delta.y = 20, threshold = -1, out.style = "summary") {
   # Find minima
   minima = localMin(data)
 
@@ -72,12 +63,40 @@ eventMinima <- function(data, delta.x = 5, delta.y = 20, filter.type = "None", .
     }
   }
 
+  # Remove events that are smaller than the threshold
+  if (threshold > 0) {
+    check.max = calcStats(srt.index, end.index, data, f.vec = c("max"))
+    srt.index = srt.index[check.max >= threshold]
+    end.index = end.index[check.max >= threshold]
+  }
+
   # Return the event indices
   n.events  = length(srt.index)
   if (n.events == 0) {
     return(NULL)
+
   } else {
-    event.stats = eventStats(srt.index, end.index, data, ...)
-    return(data.frame(srt = srt.index, end = end.index, event.stats))
+    # Remove leading and trailing small values
+    if (threshold >= 0) {
+      for (i in 1:n.events) {
+        event.data = data[srt.index[i]:end.index[i]]
+        runs = rle(event.data <= threshold)
+        n.runs = length(runs$values)
+        if (runs$values[1]) {
+          srt.index[i] = srt.index[i] + runs$lengths[1]
+        }
+        if (runs$values[n.runs]) {
+          end.index[i] = end.index[i] - runs$lengths[n.runs]
+        }
+      }
+    }
+
+    # Return results
+    if (out.style == "summary") {
+      event.stats = calcStats(srt.index, end.index, data, f.vec = c("which.max", "max", "sum"))
+      return(data.frame(srt = srt.index, end = end.index, event.stats))
+    } else {
+      return(data.frame(srt = srt.index, end = end.index))
+    }
   }
 }

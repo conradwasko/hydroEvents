@@ -35,7 +35,7 @@
 #' }
 #' points(events$srt + events$which.max - 1, qf[events$srt + events$which.max - 1], cex = 1.2, lwd = 2)
 
-eventBaseflow <- function(data, BFI_Th = 0.5, min.diff = 1, threshold = 0,out.style="summary") {
+eventBaseflow <- function(data, BFI_Th = 0.5, min.diff = 1, threshold = 0, out.style = "summary") {
 
   # smoothing as of Eqn.3 in https://onlinelibrary.wiley.com/doi/epdf/10.1002/hyp.11185
   # now included in smoothing_DG(...)
