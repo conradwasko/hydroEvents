@@ -215,3 +215,62 @@ plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = mat
 There are a few things to note here. If you match from flow events (type 3) to rainfall events you are constrained to often misclassify peaks. Also note that if you match from rainfall events you can easily merge flow events thereby choosing events more physically realistically. 
 
 Another point is that you need to pick large thresholds to join events together - and you miss the smaller rainfall events.
+
+## Example 5
+
+```R
+# Aim:An example with rainfall runoff ratios
+library(hydroEvents)
+data("dataEvap")
+
+#a.p = c(892, 1182, 1979, 344, 799)
+#a.q = c(133, 550, 777, 56.2, 195)
+
+#a.q/a.p
+#rank(a.q/a.p)
+#rank(rr)
+#cbind(rr, a.q/a.p)
+
+n = length(dataEvap)
+rr.1 = rr.2 = rr.3 = rep(NA_real_, n)
+par(mfrow = c(5, 1))
+par(mar=c(2,2,2,2))
+for (i in 1:n) {
+  print(dataEvap[[i]]$site)
+  eventP = eventPOT(dataEvap[[i]]$P, threshold = 1, min.diff = 2)
+  bf = baseFlow(dataEvap[[i]]$Q)
+  eventQ = eventMinima(dataEvap[[i]]$Q-bf, delta.y = 0.1, delta.x =  1, threshold = 0)
+  pairs = pairEvents(eventP, eventQ, lag = 5, type = 1)
+  plotPairedEvents(data.1 = dataEvap[[i]]$P[1:200], data.2 = (dataEvap[[i]]$Q-bf)[1:200], events = pairs[1:20,])
+
+  stats.P = calcStats(pairs$srt, pairs$end, data = dataEvap[[i]]$P, f.vec = c("sum"))
+  stats.Q = calcStats(pairs$matched.srt, pairs$matched.end, data = dataEvap[[i]]$Q-bf, f.vec = c("sum"))
+  stats.Q[is.na(stats.Q)] = 0
+
+ 
+  rr.1[i] = mean(stats.Q$sum/stats.P$sum)
+  rr.2[i] = sum(dataEvap[[i]]$Q)/sum(dataEvap[[i]]$P)
+  
+  pairs = pairEvents(eventP, eventQ, lag = 5, type = 4)
+  pairs = pairs[!is.na(pairs$matched.srt),]
+  stats.P = calcStats(pairs$matched.srt, pairs$matched.end, data = dataEvap[[i]]$P, f.vec = c("sum"))
+  stats.Q = calcStats(pairs$srt, pairs$end, data = dataEvap[[i]]$Q-bf, f.vec = c("sum"))
+
+   rr.3[i] = mean(stats.Q$sum/stats.P$sum)
+  
+    #mean(rr)
+
+  #nrow(eventP)
+  #nrow(eventQ)
+}
+
+cbind(rr.1, rr.3, rr.2)
+```
+
+cbind(rr.1, rr.3, rr.2)
+           rr.1       rr.3       rr.2
+[1,] 0.07649349 0.04133459 0.14410396
+[2,] 0.20968947 0.17203738 0.47116525
+[3,] 0.08769046 0.10874407 0.38265599
+[4,] 0.01712640 0.03161799 0.06927159
+[5,] 0.10045657 0.09122927 0.24661891
