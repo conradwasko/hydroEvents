@@ -212,4 +212,6 @@ plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = mat
 ```
 ![Example04_3](https://user-images.githubusercontent.com/39328041/109444625-ca6e3980-7a91-11eb-900b-b1eda14300b5.jpeg)
 
-There are a few things to note here. If you match from flow events (type 3) to rainfall events you are constrained to often misclassify peaks. Also note that if you match from rainfall events you can easily merge flow events thereby choosing events more physically realistically.
+There are a few things to note here. If you match from flow events (type 3) to rainfall events you are constrained to often misclassify peaks. Also note that if you match from rainfall events you can easily merge flow events thereby choosing events more physically realistically. 
+
+Another point is that you need to pick large thresholds to join events together - and you miss the smaller rainfall events.
