@@ -55,6 +55,8 @@ CQ_event(ECzoo,Qzoo,BF_res,"Baseflow method")
 CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
 
 ```
+![Battery2](https://user-images.githubusercontent.com/29298475/109576024-19c27180-7b47-11eb-843d-da53127dd683.jpg)
+
 ## EXAMPLE 2
 
 ```R
