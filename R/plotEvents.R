@@ -53,8 +53,13 @@
 #' legend("topright", legend = c("Rainfall", "Start Event", "End Event", "Max"), cex = 0.8,
 #'      lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
 
+<<<<<<< Updated upstream
 plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colpnt = "blue", ymax=max(data),main="events") {
   library(scales)
+=======
+plotevents <- function(data,dates=NULL,events,type="lineover",colline="red",ymax=max(data),main="events") {
+
+>>>>>>> Stashed changes
   if (!is.null(dates)) {
     plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
 
@@ -95,7 +100,7 @@ plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colp
       }
       abline(v=allS,lty=2,col=colline)
       abline(v=allE,lty=2,col=colline)
-      rect(xleft=allS,xright=allE,ybottom=0,ytop=ymax,border=NA, col=alpha(colline,0.2))
+      rect(xleft=allS,xright=allE,ybottom=0,ytop=ymax,border=NA, col=adjustcolor("red",alpha.f=0.2))
       text(x=apply(cbind(allS,allE),1,mean),y=ymax*0.9,label=paste("Event",1:nrow(events)))
     } else if (type == "hyet") {
 
