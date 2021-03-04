@@ -53,13 +53,10 @@
 #' legend("topright", legend = c("Rainfall", "Start Event", "End Event", "Max"), cex = 0.8,
 #'      lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
 
-<<<<<<< Updated upstream
-plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colpnt = "blue", ymax=max(data),main="events") {
-  library(scales)
-=======
-plotevents <- function(data,dates=NULL,events,type="lineover",colline="red",ymax=max(data),main="events") {
 
->>>>>>> Stashed changes
+plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colpnt = "blue", ymax=max(data),main="events") {
+
+
   if (!is.null(dates)) {
     plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
 
