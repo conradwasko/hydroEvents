@@ -64,7 +64,41 @@ CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
 ```
 ![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
 
+## Example 8
+Aim: Demonstrate matching of rainfall and water level surge (residuals)
 
+```R
+library(hydroEvents)
+# rainfall (P) and water level surge (WL) at Burnie, Tasmania (Pluvio 91009; Tide gauge: IDO71005)
+data("dataPWL") 
+
+# find events in P and WL data
+events.P = eventPOT(Psel, threshold = 0, min.diff = 3) # 3-h no rain
+
+bf = baseFlow(WLsel)
+events.Q1 = eventMaxima(WLsel, delta.y = 0.05, delta.x = 3, thresh = 0.01) # min of 3-h event
+par(mfrow=c(2,1))
+par(mar=c(2,2,2,2))
+plotEvents(data = Psel, events = events.P, main = "Hourly precipitation (mm)", type = "hyet")
+plotEvents(data = WLsel, events = events.Q1, main = "Hourly water level surge (m)", type = "lineover")
+```
+![Example8](https://user-images.githubusercontent.com/29298475/111944391-a4d1ce80-8b2b-11eb-87ec-32b5aa26fea7.jpeg)
+
+```R
+# match events
+matched.1 = pairEvents(events.P, events.Q1, lag = 12,  type = 1)
+matched.2 = pairEvents(events.P, events.Q1, lag = 12, type = 2)
+matched.3 = pairEvents(events.P, events.Q1, lag = 12,  type = 3)
+matched.4 = pairEvents(events.P, events.Q1, lag = 12, type = 4)
+
+par(mfrow=c(4,1))
+par(mar=c(2,2,2,2))
+plotPairedEvents(data.1 = Psel, data.2 = WLsel, events = matched.1, type = "hyet", color.list=rainbow(nrow(matched.1)))
+plotPairedEvents(data.1 = Psel, data.2 = WLsel, events = matched.2, type = "hyet", color.list=rainbow(nrow(matched.1)))
+plotPairedEvents(data.1 = Psel, data.2 = WLsel, events = matched.3, type = "hyet", color.list=rainbow(nrow(matched.1)))
+plotPairedEvents(data.1 = Psel, data.2 = WLsel, events = matched.4, type = "hyet", color.list=rainbow(nrow(matched.1)))
+```
+![Example8b](https://user-images.githubusercontent.com/29298475/111944220-3d1b8380-8b2b-11eb-8e91-d500b56433e5.jpeg)
 
 ##################### only add above this line - below are codes prior Mar 22. 2021 ######################
 ## EXAMPLE 2
