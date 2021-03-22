@@ -1,29 +1,38 @@
 # hydroEvents
 Insert description of package here
 
-## Example 1
-Aim: To see how different event methods affect C-Q relationship 
+## Example 5
+Aim: To see how different event methods affect rising/falling limbs identified
 
 ```R
-# Demonstration of two different methods
-srt = as.Date("2018-05-01")
-end = as.Date("2019-04-30")
-EC = data232210$EC$Mean[which(data232210$EC$Date >= srt & data232210$EC$Date <= end)]
-Q  = data232210$Q$Mean[which(data232210$Q$Date >= srt & data232210$Q$Date <= end)]
+library(hydroEvents)
+data("dataWQQ")
 
+# streamflow and water quality data for 410073 TUMUT RIVER AT ODDYS BRIDGE
+qdata=qdata[[1]]
+
+# identify streamflow events - two ways
+Q = as.vector(qdata$Q_cumecs)
 BF_res = eventBaseflow(Q)
 plotEvents(data = Q, events = BF_res)
-limbs(data = Q, events = BF_res)
 
-MIN_res = eventMinima(Q, delta.x = 20, delta.y = 100)
-plotEvents(data = Q, events = MIN_res)
-limbs(data = Q, events = MIN_res) #
+bf = baseFlow(Q)
+MAX_res = eventMaxima(Q-bf$bf, delta.x =3, delta.y = 0.5, threshold = 0.1)
+plotEvents(data = Q, events = MAX_res)
+
+# compare limbs identified from two event methods
+par(mfrow=c(2,1))
+par(mar=c(2,2,2,2))
+limbs(data = Q, dates=qdata$time, events = BF_res, main="with 'eventBaseflow'")
+limbs(data = Q, dates=qdata$time, events = MAX_res, main="with 'eventMaxima', delta.x = 3, delta.y = 0.5, threshold = 0.1") 
 ```
+![Example5](https://user-images.githubusercontent.com/29298475/111926773-4ba17500-8b02-11eb-9a19-873f38295747.jpeg)
+
+## Example 6
+Aim: Derive event-based C-Q relationship (DG)
 
 ```R
-
-###### compare CQ-event partition with different event apporoaches - BF and Minima tested
-# a function to plot CQ with different colours by event periods (rising, falling and BF)
+# a function to plot CQ with different colours by event periods (rising, falling limbs and baseflow)
 CQ_event = function(C,Q,event_method,methodname) {
   risfal_res = limbs(data=as.vector(Q),events=event_method)
   RL_ind = FL_ind = ev_ind = NULL
@@ -47,16 +56,17 @@ CQ_event = function(C,Q,event_method,methodname) {
 
 }
 
-
 # Final plot on CQ comparison from two event approaches
 par(mfrow=c(2,2))
 par(mar=c(2,2,2,1))
 CQ_event(ECzoo,Qzoo,BF_res,"Baseflow method")
 CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
-
 ```
-![Battery2](https://user-images.githubusercontent.com/29298475/109576024-19c27180-7b47-11eb-843d-da53127dd683.jpg)
+![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
 
+
+
+##################### only add above this line - below are codes prior Mar 22. 2021 ######################
 ## EXAMPLE 2
 
 ```R
