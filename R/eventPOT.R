@@ -53,7 +53,7 @@
 #' legend("topright", legend = c("Rainfall", "Start Event", "End Event", "Max"), cex = 0.8,
 #'      lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
 
-eventPOT <- function(data, threshold = 0, min.diff = 1, ...) {
+eventPOT <- function(data, threshold = 0, min.diff = 1, out.style = "summary") {
   # Select data over threshold
   data.index = which(data > threshold)
 
@@ -68,7 +68,11 @@ eventPOT <- function(data, threshold = 0, min.diff = 1, ...) {
   if (n.events == 0) {
     return(NULL)
   } else {
-    event.stats = eventStats(srt.index, end.index, data, ...)
-    return(data.frame(srt = srt.index, end = end.index, event.stats))
+    if (out.style == "summary") {
+      event.stats = calcStats(srt.index, end.index, data, f.vec = c("which.max", "max", "sum"))
+      return(data.frame(srt = srt.index, end = end.index, event.stats))
+    } else {
+      return(data.frame(srt = srt.index, end = end.index))
+    }
   }
 }

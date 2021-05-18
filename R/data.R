@@ -35,3 +35,26 @@
 #'  dataHRS_sample[[i]]
 #' }
 "dataHRS_sample"
+
+#' @title Water quality data
+#' @description Example water quality data for MOORABOOL RIVER WEST BRANCH at LAL LAL (Station ID 232210)
+#' @format blah blah
+#' @seealso \code{\link{dataBassRiver}}
+#' @source \url{https://data.water.vic.gov.au/}
+"data232210"
+
+#' @title Flow-Rainfall data
+#' @description Example data flow and rainfall data for Black River at South Forest, Tasmania (Station ID 314213)
+#' @format blah blah
+#' @seealso \code{\link{dataBassRiver}}
+#' @source \url{http://www.bom.gov.au/water/hrs/#id=314213/}
+"data314213"
+
+#' @title Flow-Precipitation data
+#' @description Example environmental data across Australia
+#' @format blah blah
+#' @source \url{https://doi.org/10.1002/2016WR019627}
+"dataEvap"
+
+
+

@@ -7,9 +7,8 @@
 #'
 #' @param data The data vector (e.g. a streamflow time series)
 #' @param delta.y Minimum allowable difference from a peak to a trough
-#' @param delta.x Minimum length for an event
+#' @param delta.x Minimum spacing between peaks
 #' @param filter.type c("simple", "spline") Optional smoothing of data series
-#' @param ... Further arguments passed eventStats
 #'
 #' @details filter.type can be a "simple" weigthed moving average or smoothing "spline".
 #' If \code{delta.y} is negative it is applied a fractional decrease from the peak
@@ -18,37 +17,31 @@
 #'
 #' @export
 #' @keywords events
-#' @seealso \code{\link{eventStats}} \code{\link{eventPOT}}
+#' @seealso \code{\link{calcStats}} \code{\link{eventPOT}}
 #' @examples
 #' # Example extracting events from quickflow
 #' bf = baseFlow(dataBassRiver, alpha = 0.925)
 #' qf = dataBassRiver - bf
-#' events = eventMaxima(qf, delta.y = 200, delta.x = 1) # 5 events identified
-#' # delta.y = 200, delta.x = 1 # 5 events identified
-#' # delta.y = 500, delta.x = 1 # 3 events identified
-#' # delta.y = 10,  delta.x = 7 # 2 events identified
+#' events = eventMaxima(qf, delta.y = 200, delta.x = 1, threshold = 0) # 5 events identified
+#' # delta.y = 200; delta.x = 1 # 5 events identified
+#' # delta.y = 500; delta.x = 1 # 3 events identified
+#' # delta.y = 10;  delta.x = 7 # 2 events identified
 #' plot(1:length(qf), qf, type = "l", lwd = 1, col = "black", main = "Events with maxima identified",
-#'      ylab = "Quickflow (ML/day)", xlab = "Time index", mgp = c(2, 0.6, 0))
+#'    ylab = "Quickflow (ML/day)", xlab = "Time index", mgp = c(2, 0.6, 0))
 #' n.events = nrow(events)
 #' for (i in 1:n.events) {
-#'   idx = events$srt[i]:events$end[i]
-#'   lines(idx, qf[idx], col = rainbow(nrow(events))[i], lwd = 2)
+#'  idx = events$srt[i]:events$end[i]
+#'  lines(idx, qf[idx], col = rainbow(nrow(events))[i], lwd = 2)
 #' }
-#' points(events$srt + events$which.max - 1, qf[events$srt + events$which.max - 1], cex = 1.2, lwd = 2)
+#' points(events$which.max, qf[events$which.max], cex = 1.2, lwd = 2)
+#' print(events)
 
-eventMaxima <- function(data, delta.y = 200, delta.x = 1, filter.type = "none", ...) {
-  # Filter
-  n.data = length(data)
-  if (filter.type == "simple") {
-    data[2:(n.data-1)] = filter(data, c(1, 2, 1)/4)[2:(n.data-1)]
-  } else if (filter.type == "spline") {
-    data = smooth.spline(data)$y
-  }
-
+eventMaxima <- function(data, delta.y = 200, delta.x = 1, threshold = -1, out.style = "summary") {
   # Find minima
+  n.data = length(data)
   minima = localMin(data)
-  current.stats = eventStats(head(minima, -1), tail(minima, -1), data, f.vec = c("which.max", "max"))
-  maxima.x = c(head(minima, -1) + current.stats$which.max - 1, n.data)
+  current.stats = calcStats(head(minima, -1), tail(minima, -1), data, f.vec = c("which.max", "max"))
+  maxima.x = c(current.stats$which.max, n.data)
   maxima.y = c(current.stats$max, data[n.data])
 
   # Identify events
@@ -80,12 +73,42 @@ eventMaxima <- function(data, delta.y = 200, delta.x = 1, filter.type = "none", 
     }
   }
 
+  # Remove events that are smaller than the threshold
+  if (threshold > 0) {
+    check.max = calcStats(srt.index, end.index, data, f.vec = c("max"))
+    srt.index = srt.index[check.max >= threshold]
+    end.index = end.index[check.max >= threshold]
+  }
+  #event.stats = calcStats(srt.index, end.index, data, f.vec = c("which.max", "max", "sum"))
+  #events = data.frame(srt = srt.index, end = end.index, event.stats)
+  #print(events)
+
   # Return the event indices
   n.events  = length(srt.index)
   if (n.events == 0) {
     return(NULL)
+
   } else {
-    event.stats = eventStats(srt.index, end.index, data, ...)
-    return(data.frame(srt = srt.index, end = end.index, event.stats))
+    # Remove leading and trailing small values
+    if (threshold >= 0) {
+      for (i in 1:n.events) {
+        event.data = data[srt.index[i]:end.index[i]]
+        runs = rle(event.data <= threshold)
+        n.runs = length(runs$values)
+        if (runs$values[1]) {
+          srt.index[i] = srt.index[i] + runs$lengths[1]
+        }
+        if (runs$values[n.runs]) {
+          end.index[i] = end.index[i] - runs$lengths[n.runs]
+        }
+      }
+    }
+
+    if (out.style == "summary") {
+      event.stats = calcStats(srt.index, end.index, data, f.vec = c("which.max", "max", "sum"))
+      return(data.frame(srt = srt.index, end = end.index, event.stats))
+    } else {
+      return(data.frame(srt = srt.index, end = end.index))
+    }
   }
 }

@@ -53,74 +53,52 @@
 #' legend("topright", legend = c("Rainfall", "Start Event", "End Event", "Max"), cex = 0.8,
 #'      lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
 
+plotPairedEvents <- function(data.1, data.2, events, main ="", type = "hyet", color.list = rainbow(nrow(events))) {
 
-plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colpnt = "blue", ymax=max(data),main="events") {
+  n.events = nrow(events)
 
-
-  if (!is.null(dates)) {
-    plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
-
-
-  } else {
-
-    if (type=="lineover") {
-
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
-      extevents = eventid = list()
-
-      for (k in 1:nrow(events)) {
-        extevents[[k]] = data[events$srt[k]:events$end[k]]
-
-        if (!is.null(dates)) {
-          eventid[[k]] = dates[events$srt[k]:events$end[k]]
-        } else {
-          eventid[[k]] = events$srt[k]:events$end[k]
-        }
-
-        lines(extevents[[k]]~eventid[[k]],col=colline,type="o",pch=20,cex=0.7)
-        points(data[events$srt[k]]~events$srt[k],col=colline,type="o",pch=20,cex=1.5)
-        points(data[events$end[k]]~events$end[k],col=colline,type="o",pch=20,cex=1.5)
-        points(data[events$which.max[k]]~events$which.max[k],col=colpnt,pch=20,cex=1)
-
-        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 0.8)
+  if (names(events)[1] == "srt") {
+    if (type == "hyet") {
+      plot(data.1, type = "h", mgp = c(2, 0.6, 0), col = "black")
+      for (i in 1:n.events) {
+        points(events$srt[i]:events$end[i], data.1[events$srt[i]:events$end[i]],
+               type = "h", col = color.list[i], lwd = 2)
       }
-    } else if (type=="bound") {
-
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
-
-      if (!is.null(dates)) {
-        allS = dates[events$srt]
-        allE = dates[events$end]
-      } else {
-        allS = events$srt
-        allE = events$end
-      }
-      abline(v=allS,lty=2,col=colline)
-      abline(v=allE,lty=2,col=colline)
-      rect(xleft=allS,xright=allE,ybottom=0,ytop=ymax,border=NA, col=adjustcolor("red",alpha.f=0.2))
-      text(x=apply(cbind(allS,allE),1,mean),y=ymax*0.9,label=paste("Event",1:nrow(events)))
-    } else if (type == "hyet") {
-
-      plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
-      extevents = eventid = list()
-
-      for (k in 1:nrow(events)) {
-
-        extevents[[k]] = data[events$srt[k]:events$end[k]]
-
-        if (!is.null(dates)) {
-          eventid[[k]] = dates[events$srt[k]:events$end[k]]
+      par(new = TRUE)
+      plot(data.2, type = "l", col = "black", lwd = 1, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+      axis(side = 4)
+      for (i in 1:n.events) {
+        if (!is.na(events$matched.srt[i])) {
+          points(events$matched.srt[i]:events$matched.end[i], data.2[events$matched.srt[i]:events$matched.end[i]],
+                 type = "l", col = color.list[i], lwd = 3)
         } else {
-          eventid[[k]] = events$srt[k]:events$end[k]
+          points(events$srt[i]:events$end[i], rep(0, length(events$srt[i]:events$end[i])),
+                 type = "o", pch = 1, col = "black", lwd = 2)
         }
-
-        lines(extevents[[k]]~eventid[[k]],col=colline,type="h",pch=20,cex=0.7)
-        points(events$srt[k],0,col=colline,type="o",pch=20,cex=1.5)
-        points(events$end[k],0,col=colline,type="o",pch=20,cex=1.5)
-
-        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste("Event",k))
       }
     }
-
+    legend("topright", bty = "n", legend = "unmatched", col = "black", pch = 1, lwd = 2)
+  } else
+  if (names(events)[1] == "matched.srt") {
+    if (type == "hyet") {
+      plot(data.2, type = "l", mgp = c(2, 0.6, 0), col = "black")
+      for (i in 1:n.events) {
+        lines(events$srt[i]:events$end[i], data.2[events$srt[i]:events$end[i]],
+               col = color.list[i], lwd = 2)
+      }
+      par(new = TRUE)
+      plot(data.1, type = "h", col = "black", lwd = 1, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+      axis(side = 4)
+      for (i in 1:n.events) {
+        if (!is.na(events$matched.srt[i])) {
+          points(events$matched.srt[i]:events$matched.end[i], data.1[events$matched.srt[i]:events$matched.end[i]],
+                 type = "h", col = color.list[i], lwd = 3)
+        } else {
+          points(events$srt[i]:events$end[i], rep(0, length(events$srt[i]:events$end[i])),
+                 type = "o", pch = 1, col = "black", lwd = 2)
+        }
+      }
+    }
+    legend("topright", bty = "n", legend = "unmatched", col = "black", pch = 1, lwd = 2)
   }
 }

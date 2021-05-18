@@ -1,7 +1,8 @@
-#' Perform MA smoothing on data
+#' Extract statistics from events
 #'
 #' @description
-#' To fix
+#' Given the start and end indices statistics are calculated for the values in
+#' between the start and end points inclusive.
 #'
 #' @param srt Vector of indices for the event start
 #' @param end Vector of indices for the event end
@@ -12,7 +13,6 @@
 #' @return Returns a dataframe where the row is each event and the column is each statistic
 #' @keywords events
 #' @seealso \code{\link{eventPOT}}
-#' @references \url{https://onlinelibrary.wiley.com/doi/epdf/10.1002/hyp.11185}
 #' @export
 #' @examples
 #' # Extract event statistics from quickflow
@@ -28,21 +28,22 @@
 #' legend("topright", legend = c("Quickflow", "Max"), cex = 0.8,
 #'        lwd = c(2, NA), pch = c(NA, 16), col = c("steelblue", "red"), bty = "n")
 
-smoothing <- function(data,nstep=1,med.weight=1) { # default is a 3-d MA
-  sdata = vector()
-  for(t in (1+nstep):(length(data)-nstep)) {
-    sdata[t] = (sum(data[(t-nstep):(t-1)])+med.weight*data[t]+sum(data[(t+1):(t+nstep)]))/(nstep*2+1)
+calcStats <- function(srt, end, data, f.vec = c("which.max", "max", "min")) {
+  n.events = length(srt)
+  n.functions = length(f.vec)
+  val = as.data.frame(matrix(NA_real_, n.events, n.functions))
+  for (i in 1:n.events) {
+    if (!is.na(srt[i])) {
+      for (j in 1:n.functions) {
+        if (f.vec[j] == "which.max" | f.vec[j] == "which.min") {
+          val[i, j] = do.call(f.vec[j], list(data[srt[i]:end[i]])) + srt[i] - 1
+        } else {
+          val[i, j] = do.call(f.vec[j], list(data[srt[i]:end[i]]))
+        }
+      }
+    }
   }
-  sdata[1:(1+nstep)] = data[1:(1+nstep)]
-  sdata[(t-nstep):t] = data[(t-nstep):t]
-  return(sdata)
+  names(val) <- as.character(f.vec)
+  return(val)
 }
-### need to check validity with ref
-# Conrad's smoothing below
-# Filter
-#n.data = length(data)
-#if (filter.type == "simple") {
-#  data[2:(n.data-1)] = filter(data, c(1, 2, 1)/4)[2:(n.data-1)]
-#} else if (filter.type == "spline") {
-#  data = smooth.spline(data)$y
-#}
+

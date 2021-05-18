@@ -53,5 +53,7 @@ baseFlow <- function(q, alpha = 0.925, passes = 3, r = 30) {
 
   # Return baseflow
   bf = head(tail(bf, -r), -r)
-  return(bf)
+  bfi = bf/q
+  res = list(bf=bf,bfi=bfi)
+  return(res)
 }
