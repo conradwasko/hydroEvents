@@ -1,6 +1,37 @@
 # hydroEvents
 Insert description of package here
 
+## Example 1
+Aim: Present baselow filter
+
+```R
+# Implementation from hydroEvents
+library(hydroEvents)
+bf = baseFlow(dataBassRiver, alpha = 0.925)
+BFI = sum(bf$bf)/sum(dataBassRiver)
+print(BFI) # 0.39
+plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
+     ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+lines(1:length(dataBassRiver), bf$bf, lwd = 2, lty = 2, col = "darkgreen")
+legend("topright", legend = c("Flow", "Baseflow"), cex = 0.8,
+       lwd = 2, col = c("steelblue", "darkgreen"), bty = "n")
+```
+![baseflow01](https://user-images.githubusercontent.com/39328041/119767102-9c19c200-bef9-11eb-925b-b094008a8717.jpg)
+
+```R
+# Implementation from other package
+library(EcoHydRology)
+bf = BaseflowSeparation(dataBassRiver, filter_parameter = 0.925, passes = 3)
+BFI = sum(bf$bt)/sum(dataBassRiver)
+print(BFI)
+plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
+     ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+lines(1:length(dataBassRiver), bf$bt, lwd = 2, lty = 2, col = "darkgreen")
+legend("topright", legend = c("Flow", "Baseflow"), cex = 0.8,
+       lwd = 2, col = c("steelblue", "darkgreen"), bty = "n")
+```
+![baseflow02](https://user-images.githubusercontent.com/39328041/119767123-a471fd00-bef9-11eb-95d1-2232b320b509.jpg)
+
 ## Example 5
 Aim: To see how different event methods affect rising/falling limbs identified
 
