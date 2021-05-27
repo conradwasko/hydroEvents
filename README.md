@@ -16,7 +16,7 @@ lines(1:length(dataBassRiver), bf$bf, lwd = 2, lty = 2, col = "darkgreen")
 legend("topright", legend = c("Flow", "Baseflow"), cex = 0.8,
        lwd = 2, col = c("steelblue", "darkgreen"), bty = "n")
 ```
-![baseflow01](https://user-images.githubusercontent.com/39328041/119767102-9c19c200-bef9-11eb-925b-b094008a8717.jpg)
+![baseflow01](https://user-images.githubusercontent.com/39328041/119767269-e3a04e00-bef9-11eb-9393-d0fa80355ab7.jpg)
 
 ```R
 # Implementation from other package
