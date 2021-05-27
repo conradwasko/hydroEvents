@@ -7,7 +7,7 @@ Aim: Present baselow filter
 ```R
 # Implementation from hydroEvents
 library(hydroEvents)
-bf = baseFlow(dataBassRiver, alpha = 0.925)
+bf = baseflow(dataBassRiver, alpha = 0.925)
 BFI = sum(bf$bf)/sum(dataBassRiver)
 print(BFI) # 0.39
 plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
