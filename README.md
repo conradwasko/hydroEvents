@@ -23,7 +23,7 @@ legend("topright", legend = c("Flow", "Baseflow"), cex = 0.8,
 library(EcoHydRology)
 bf = BaseflowSeparation(dataBassRiver, filter_parameter = 0.925, passes = 3)
 BFI = sum(bf$bt)/sum(dataBassRiver)
-print(BFI)
+print(BFI) # 0.22
 plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
      ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
 lines(1:length(dataBassRiver), bf$bt, lwd = 2, lty = 2, col = "darkgreen")
