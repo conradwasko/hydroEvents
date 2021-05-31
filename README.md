@@ -22,6 +22,15 @@ legend("topright", legend = c("Flow", "Baseflow (0.925)", "Baseflow (0.980)"), c
 ```
 ![baseflow01](https://user-images.githubusercontent.com/39328041/120128453-59abfa00-c205-11eb-825a-4eb59b25f188.jpg)
 
+## Example 2
+Aim: Extract precipitation events
+
+```R
+events = eventPOT(dataLoch, threshold = 0, min.diff = 1)
+plotEvents(dataLoch, dates = NULL, events = events, type = "hyet", main = "Rainfall Events (threshold = 0, min.diff = 1)")
+```
+![precip01](https://user-images.githubusercontent.com/39328041/120242717-ef4c9580-c2a8-11eb-99cb-210f625aa4f6.jpg)
+
 ## Example 5
 Aim: To see how different event methods affect rising/falling limbs identified
 
