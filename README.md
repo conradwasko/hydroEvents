@@ -7,30 +7,20 @@ Aim: Present baselow filter
 ```R
 # Implementation from hydroEvents
 library(hydroEvents)
-bf = baseflow(dataBassRiver, alpha = 0.925)
-BFI = sum(bf$bf)/sum(dataBassRiver)
-print(BFI) # 0.39
+bf.1 = baseflowB(dataBassRiver, alpha = 0.925)
+bf.2 = baseflowB(dataBassRiver, alpha = 0.980)
+BFI.1 = sum(bf.1$bf)/sum(dataBassRiver)
+BFI.2 = sum(bf.2$bf)/sum(dataBassRiver)
+print(BFI.1) # 0.39
+print(BFI.2) # 0.20
 plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
      ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
-lines(1:length(dataBassRiver), bf$bf, lwd = 2, lty = 2, col = "darkgreen")
-legend("topright", legend = c("Flow", "Baseflow"), cex = 0.8,
-       lwd = 2, col = c("steelblue", "darkgreen"), bty = "n")
+lines(1:length(dataBassRiver), bf.1$bf, lwd = 2, lty = 2, col = "darkgreen")
+lines(1:length(dataBassRiver), bf.2$bf, lwd = 2, lty = 2, col = "darkorange")
+legend("topright", legend = c("Flow", "Baseflow (0.925)", "Baseflow (0.980)"), cex = 0.8,
+       lwd = 2, col = c("steelblue", "darkgreen", "darkorange"), bty = "n")
 ```
-![baseflow01](https://user-images.githubusercontent.com/39328041/119767269-e3a04e00-bef9-11eb-9393-d0fa80355ab7.jpg)
-
-```R
-# Implementation from other package
-library(EcoHydRology)
-bf = BaseflowSeparation(dataBassRiver, filter_parameter = 0.925, passes = 3)
-BFI = sum(bf$bt)/sum(dataBassRiver)
-print(BFI) # 0.22
-plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
-     ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
-lines(1:length(dataBassRiver), bf$bt, lwd = 2, lty = 2, col = "darkgreen")
-legend("topright", legend = c("Flow", "Baseflow"), cex = 0.8,
-       lwd = 2, col = c("steelblue", "darkgreen"), bty = "n")
-```
-![baseflow02](https://user-images.githubusercontent.com/39328041/119767123-a471fd00-bef9-11eb-95d1-2232b320b509.jpg)
+![baseflow01](https://user-images.githubusercontent.com/39328041/120128453-59abfa00-c205-11eb-825a-4eb59b25f188.jpg)
 
 ## Example 5
 Aim: To see how different event methods affect rising/falling limbs identified
