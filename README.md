@@ -2,7 +2,7 @@
 Insert description of package here
 
 ## Example 1
-Aim: Present baselow filter
+Aim: Present baseflow filter
 
 ```R
 # Implementation from hydroEvents
