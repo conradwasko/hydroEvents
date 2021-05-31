@@ -37,16 +37,16 @@ Aim: Extract flow events - sensitivity to parameter choice. All the choices are 
 ```R
 bf = baseflowB(dataBassRiver, alpha = 0.925)
 qf = dataBassRiver - bf$bf
-events = eventMaxima(qf, delta.y = 200, delta.x = 1, threshold = 0)
-plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "delta.y = 200, delta.x = 1")
-events = eventMaxima(qf, delta.y = 500, delta.x = 1, threshold = 0)
-plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "delta.y = 500, delta.x = 1")
-events = eventMaxima(qf, delta.y = 10, delta.x = 7, threshold = 0)
-plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "delta.y = 10, delta.x = 7")
+events.1 = eventMaxima(qf, delta.y = 200, delta.x = 1, threshold = 0)
+events.2 = eventMaxima(qf, delta.y = 500, delta.x = 1, threshold = 0)
+events.3 = eventMaxima(qf, delta.y = 10,  delta.x = 7, threshold = 0)
+
+par(mfrow = c(3, 1), mar = c(2, 2, 2, 2))
+plotEvents(qf, dates = NULL, events = events.1, type = "lineover", main = "delta.y = 200, delta.x = 1")
+plotEvents(qf, dates = NULL, events = events.2, type = "lineover", main = "delta.y = 500, delta.x = 1")
+plotEvents(qf, dates = NULL, events = events.3, type = "lineover", main = "delta.y = 10, delta.x = 7")
 ```
-![flow_maxima01](https://user-images.githubusercontent.com/39328041/120246157-bfa28b00-c2b2-11eb-9f4b-e51c9e1c3a28.jpg)
-![flow_maxima02](https://user-images.githubusercontent.com/39328041/120246153-be715e00-c2b2-11eb-91fb-daf31f4aa0e3.jpg)
-![flow_maxima03](https://user-images.githubusercontent.com/39328041/120246156-bfa28b00-c2b2-11eb-94df-64f64cb3d615.jpg)
+![flow_maxima01](https://user-images.githubusercontent.com/39328041/120246780-9e429e80-c2b4-11eb-8d05-8f2a1d1ca7d3.jpg)
 
 ## Example 3.2
 Aim: Extract flow events - sensitivity to method choice.
