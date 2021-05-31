@@ -55,17 +55,16 @@ Aim: Extract flow events - sensitivity to method choice.
 library(hydroEvents)
 
 bf = baseflowB(dataBassRiver)
-Max_res = eventMaxima(dataBassRiver-bf, delta.y = 200, delta.x = 1, threshold = 0)
-Min_res = eventMinima(dataBassRiver-bf, delta.x = 5, delta.y = 20, threshold = 0)
-PoT_res = eventPOT(dataBassRiver-bf, threshold = 0, min.diff = 1)
+Max_res = eventMaxima(dataBassRiver-bf$bf, delta.y = 200, delta.x = 1, threshold = 0)
+Min_res = eventMinima(dataBassRiver-bf$bf, delta.x = 5, delta.y = 20, threshold = 0)
+PoT_res = eventPOT(dataBassRiver-bf$bf, threshold = 0, min.diff = 1)
 BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
 
-par(mfrow=c(4,1))
-par(mar=c(2,2,2,2))
-plotEvents(data=dataBassRiver-bf,events=Max_res,main="eventMaxima")
-plotEvents(data=dataBassRiver-bf,events=Min_res,main="eventMinima")
-plotEvents(data=dataBassRiver-bf,events=PoT_res,main="eventPOT")
-plotEvents(data=dataBassRiver-bf,events=BFI_res,main="eventBaseflow")
+par(mfrow = c(4, 1), mar = c(2, 2, 2, 2))
+plotEvents(data = dataBassRiver-bf$bf, events = Max_res, main = "eventMaxima")
+plotEvents(data = dataBassRiver-bf$bf, events = Min_res, main = "eventMinima")
+plotEvents(data = dataBassRiver-bf$bf, events = PoT_res, main = "eventPOT")
+plotEvents(data = dataBassRiver-bf$bf, events = BFI_res, main = "eventBaseflow")
 ```
 ![example_02](https://user-images.githubusercontent.com/39328041/109441738-364ca400-7a8a-11eb-81da-0e5a5ac313d2.jpeg)
 
