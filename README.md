@@ -68,7 +68,7 @@ plotEvents(data = dataBassRiver-bf$bf, events = BFI_res, main = "eventBaseflow")
 ```
 ![example_02](https://user-images.githubusercontent.com/39328041/109441738-364ca400-7a8a-11eb-81da-0e5a5ac313d2.jpeg)
 
-## Example 5
+## Example 4
 Aim: To see how different event methods affect rising/falling limbs identified
 
 ```R
@@ -95,7 +95,7 @@ limbs(data = Q, dates=qdata$time, events = MAX_res, main="with 'eventMaxima', de
 ```
 ![Example5](https://user-images.githubusercontent.com/29298475/111926773-4ba17500-8b02-11eb-9a19-873f38295747.jpeg)
 
-## Example 6
+## Example 5
 Aim: Derive event-based C-Q relationship (DG)
 
 ```R
@@ -131,7 +131,50 @@ CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
 ```
 ![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
 
-## Example 8
+## Example 6
+Aim: Demonstrate matching rainfall to runoff
+
+```R
+library(hydroEvents)
+srt = as.Date("2011-05-01")
+end = as.Date("2011-08-30")
+data = data314213[which(data314213$Date >= srt & data314213$Date <= end),]
+events.P = eventPOT(data$precip_mm, threshold = 1, min.diff = 2)
+bf = baseflowB(data$Flow_ML)$bf
+
+plotEvents(data = data$precip_mm, events = events.P, main = "Precipitation", type = "hyet")
+```
+![pairing01](https://user-images.githubusercontent.com/39328041/120278414-986eac80-c2f8-11eb-9af5-7b102731d7b2.jpg)
+
+```R
+events.Q1 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 0)
+events.Q2 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 20)
+events.Q3 = eventMaxima(data$Flow_ML-bf, delta.y = 500, delta.x = 1, thresh = 100)
+events.Q4 = eventMaxima(data$Flow_ML-bf, delta.y = 500, delta.x = 7, thresh = 100)
+
+par(mfrow = c(4, 1), mar = c(2, 2, 2, 2))
+plotEvents(data = data$Flow_ML-bf, events = events.Q1, main = "Flow", type = "lineover")
+plotEvents(data = data$Flow_ML-bf, events = events.Q2, main = "Flow", type = "lineover")
+plotEvents(data = data$Flow_ML-bf, events = events.Q3, main = "Flow", type = "lineover")
+plotEvents(data = data$Flow_ML-bf, events = events.Q4, main = "Flow", type = "lineover")
+```
+![pairing02](https://user-images.githubusercontent.com/39328041/120278416-99074300-c2f8-11eb-91a0-a9f61eceb08b.jpg)
+
+```R
+matched.1 = pairEvents(events.P, events.Q1, lag = 5,  type = 1)
+matched.2 = pairEvents(events.P, events.Q2, lag = 10, type = 2)
+matched.3 = pairEvents(events.P, events.Q3, lag = 5,  type = 3)
+matched.4 = pairEvents(events.P, events.Q4, lag = 10, type = 4)
+
+par(mfrow = c(4, 1), mar = c(2, 2, 2, 2))
+plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.1)
+plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.2)
+plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.3)
+plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.4)
+```
+![pairing03](https://user-images.githubusercontent.com/39328041/120278411-973d7f80-c2f8-11eb-8589-e281f6881708.jpg)
+
+## Example 7
 Aim: Demonstrate matching of rainfall and water level surge (residuals)
 
 ```R
