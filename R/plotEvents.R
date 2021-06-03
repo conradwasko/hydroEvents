@@ -54,18 +54,19 @@
 #'      lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
 
 
-plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colpnt = "blue", ymax=max(data),main="events") {
+plotEvents <- function(data, dates = NULL, events, type = "lineover",
+                       colline = "red", colpnt = "blue", ymax = max(data), main = "events") {
 
 
   if (!is.null(dates)) {
-    plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
+    plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(2, 0.6, 0))
 
 
   } else {
 
     if (type=="lineover") {
 
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
+      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(2, 0.6, 0))
       extevents = eventid = list()
 
       for (k in 1:nrow(events)) {
@@ -86,7 +87,7 @@ plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colp
       }
     } else if (type=="bound") {
 
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
+      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(2, 0.6, 0))
 
       if (!is.null(dates)) {
         allS = dates[events$srt]
@@ -101,7 +102,7 @@ plotEvents <- function(data,dates=NULL,events,type="lineover",colline="red",colp
       text(x=apply(cbind(allS,allE),1,mean),y=ymax*0.9,label=paste("Event",1:nrow(events)))
     } else if (type == "hyet") {
 
-      plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main)
+      plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(2, 0.6, 0))
       extevents = eventid = list()
 
       for (k in 1:nrow(events)) {

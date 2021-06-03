@@ -3,38 +3,38 @@
 #' @description Events are identified on the basis of local maxima with an "event" considered to have
 #' occurred if the maxima is above a tolerable threshold of the neighbouring troughs/valleys.
 #'
-#' @references Rory?
-#'
-#' @param data The data vector (e.g. a streamflow time series)
+#' @param data The data vector
 #' @param delta.y Minimum allowable difference from a peak to a trough
 #' @param delta.x Minimum spacing between peaks
-#' @param filter.type c("simple", "spline") Optional smoothing of data series
+#' @param threshold Value above which an event is considered to have occurred
+#' @param out.style The type of output (currently either "summary" or "none")
 #'
-#' @details filter.type can be a "simple" weigthed moving average or smoothing "spline".
-#' If \code{delta.y} is negative it is applied a fractional decrease from the peak
+#' @details If \code{delta.y} is negative it is applied a fractional decrease from the peak, otherwise it is
+#' treated as an absolute value. The \code{threshold} is applied after the event separation meaning that if a trough
+#' goes below the threshold but was originally considered one event it will continue to be considered one event.
+#' This makes this method distinct from the peaks over threshold algorithm in \code{eventPOT}. The \code{threshold}
+#' here should be thought of as a filter to remove trace amounts that are not part of an event rather than event seperation
+#' metric.
 #'
-#' @return Returns indices of start and end of events as a two column dataframe and event statistics
+#' @return By default, the \code{out.style} returns the indices of the maximum in each event, as well as the value of
+#' the maximum and the sum of the \code{data} in each event, alongside the start and end of the events. Otherwise just
+#' the indices of start and end of events as a two column dataframe are returned.
 #'
 #' @export
-#' @keywords events
-#' @seealso \code{\link{calcStats}} \code{\link{eventPOT}}
+#' @keywords events baseflow
+#' @seealso \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}
+#' @export
 #' @examples
 #' # Example extracting events from quickflow
-#' bf = baseFlow(dataBassRiver, alpha = 0.925)
-#' qf = dataBassRiver - bf
-#' events = eventMaxima(qf, delta.y = 200, delta.x = 1, threshold = 0) # 5 events identified
+#' bf = baseflowB(dataBassRiver, alpha = 0.925)
+#' qf = dataBassRiver - bf$bf
+#' events = eventMaxima(qf, delta.y = 200, delta.x = 1, threshold = 0)
+#' print(events)
+#' plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "")
+#' # Other examples to try
 #' # delta.y = 200; delta.x = 1 # 5 events identified
 #' # delta.y = 500; delta.x = 1 # 3 events identified
 #' # delta.y = 10;  delta.x = 7 # 2 events identified
-#' plot(1:length(qf), qf, type = "l", lwd = 1, col = "black", main = "Events with maxima identified",
-#'    ylab = "Quickflow (ML/day)", xlab = "Time index", mgp = c(2, 0.6, 0))
-#' n.events = nrow(events)
-#' for (i in 1:n.events) {
-#'  idx = events$srt[i]:events$end[i]
-#'  lines(idx, qf[idx], col = rainbow(nrow(events))[i], lwd = 2)
-#' }
-#' points(events$which.max, qf[events$which.max], cex = 1.2, lwd = 2)
-#' print(events)
 
 eventMaxima <- function(data, delta.y = 200, delta.x = 1, threshold = -1, out.style = "summary") {
   # Find minima
@@ -79,9 +79,6 @@ eventMaxima <- function(data, delta.y = 200, delta.x = 1, threshold = -1, out.st
     srt.index = srt.index[check.max >= threshold]
     end.index = end.index[check.max >= threshold]
   }
-  #event.stats = calcStats(srt.index, end.index, data, f.vec = c("which.max", "max", "sum"))
-  #events = data.frame(srt = srt.index, end = end.index, event.stats)
-  #print(events)
 
   # Return the event indices
   n.events  = length(srt.index)

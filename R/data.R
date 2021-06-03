@@ -1,5 +1,5 @@
 #' @title Streamflow data
-#' @description Example data for Bass River at Loch
+#' @description Streamflow data for Bass River at Loch
 #' @details This data is obtained from Grayson et al (1996)
 #' @format A vector of 67 daily streamflow values in (ML/day)
 #' @seealso \code{\link{dataLoch}}
@@ -8,11 +8,23 @@
 "dataBassRiver"
 
 #' @title Rainfall data
-#' @description Example rainfall data for Loch (Station ID 086067) for 30/06/1974-04/09/1974
+#' @description Rainfall data for Loch (Station ID 086067) for 30/06/1974-04/09/1974
 #' @format A vector of 67 daily rainfall values in (mm)
 #' @seealso \code{\link{dataBassRiver}}
 #' @source \url{http://www.bom.gov.au/climate/data/stations/}
 "dataLoch"
+
+#' @title Flow-Rainfall data
+#' @description Example data flow and rainfall data for Black River at South Forest, Tasmania (Station ID 314213).
+#' The streamflow is obtained from the Hydrologic Reference Stations, the precipitation is a catchment average
+#' calculated using AWAPer.The catchment area is 318.5 km\superscript{2}.
+#' @format A dataframe of date, streamflow (ML/day) and catchment average precipitation (mm).
+#' @references Grayson, R., Argent, R. M., Nathan, R. J., McMahon, T. A. & Mein, R. G. (1996) Hydrological
+#' Recipes, Cooperative Reserach Centre for Catchment Hydrology, Melbourne.
+#' @references Peterson, T.J., Wasko, C., Saft., & Peel, M.C. (2020) AWAPer: An R package for area weighted catchment
+#' daily meteorological data anywhere within Australia, Hydrological Processes, 34, 1301-1306.
+#' @source \url{http://www.bom.gov.au/water/hrs/#id=314213/}
+"data314213"
 
 #' @title Catchment data
 #' @description Example data for Bass River at Loch
@@ -42,13 +54,6 @@
 #' @seealso \code{\link{dataBassRiver}}
 #' @source \url{https://data.water.vic.gov.au/}
 "data232210"
-
-#' @title Flow-Rainfall data
-#' @description Example data flow and rainfall data for Black River at South Forest, Tasmania (Station ID 314213)
-#' @format blah blah
-#' @seealso \code{\link{dataBassRiver}}
-#' @source \url{http://www.bom.gov.au/water/hrs/#id=314213/}
-"data314213"
 
 #' @title Flow-Precipitation data
 #' @description Example environmental data across Australia

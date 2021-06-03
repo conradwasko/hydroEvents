@@ -6,34 +6,36 @@
 #' @references Tang and Carey (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
 #' Hydrological Processes (31) 2670-2682
 #'
-#' @param data The data vector (e.g. a streamflow time series)
+#' @param data The data vector
+#' @param delta.y Maximum allowable difference between troughs
 #' @param delta.x Minimum length for an event
-#' @param delta.y Maximum difference in data between start and end of an event
-#' @param filter.type c("simple", "spline") Optional smoothing of data series
+#' @param threshold Value above which an event is considered to have occurred
+#' @param out.style The type of output (currently either "summary" or "none")
 #'
-#' @details filter.type can be a "simple" weigthed moving average or smoothing "spline"
+#' @details The \code{threshold} is applied after the event separation meaning that if a trough
+#' goes below the threshold but was originally considered one event it will continue to be considered one event.
+#' This makes this method distinct from the peaks over threshold algorithm in \code{eventPOT}. The \code{threshold}
+#' here should be thought of as a filter to remove trace amounts that are not part of an event rather than event seperation
+#' metric.
 #'
-#' @return Returns indices of start and end of events as a two column dataframe and event statistics
+#' @return By default, the \code{out.style} returns the indices of the maximum in each event, as well as the value of
+#' the maximum and the sum of the \code{data} in each event, alongside the start and end of the events. Otherwise just
+#' the indices of start and end of events as a two column dataframe are returned.
 #'
 #' @export
-#' @keywords events
-#' @seealso \code{\link{calcStats}} \code{\link{eventPOT}}
+#' @keywords events baseflow
+#' @seealso \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}
+#' @export
 #' @examples
 #' # Example extracting events from quickflow
-#' bf = baseFlow(dataBassRiver, alpha = 0.925)
-#' qf = dataBassRiver - bf
+#' bf = baseflowB(dataBassRiver, alpha = 0.925)
+#' qf = dataBassRiver - bf$bf
 #' events = eventMinima(qf, delta.x = 5, delta.y = 20)
+#' print(events)
+#' plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "")
 #' # delta.x = 5, delta.y = 20 # 5 events identified
 #' # delta.x = 5, delta.y = 10 # 4 events identified
 #' # delta.x = 1, delta.y = 20 # 6 events identified
-#' plot(1:length(qf), qf, type = "l", lwd = 1, col = "black", main = "Events with maxima identified",
-#'   ylab = "Quickflow (ML/day)", xlab = "Time index", mgp = c(2, 0.6, 0))
-#' n.events = nrow(events)
-#' for (i in 1:n.events) {
-#'   idx = events$srt[i]:events$end[i]
-#'   lines(idx, qf[idx], col = rainbow(nrow(events))[i], lwd = 2)
-#' }
-#' points(events$srt + events$which.max - 1, qf[events$srt + events$which.max - 1], cex = 1.2, lwd = 2)
 
 eventMinima <- function(data, delta.x = 5, delta.y = 20, threshold = -1, out.style = "summary") {
   # Find minima
