@@ -55,18 +55,19 @@
 
 
 plotEvents <- function(data, dates = NULL, events, type = "lineover",
-                       colline = "red", colpnt = "blue", ymax = max(data), main = "events") {
+                       colline = "red", colpnt = "blue", ymax = max(data),
+                       xlab = "", ylab = "", main = "events") {
 
 
   if (!is.null(dates)) {
-    plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(2, 0.6, 0))
+    plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(1.7, 0.6, 0))
 
 
   } else {
 
     if (type=="lineover") {
 
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(2, 0.6, 0))
+      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
       extevents = eventid = list()
 
       for (k in 1:nrow(events)) {
@@ -83,11 +84,11 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
         points(data[events$end[k]]~events$end[k],col=colline,type="o",pch=20,cex=1.5)
         points(data[events$which.max[k]]~events$which.max[k],col=colpnt,pch=20,cex=1)
 
-        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 0.8)
+        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 1.2)
       }
     } else if (type=="bound") {
 
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(2, 0.6, 0))
+      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(2, 0.6, 0))
 
       if (!is.null(dates)) {
         allS = dates[events$srt]
@@ -102,7 +103,7 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
       text(x=apply(cbind(allS,allE),1,mean),y=ymax*0.9,label=paste("Event",1:nrow(events)))
     } else if (type == "hyet") {
 
-      plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(2, 0.6, 0))
+      plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main,xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
       extevents = eventid = list()
 
       for (k in 1:nrow(events)) {
@@ -119,7 +120,8 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
         points(events$srt[k],0,col=colline,type="o",pch=20,cex=1.5)
         points(events$end[k],0,col=colline,type="o",pch=20,cex=1.5)
 
-        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste("Event",k))
+        #text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste("Event",k))
+        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 1.2)
       }
     }
 
