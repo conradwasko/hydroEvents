@@ -37,7 +37,7 @@
 #' # delta.x = 5, delta.y = 10 # 4 events identified
 #' # delta.x = 1, delta.y = 20 # 6 events identified
 
-eventMinima <- function(data, delta.x = 5, delta.y = 20, threshold = -1, out.style = "summary") {
+eventMinima <- function(data, delta.y = 20, delta.x = 5, threshold = -1, out.style = "summary") {
   # Find minima
   minima = localMin(data)
 
