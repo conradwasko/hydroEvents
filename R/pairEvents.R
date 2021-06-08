@@ -82,7 +82,7 @@ pairEvents <- function(events.1, events.2, lag = 5, type = 1) {
 
     matched.srt = matched.end = rep(NA_integer_, n.events)
     for (i in 1:n.events) {
-      index = which(events.2$end >= events.1$srt[i] & events.2$end <= end.plus.lag[i])
+      index = which(events.2$srt >= events.1$srt[i] & events.2$end <= end.plus.lag[i])
       if (length(index) > 0) {
         matched.srt[i] = events.2$srt[head(index, 1)]
         matched.end[i] = events.2$end[tail(index, 1)]
@@ -134,7 +134,7 @@ pairEvents <- function(events.1, events.2, lag = 5, type = 1) {
 
     matched.srt = matched.end = rep(NA_integer_, n.events)
     for (i in n.events:1) {
-      index = which(events.1$which.max >= max.minus.lag[i] & events.1$which.max <= max.plus.lag[i])
+      index = which(events.2$which.max >= max.minus.lag[i] & events.2$which.max <= max.plus.lag[i])
       if (length(index) > 0) {
         matched.srt[i] = events.2$srt[head(index, 1)]
         matched.end[i] = events.2$end[tail(index, 1)]
