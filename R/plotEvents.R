@@ -1,75 +1,49 @@
 #' Plot Events
 #'
-#' @description Description here
+#' @description Wrapper function for plotting identified events
 #'
-#' @references None
+#' @param data The data vector
+#' @param dates Optional date vector
+#' @param events Events data frame
+#' @param type The type of plot (see details)
+#' @param colline Line colour
+#' @param colpnt Point colour
+#' @param colbound Background colour for plot type \code{"bound"}
+#' @param ymax Maxiumum plot extent in vertical direction
+#' @param xlab x-axis label
+#' @param ylab y-axis label
+#' @param main Plot title
 #'
-#' @param data The data vector (e.g. a streamflow time series)
-#' @param threshold Value aove which an event is considered to have occurred
-#' @param min.diff Spacing of X considered to be independent (e.g. 1 day of zero flow)
-#' @param ... Further arguments passed event.stats (NEED TO FIX)
+#' @details Three plot types are implemented: \code{"lineover"}, \code{"bound"}, \code{"hyet"}. See examples.
+#' If events contains a column titled "which.max" the maxima are also plotted.
 #'
-#' @details The reflected points act to resolve spin up issues and are removed before the baseflow is removed.
-#'
-#' @return Returns indices of start and end of events as a two column dataframe.
-#'
-#' @keywords events baseflow
+#' @keywords plot events
+#' @seealso \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventMinima}} \code{\link{eventPOT}}
 #' @export
 #' @examples
-#' ## STREAMFLOW EXAMPLES
-#' # Extract events
-#' bf = baseFlow(dataBassRiver, alpha = 0.925)
-#' qf = dataBassRiver - bf
-#' events = eventPOT(qf)
+#' # Plot events
+#' library(hydroEvents)
+#' BFI_res = eventBaseflow(dataBassRiver)
 #'
-#' # Plot original flow
-#' plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
-#'      ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
-#' lines(1:length(dataBassRiver), bf, lwd = 2, lty = 2, col = "darkgreen")
-#' points(events$srt, dataBassRiver[events$srt], col = "red3", pch = 1, cex = 1.2)
-#' points(events$end, dataBassRiver[events$end], col = "black", pch = 2, cex = 1.2)
-#' legend("topright", legend = c("Flow", "Baseflow", "Start Event", "End Event"), cex = 0.8,
-#'        lwd = c(2, 2, NA, NA), pch = c(NA, NA, 1, 2), col = c("steelblue", "darkgreen", "red3", "black"), bty = "n")
-#'
-#' # Plot quickflow only
-#' plot(1:length(dataBassRiver), qf, type = "h", lwd = 2, col = "steelblue",
-#'      ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
-#' points(events$srt, qf[events$srt], col = "red3", pch = 1, cex = 1.2)
-#' points(events$end, qf[events$end], col = "black", pch = 2, cex = 1.2)
-#' points(events$srt + events$which.max - 1, events$max, col = "red", pch = 16, cex = 0.8)
-#' legend("topright", legend = c("Quickflow", "Start Event", "End Event", "Max"), cex = 0.8,
-#'        lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
-#'
-#' ## RAINFALL EXAMPLES
-#' # Extract events and plot
-#' rain.min = 2
-#' events = eventPOT(dataLoch, threshold = rain.min, min.diff = 2)
-#' plot(1:length(dataLoch), dataLoch, type = "h", lwd = 2, col = "steelblue",
-#'     ylab = "Rainfall (mm)", xlab = "Time index", mgp = c(2, 0.6, 0))
-#' abline(h = rain.min, lty = 3)
-#' points(events$srt, rep(rain.min, length(events$srt)), col = "red3", pch = 1, cex = 1.2)
-#' points(events$end, rep(rain.min, length(events$end)), col = "black", pch = 2, cex = 1.2)
-#' points(events$srt + events$which.max - 1, events$max, col = "red", pch = 16, cex = 0.8)
-#' legend("topright", legend = c("Rainfall", "Start Event", "End Event", "Max"), cex = 0.8,
-#'      lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
-
+#' par(mfrow = c(3, 1), mar = c(3, 2.7, 2, 1))
+#' d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
+#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", main = "lineover")
+#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "bound", xlab = "Date", ylab = "Flow (ML/day)", main = "bound")
+#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "hyet", xlab = "Date", ylab = "Flow (ML/day)", main = "hyet")
 
 plotEvents <- function(data, dates = NULL, events, type = "lineover",
-                       colline = "red", colpnt = "blue", ymax = max(data),
+                       colline = "red", colpnt = "blue", colbound = "red", ymax = max(data),
                        xlab = "", ylab = "", main = "events") {
-
-
-  if (!is.null(dates)) {
-    plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, mgp = c(1.7, 0.6, 0))
-
-
-  } else {
 
     if (type=="lineover") {
 
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
-      extevents = eventid = list()
+      if (!is.null(dates)) {
+        plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      } else {
+        plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      }
 
+      extevents = eventid = list()
       for (k in 1:nrow(events)) {
         extevents[[k]] = data[events$srt[k]:events$end[k]]
 
@@ -82,13 +56,26 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
         lines(extevents[[k]]~eventid[[k]],col=colline,type="o",pch=20,cex=0.7)
         points(data[events$srt[k]]~events$srt[k],col=colline,type="o",pch=20,cex=1.5)
         points(data[events$end[k]]~events$end[k],col=colline,type="o",pch=20,cex=1.5)
-        points(data[events$which.max[k]]~events$which.max[k],col=colpnt,pch=20,cex=1)
 
         text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 1.2)
       }
+
+      if (!is.null(events$which.max)) {
+        if (is.null(dates)) {
+          points(data[events$which.max]~events$which.max,col=colpnt,pch=20,cex=1)
+        } else {
+          points(data[events$which.max]~dates[events$which.max],col=colpnt,pch=20,cex=1)
+        }
+      }
+
+
     } else if (type=="bound") {
 
-      plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(2, 0.6, 0))
+      if (!is.null(dates)) {
+        plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      } else {
+        plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      }
 
       if (!is.null(dates)) {
         allS = dates[events$srt]
@@ -99,15 +86,28 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
       }
       abline(v=allS,lty=2,col=colline)
       abline(v=allE,lty=2,col=colline)
-      rect(xleft=allS,xright=allE,ybottom=0,ytop=ymax,border=NA, col=adjustcolor("red",alpha.f=0.2))
-      text(x=apply(cbind(allS,allE),1,mean),y=ymax*0.9,label=paste("Event",1:nrow(events)))
+      rect(xleft=allS,xright=allE,ybottom=0,ytop=ymax,border=NA, col=adjustcolor(colbound,alpha.f=0.2))
+
+      text(x=apply(cbind(allS,allE),1,mean),y=ymax*0.9,label=paste0("(",1:nrow(events),")"),cex = 1.2)
+
+      if (!is.null(events$which.max)) {
+        if (is.null(dates)) {
+          points(data[events$which.max]~events$which.max,col=colpnt,pch=20,cex=1)
+        } else {
+          points(data[events$which.max]~dates[events$which.max],col=colpnt,pch=20,cex=1)
+        }
+      }
+
     } else if (type == "hyet") {
 
-      plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main,xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      if (!is.null(dates)) {
+        plot(data~dates,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main,xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      } else {
+        plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main,xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      }
+
       extevents = eventid = list()
-
       for (k in 1:nrow(events)) {
-
         extevents[[k]] = data[events$srt[k]:events$end[k]]
 
         if (!is.null(dates)) {
@@ -120,10 +120,17 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
         points(events$srt[k],0,col=colline,type="o",pch=20,cex=1.5)
         points(events$end[k],0,col=colline,type="o",pch=20,cex=1.5)
 
-        #text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste("Event",k))
-        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 1.2)
+        text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"),cex = 1.2)
+
+        if (!is.null(events$which.max)) {
+          if (is.null(dates)) {
+            points(data[events$which.max]~events$which.max,col=colpnt,pch=20,cex=1)
+          } else {
+            points(data[events$which.max]~dates[events$which.max],col=colpnt,pch=20,cex=1)
+          }
+        }
+
       }
     }
 
-  }
 }
