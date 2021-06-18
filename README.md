@@ -87,7 +87,7 @@ bf = baseFlow(Q)
 MAX_res = eventMaxima(Q-bf$bf, delta.x =3, delta.y = 0.5, threshold = 0.1)
 plotEvents(data = Q, events = MAX_res)
 
-# compare limbs identified from two event methods
+# compare rising/falling limbs identified from two event methods
 par(mfrow=c(2,1))
 par(mar=c(2,2,2,2))
 limbs(data = Q, dates=qdata$time, events = BF_res, main="with 'eventBaseflow'")
@@ -96,7 +96,7 @@ limbs(data = Q, dates=qdata$time, events = MAX_res, main="with 'eventMaxima', de
 ![Example5](https://user-images.githubusercontent.com/29298475/111926773-4ba17500-8b02-11eb-9a19-873f38295747.jpeg)
 
 ## Example 5
-Aim: Derive event-based C-Q relationship (DG)
+Aim: Derive event-based concentration-discharge (C-Q) relationships, explore influces of baseflow 
 
 ```R
 # a function to plot CQ with different colours by event periods (rising, falling limbs and baseflow)
@@ -109,8 +109,8 @@ CQ_event = function(C,Q,event_method,methodname) {
     ev_ind = c(ev_ind,risfal_res$srt[i]:risfal_res$end[i])
   }
 
-  BF_ind = as.vector(1:length(as.vector(Q)))[-ev_ind]
-  plot(C~Q,xlab="Q (mm/d)",ylab="C (mg/L)",main = paste("C-Q relationship -",methodname),pch=20)
+  BF_ind = as.vector(1:length(as.vector(Q)))[-ev_ind] # extract data index under baseflow conditions (i.e. not part of an event)
+  plot(C~Q,xlab="Q (mm/d)",ylab="C (mg/L)",main = paste("C-Q relationship -",methodname),pch=20) # plot C-Q relationships, coloured by rising/falling limbs and baseflow
   points(C[RL_ind]~Q[RL_ind],col="blue",pch=20)
   points(C[FL_ind]~Q[FL_ind],col="green",pch=20)
   points(C[BF_ind]~Q[BF_ind],col="red",pch=20)
@@ -180,36 +180,32 @@ Aim: Demonstrate matching of rainfall and water level surge (residuals)
 ```R
 library(hydroEvents)
 # rainfall (P) and water level surge (WL) at Burnie, Tasmania (Pluvio 91009; Tide gauge: IDO71005)
-data("dataPWL") 
+data("data_P_WL") 
 
 # find events in P and WL data
-events.P = eventPOT(Psel, threshold = 0, min.diff = 3) # 3-h no rain
+events.P = eventPOT(Psel, threshold = 4, min.diff = 3) # Rain over 4mm is considered an event; events over 3 hrs apart are considered as separate
 
 bf = baseFlow(WLsel)
-events.Q1 = eventMaxima(WLsel, delta.y = 0.05, delta.x = 3, thresh = 0.01) # min of 3-h event
+events.Q1 = eventMaxima(WLsel, delta.y = 0.05, delta.x = 3, thresh = 0.05) # WL surge residual over 0.05m is considered an event; events over 3 hrs apart are considered as separate
 par(mfrow=c(2,1))
 par(mar=c(2,2,2,2))
 plotEvents(data = Psel, events = events.P, main = "Hourly precipitation (mm)", type = "hyet")
 plotEvents(data = WLsel, events = events.Q1, main = "Hourly water level surge (m)", type = "lineover")
 ```
-![Example8](https://user-images.githubusercontent.com/29298475/111944391-a4d1ce80-8b2b-11eb-87ec-32b5aa26fea7.jpeg)
-
+![Example7a](https://user-images.githubusercontent.com/29298475/122487933-ba1da280-d01f-11eb-8522-74816f76fc73.jpeg)
 ```R
-# match events
-matched.1 = pairEvents(events.P, events.Q1, lag = 12,  type = 1)
-matched.2 = pairEvents(events.P, events.Q1, lag = 12, type = 2)
-matched.3 = pairEvents(events.P, events.Q1, lag = 12,  type = 3)
-matched.4 = pairEvents(events.P, events.Q1, lag = 12, type = 4)
+# pairning events - use type = 5 to search both ways for the pairing, try two values for the lag (search radius)
+matched.1 = pairEvents(events.P, events.Q1, lag = 12, type = 5) 
+matched.2 = pairEvents(events.P, events.Q1, lag = 24, type = 5)
 
-par(mfrow=c(4,1))
-par(mar=c(2,2,2,2))
-plotPairedEvents(data.1 = Psel, data.2 = WLsel, events = matched.1, type = "hyet", color.list=rainbow(nrow(matched.1)))
-plotPairedEvents(data.1 = Psel, data.2 = WLsel, events = matched.2, type = "hyet", color.list=rainbow(nrow(matched.1)))
-plotPairedEvents(data.1 = Psel, data.2 = WLsel, events = matched.3, type = "hyet", color.list=rainbow(nrow(matched.1)))
-plotPairedEvents(data.1 = Psel, data.2 = WLsel, events = matched.4, type = "hyet", color.list=rainbow(nrow(matched.1)))
+plotPairs(data.1 = Psel, data.2 = WLsel, events = matched.1, type = "hyet", color.list=rainbow(nrow(matched.1)))
+plotPairs(data.1 = Psel, data.2 = WLsel, events = matched.2, type = "hyet", color.list=rainbow(nrow(matched.2)))
 ```
-![Example8b](https://user-images.githubusercontent.com/29298475/111944220-3d1b8380-8b2b-11eb-8e91-d500b56433e5.jpeg)
+![Example7b](https://user-images.githubusercontent.com/29298475/122487944-c275dd80-d01f-11eb-8e3d-63b26fa733fa.jpeg)
 
+
+##################### only add above this line - below are codes prior Mar 22. 2021 ######################
+##################### only add above this line - below are codes prior Mar 22. 2021 ######################
 ##################### only add above this line - below are codes prior Mar 22. 2021 ######################
 ## EXAMPLE 2
 
