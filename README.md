@@ -73,7 +73,7 @@ Aim: To see how different event methods affect rising/falling limbs identified
 
 ```R
 library(hydroEvents)
-data("dataWQQ")
+data("WQ_Q")
 
 # streamflow and water quality data for 410073 TUMUT RIVER AT ODDYS BRIDGE
 qdata=qdata[[1]]
@@ -83,17 +83,17 @@ Q = as.vector(qdata$Q_cumecs)
 BF_res = eventBaseflow(Q)
 plotEvents(data = Q, events = BF_res)
 
-bf = baseFlow(Q)
+bf = baseflowB(Q)
 MAX_res = eventMaxima(Q-bf$bf, delta.x =3, delta.y = 0.5, threshold = 0.1)
 plotEvents(data = Q, events = MAX_res)
 
 # compare rising/falling limbs identified from two event methods
 par(mfrow=c(2,1))
 par(mar=c(2,2,2,2))
-limbs(data = Q, dates=qdata$time, events = BF_res, main="with 'eventBaseflow'")
-limbs(data = Q, dates=qdata$time, events = MAX_res, main="with 'eventMaxima', delta.x = 3, delta.y = 0.5, threshold = 0.1") 
+limbs(data = Q, dates=NULL, events = BF_res, main="with 'eventBaseflow'")
+limbs(data = Q, dates=NULL, events = MAX_res, main="with 'eventMaxima', delta.x = 3, delta.y = 0.5, threshold = 0.1") 
 ```
-![Example5](https://user-images.githubusercontent.com/29298475/111926773-4ba17500-8b02-11eb-9a19-873f38295747.jpeg)
+![Example4a](https://user-images.githubusercontent.com/29298475/122881031-09483800-d37e-11eb-9c82-ec7bf19c76cb.jpeg)
 
 ## Example 5
 Aim: Derive event-based concentration-discharge (C-Q) relationships, explore influces of baseflow 
