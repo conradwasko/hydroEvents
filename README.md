@@ -99,6 +99,18 @@ limbs(data = Q, dates=NULL, events = MAX_res, main="with 'eventMaxima', delta.x 
 Aim: Derive event-based concentration-discharge (C-Q) relationships, explore influces of baseflow 
 
 ```R
+wqdata=wqdata[[1]]
+wqdata = data.frame(time=wqdata$time,wq=as.vector(wqdata$WQ))
+
+# aggregate WQ to daily step
+wqdaily = rep(NA,length(unique(substr(wqdata$time,1,10))))
+for (i in 1:length(unique(substr(wqdata$time,1,10)))) {
+  wqdaily[i] = mean(wqdata$wq[which(substr(wqdata$time,1,10)==
+                              unique(substr(wqdata$time,1,10))[i])])
+}
+wqdailydata = data.frame(time=as.Date(strptime(unique(substr(wqdata$time,1,10)),"%d/%m/%Y")),wq=wqdaily)
+wqdailydata = wqdailydata[which(wqdailydata$time)]
+
 # a function to plot CQ with different colours by event periods (rising, falling limbs and baseflow)
 CQ_event = function(C,Q,event_method,methodname) {
   risfal_res = limbs(data=as.vector(Q),events=event_method)
@@ -126,10 +138,11 @@ CQ_event = function(C,Q,event_method,methodname) {
 # Final plot on CQ comparison from two event approaches
 par(mfrow=c(2,2))
 par(mar=c(2,2,2,1))
-CQ_event(ECzoo,Qzoo,BF_res,"Baseflow method")
-CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
+CQ_event(wqdailydata,qdata, BF_res, methodname="eventBaseflow")
+CQ_event(wqdailydata,qdata, MAX_res, methodname="eventMaxima, delta.x = 3, delta.y = 0.5, threshold = 0.1") 
+
 ```
-![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
+![Example5V2](https://user-images.githubusercontent.com/29298475/122882516-9c35a200-d37f-11eb-87ff-80cbeca0ec41.jpeg)
 
 ## Example 6
 Aim: Demonstrate matching rainfall to runoff
