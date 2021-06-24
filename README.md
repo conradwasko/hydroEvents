@@ -198,7 +198,7 @@ data("data_P_WL")
 # find events in P and WL data
 events.P = eventPOT(Psel, threshold = 4, min.diff = 3) # Rain over 4mm is considered an event; events over 3 hrs apart are considered as separate
 
-bf = baseFlow(WLsel)
+bf = baseflowB(WLsel)
 events.Q1 = eventMaxima(WLsel, delta.y = 0.05, delta.x = 3, thresh = 0.05) # WL surge residual over 0.05m is considered an event; events over 3 hrs apart are considered as separate
 par(mfrow=c(2,1))
 par(mar=c(2,2,2,2))
