@@ -27,3 +27,29 @@
 #' daily meteorological data anywhere within Australia, Hydrological Processes, 34, 1301-1306.
 #' @references Jones, D., Wang, W., & Fawcett, R., 2009. High-quality spatial climate data-sets for Australia. Aust. Meteorol. Oceanogr. J. 58, 233–248.
 "dataCatchment"
+
+#' @title Example water quality and streamflow data
+#' @description Data from 4 HRS (Hydrologic Reference Stations, Australian Bureau of Meteorolgy) catchments are included:
+#' catchment IDs: 410073, 424002, G8150018, A5020502.
+#' @format
+#' Water quality (WQ) and streamflow (Q) data at matching time steps from 4 HRS catchments.
+#' Each dataset (qdata and wqdata) is a list of length 4, corresponding to the 4 catchments.
+#' @source
+#' HRS streamflow data:
+#' \url{http://www.bom.gov.au/water/hrs/}
+#' water quality data:
+#' WaterNSW: \url{https://www.waternsw.com.au/waterinsights/real-time-data}
+#' Northern Territory Department of Environment, Parks and Water Security \url{https://water.nt.gov.au/}
+#' South Australia Department for Environment and Water \url{https://www.waterconnect.sa.gov.au/}
+"WQ_Q"
+
+#' @title Example sub-daily rainfall and tidal water level data
+#' @description Hourly rainfall (P) and water level (WL) at Burnie, Tasmania for 1997-01-14 to 1997-02-14 (Pluvio ID: 091009; Tide gauge: IDO71005)
+#' @format
+#' Each of P and WL data is a simple vector with no timestamp. The original data is in hourly time step.
+#' @source
+#' Sub-daily rainfall data are from Australian Bureau of Meteorolgy:
+#' \url{http://www.bom.gov.au/climate/data/stations/}
+#' Sub-daily tidal water level data are from Australian Bureau of Meteorolgy Australian Baseline Sea Level Monitoring Project:
+#' \url{http://www.bom.gov.au/oceanography/projects/abslmp/data/index.shtml}
+"data_P_WL"

@@ -7,10 +7,11 @@
 #' @param events The pairedeEvents data frame from \link{pairEvents}
 #' @param dates Optional date vector
 #' @param type The type of plot (see details)
-#' @param col.list Vector of colours used for plotting
+#' @param color.list Vector of colours used for plotting
 #' @param xlab x-axis label
 #' @param ylab.1 primary y-axis label
 #' @param ylab.2 secondary y-axis label
+#' @param cex.2 cex for secondary y-axis label
 #' @param main Plot title
 #'
 #' @details If the type is \code{"hyet"} then \code{data.1} is plotted as a vertical lines and \code{data.2} as a line.
@@ -31,7 +32,7 @@
 #' plotPairs(dataLoch, dataBassRiver, pairs.3, dates = d, type = "hyet", xlab = "Date", ylab.1 = "Flow (ML/day)", ylab.2 = "Rain (mm)", main = "Matching Backward")
 
 plotPairs <- function(data.1, data.2, events, dates = NULL, type = "hyet", color.list = rainbow(nrow(events)),
-                      xlab = "", ylab.1 = "", ylab.2 = "", main = "") {
+                      xlab = "", ylab.1 = "", ylab.2 = "", cex.2 = 1, main = "") {
 
   n.events = nrow(events)
 
@@ -54,7 +55,7 @@ plotPairs <- function(data.1, data.2, events, dates = NULL, type = "hyet", color
     }
     par(new = TRUE)
     plot(data.2, type = "l", col = "black", lwd = 1, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
-    axis(side = 4, mgp = c(1.7, 0.6, 0)); mtext(ylab.2, side = 4, line = 1.7)
+    axis(side = 4, mgp = c(1.7, 0.6, 0)); mtext(ylab.2, side = 4, line = 1.7, cex = cex.2)
     for (i in 1:n.events) {
       if (!is.na(events$matched.srt[i])) {
         points(events$matched.srt[i]:events$matched.end[i], data.2[events$matched.srt[i]:events$matched.end[i]],
@@ -77,7 +78,7 @@ plotPairs <- function(data.1, data.2, events, dates = NULL, type = "hyet", color
     }
     par(new = TRUE)
     plot(data.1, type = plot.type, col = "black", lwd = 1, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
-    axis(side = 4, mgp = c(1.7, 0.6, 0)); mtext(ylab.2, side = 4, line = 1.7)
+    axis(side = 4, mgp = c(1.7, 0.6, 0)); mtext(ylab.2, side = 4, line = 1.7, cex = cex.2)
     for (i in 1:n.events) {
       if (!is.na(events$matched.srt[i])) {
         points(events$matched.srt[i]:events$matched.end[i], data.1[events$matched.srt[i]:events$matched.end[i]],

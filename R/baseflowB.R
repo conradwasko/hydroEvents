@@ -19,6 +19,7 @@
 #' @export
 #' @examples
 #' library(hydroEvents)
+#' data(dataBassRiver)
 #' alpha.list = c(0, 0.9, 0.925, 0.95, 0.98, 0.987)
 #' BFI = numeric(length(alpha.list))
 #' for (i in 1:length(alpha.list)) {

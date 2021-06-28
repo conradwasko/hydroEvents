@@ -6,7 +6,7 @@
 #' @param srt Vector of indices for the event start
 #' @param end Vector of indices for the event end
 #' @param data Vector of data
-#' @param f.list List of functions to be applied to the events
+#' @param f.vec c("which.max", "max", "min") Functions to be applied to the events
 #'
 #' @details
 #'

@@ -4,51 +4,58 @@
 \alias{eventMinima}
 \title{Event identification (using local minima as a basis)}
 \usage{
-eventMinima(data, delta.x = 5, delta.y = 20, filter.type = "None", ...)
+eventMinima(
+  data,
+  delta.y = 20,
+  delta.x = 5,
+  threshold = -1,
+  out.style = "summary"
+)
 }
 \arguments{
-\item{data}{The data vector (e.g. a streamflow time series)}
+\item{data}{The data vector}
+
+\item{delta.y}{Maximum allowable difference between troughs}
 
 \item{delta.x}{Minimum length for an event}
 
-\item{delta.y}{Maximum difference in data between start and end of an event}
+\item{threshold}{Value above which an event is considered to have occurred}
 
-\item{filter.type}{c("simple", "spline") Optional smoothing of data series}
-
-\item{...}{Further arguments passed eventStats}
+\item{out.style}{The type of output (currently either "summary" or "none")}
 }
 \value{
-Returns indices of start and end of events as a two column dataframe and event statistics
+By default, the \code{out.style} returns the indices of the maximum in each event, as well as the value of
+the maximum and the sum of the \code{data} in each event, alongside the start and end of the events. Otherwise just
+the indices of start and end of events as a two column dataframe are returned.
 }
 \description{
 Events are identified on the basis of local minima with an "event" considered to have
-occurred once the data has returned to within a threshold level of the start of the event.
+occurred once the data has returned to within a thresholdold level of the start of the event.
 }
 \details{
-filter.type can be a "simple" weigthed moving average or smoothing "spline"
+The \code{threshold} is applied after the event separation meaning that if a trough
+goes below the threshold but was originally considered one event it will continue to be considered one event.
+This makes this method distinct from the peaks over threshold algorithm in \code{eventPOT}. The \code{threshold}
+here should be thought of as a filter to remove trace amounts that are not part of an event rather than event seperation
+metric.
 }
 \examples{
 # Example extracting events from quickflow
-bf = baseFlow(dataBassRiver, alpha = 0.925)
-qf = dataBassRiver - bf
+data(dataBassRiver)
+bf = baseflowB(dataBassRiver, alpha = 0.925)
+qf = dataBassRiver - bf$bf
 events = eventMinima(qf, delta.x = 5, delta.y = 20)
-# delta.x = 5, delta.y = 20 # 5 events identified
-# delta.x = 5, delta.y = 10 # 4 events identified
-# delta.x = 1, delta.y = 20 # 6 events identified
-plot(1:length(qf), qf, type = "l", lwd = 1, col = "black", main = "Events with maxima identified",
-  ylab = "Quickflow (ML/day)", xlab = "Time index", mgp = c(2, 0.6, 0))
-n.events = nrow(events)
-for (i in 1:n.events) {
-  idx = events$srt[i]:events$end[i]
-  lines(idx, qf[idx], col = rainbow(nrow(events))[i], lwd = 2)
-}
-points(events$srt + events$which.max - 1, qf[events$srt + events$which.max - 1], cex = 1.2, lwd = 2)
+print(events)
+plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "")
+# delta.x = 5, delta.y = 20 # 5 events identified delta.x = 5, delta.y = 10 # 4
+# events identified delta.x = 1, delta.y = 20 # 6 events identified
 }
 \references{
 Tang and Carey (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
 Hydrological Processes (31) 2670-2682
 }
 \seealso{
-\code{\link{eventStats}} \code{\link{eventPOT}}
+\code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}
 }
+\keyword{baseflow}
 \keyword{events}

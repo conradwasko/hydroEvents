@@ -3,59 +3,57 @@
 \name{localMin}
 \alias{localMin}
 \title{Local minima}
-\source{
-\url{https://stackoverflow.com/questions/6836409/finding-local-maxima-and-minima}
-}
 \usage{
 localMin(x)
 }
 \arguments{
-\item{x}{The data vector (e.g. a streamflow time series)}
+\item{x}{The data vector}
 }
 \value{
 Returns indices of local minima
 }
 \description{
-Return index of local minima. If values are repeated it returns the first index of occurrence.
-If the first value is repeated it is ignored as local minima.
+Returns the index of local minima.
 }
 \details{
-None
+If values are repeated it returns the first index of occurrence.
+If the first value is repeated it is ignored as a local minima.
 }
 \examples{
 # Find minima (with repeated values)
 x = c(1, 2, 9, 9, 2, 1, 1, 5, 5, 1)
 m = localMin(x)
-plot(x, type = "l", lwd = 2, xlab = "", ylab = "")
+plot(x, type = "l", lwd = 2, xlab = "", ylab = "", mgp = c(2, 0.6, 0))
 points(m, x[m], pch = 16, col = "red")
 
 # Find maxima (with repeated values)
 x = c(1, 2, 9, 9, 2, 1, 1, 5, 5, 1)
 m = localMin(-x)
-plot(x, type = "l", lwd = 2, xlab = "", ylab = "")
+plot(x, type = "l", lwd = 2, xlab = "", ylab = "", mgp = c(2, 0.6, 0))
 points(m, x[m], pch = 16, col = "red")
 
+data(dataBassRiver)
 # Minima in streamflow
 m = localMin(dataBassRiver)
-plot(dataBassRiver, type = "l", col = "steelblue", lwd = 2, ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+plot(dataBassRiver, type = "l", col = "steelblue", lwd = 2, ylab = "Flow (ML/d)",
+    xlab = "Time index", mgp = c(2, 0.6, 0))
 points(m, dataBassRiver[m], col = "red", pch = 16)
 
 # Minima in quickflow
-bf = baseFlow(dataBassRiver, alpha = 0.925)
-qf = dataBassRiver - bf
+bf = baseflowA(dataBassRiver, alpha = 0.925)
+qf = dataBassRiver - bf$bf
 m = localMin(qf)
-plot(qf, type = "l", lwd = 2, ylab = "Quickflow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+plot(qf, type = "l", lwd = 2, ylab = "Quickflow (ML/d)", xlab = "Time index", mgp = c(2,
+    0.6, 0))
 points(m, qf[m], col = "red", pch = 16)
 
 # Maxima in quickflow
-bf = baseFlow(dataBassRiver, alpha = 0.925)
-qf = dataBassRiver - bf
+bf = baseflowA(dataBassRiver, alpha = 0.925)
+qf = dataBassRiver - bf$bf
 m = localMin(-qf)
-plot(qf, type = "l", lwd = 2, ylab = "Quickflow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+plot(qf, type = "l", lwd = 2, ylab = "Quickflow (ML/d)", xlab = "Time index", mgp = c(2,
+    0.6, 0))
 points(m, qf[m], col = "red", pch = 16)
-}
-\references{
-None
 }
 \keyword{maxima}
 \keyword{minima}

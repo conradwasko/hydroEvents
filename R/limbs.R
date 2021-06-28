@@ -5,37 +5,25 @@
 #' @references  ...
 #'
 #' @param data The data vector (e.g. a streamflow time series)
-#' @param delta.y Minimum allowable difference from a peak to a trough
-#' @param delta.x Minimum length for an event
-#' @param filter.type c("simple", "spline") Optional smoothing of data series
-#' @param ... Further arguments passed eventStats
+#' @param dates date variable, default to NULL (inputing data as a simple vector)
+#' @param events event extracted
+#' @param plot c(T,F) whether a plot is produced for the limbs
+#' @param main desired title of the plot if plot=T
+#' @param filter c("simple", "spline") Optional smoothing of data series
+#' @param min.rates vector of length 2, mininum increasing rate during rising limb & minimum decreasing rate during falling limb
 #'
-#' @details filter.type can be a "simple" weigthed moving average or smoothing "spline".
-#' If \code{delta.y} is negative it is applied a fractional decrease from the peak
 #'
-#' @return Returns indices of start and end of events as a two column dataframe and event statistics
+#' @return Returns indices of start and end of events and the rising/falling limbs within each event
 #'
 #' @export
 #' @keywords events
-#' @seealso \code{\link{eventStats}} \code{\link{eventPOT}}
 #' @examples
-#' # Example extracting events from quickflow
-#' bf = baseFlow(dataBassRiver, alpha = 0.925)
-#' qf = dataBassRiver - bf
-#' events = eventMaxima(qf, delta.y = 200, delta.x = 1) # 5 events identified
-#' # delta.y = 200, delta.x = 1 # 5 events identified
-#' # delta.y = 500, delta.x = 1 # 3 events identified
-#' # delta.y = 10,  delta.x = 7 # 2 events identified
-#' plot(1:length(qf), qf, type = "l", lwd = 1, col = "black", main = "Events with maxima identified",
-#'      ylab = "Quickflow (ML/day)", xlab = "Time index", mgp = c(2, 0.6, 0))
-#' n.events = nrow(events)
-#' for (i in 1:n.events) {
-#'   idx = events$srt[i]:events$end[i]
-#'   lines(idx, qf[idx], col = rainbow(nrow(events))[i], lwd = 2)
-#' }
-#' points(events$srt + events$which.max - 1, qf[events$srt + events$which.max - 1], cex = 1.2, lwd = 2)
-
-# SASS method used to define threshold rates to separate limb
+#' library(hydroEvents)
+#' data("WQ_Q")
+#' qdata=WQ_Q$qdata[[1]]
+#' Q = as.vector(qdata$Q_cumecs)
+#' BF_res = eventBaseflow(Q)
+#' limbs(data = Q, dates=NULL, events = BF_res, main="with 'eventBaseflow'")
 limbs <- function(data,dates=NULL,events,plot=T,main="Event hydrographs",filter=F,min.rates=c(0,0)) {
   if (!is.null(dates)) {
     if(plot==T) {
@@ -108,8 +96,9 @@ limbs <- function(data,dates=NULL,events,plot=T,main="Event hydrographs",filter=
       }
 
     }
+    if(plot==T) {
     legend("topright",legend=c("rising","falling","peak"),col=c("blue","red","orange"),lty=c(1,1,NA),pch=c(20,20,17))
-
+}
     if (length(dropevent) > 0) {
       events=events[-dropevent,]
       extevents=extevents[-dropevent]

@@ -27,16 +27,15 @@
 #' @keywords baseflow
 #' @export
 #' @examples
-#' library(hydroEvents); library(EcoHydRology)
+#' library(hydroEvents)
+#' data(dataBassRiver)
 #' alpha.list = c(0, 0.9, 0.925, 0.95, 0.98, 0.987)
-#' BFI.1 = BFI.2 = numeric(length(alpha.list))
+#' BFI.1 = numeric(length(alpha.list))
 #' for (i in 1:length(alpha.list)) {
 #'   bf.1 = baseflowA(dataBassRiver, alpha = alpha.list[i])
-#'   bf.2 = BaseflowSeparation(dataBassRiver, filter_parameter = alpha.list[i])
 #'   BFI.1[i] = sum(bf.1$bf)/sum(dataBassRiver)
-#'   BFI.2[i] = sum(bf.2$bt)/sum(dataBassRiver)
 #' }
-#' print(cbind(alpha.list, BFI.1, BFI.2))
+#' print(cbind(alpha.list, BFI.1))
 
 baseflowA <- function(q, alpha = 0.925, passes = 3) {
   # Initialise

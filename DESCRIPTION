@@ -1,13 +1,10 @@
 Package: hydroEvents
-Title: Extract event statistics in hyrdrologic time series
+Title: Extract Event Statistics in Hyrdrologic Time Series
 Version: 0.10
-Authors@R: 
-    person(given = "Conrad",
-           family = "Wasko",
-           role = c("aut", "cre"),
-           email = "conrad.wasko@gmail.com")
-Description: What the package does (one paragraph).
-License: `use_gpl3_license()`
+Author:	Conrad Wasko [aut, cre], Danlu Guo [aut]
+Maintainer: Conrad Wasko <conrad.wasko@gmail.com>
+Description: Events from individual hydrologic time series are extractred, and events from multiple time series can be matched to each other.
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

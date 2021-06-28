@@ -4,66 +4,51 @@
 \alias{eventPOT}
 \title{Event identification (using a peak over threshold algorithm)}
 \usage{
-eventPOT(data, threshold = 0, min.diff = 1, ...)
+eventPOT(data, threshold = 0, min.diff = 1, out.style = "summary")
 }
 \arguments{
-\item{data}{The data vector (e.g. a streamflow time series)}
+\item{data}{A data vector}
 
-\item{threshold}{Value aove which an event is considered to have occurred}
+\item{threshold}{Value above which an event is considered to have occurred}
 
-\item{min.diff}{Spacing of X considered to be independent (e.g. 1 day of zero flow)}
+\item{min.diff}{Spacing required for two events to be considered seperate}
 
-\item{...}{Further arguments passed event.stats (NEED TO FIX)}
+\item{out.style}{The type of output (currently either "summary" or "none")}
 }
 \value{
-Returns indices of start and end of events as a two column dataframe.
+By default, the \code{out.style} returns the indices of the maximum in each event, as well as the value of
+the maximum and the sum of the \code{data} in each event, alongside the start and end of the events. Otherwise just
+the indices of start and end of events as a two column dataframe are returned.
 }
 \description{
-Description here
+Identify events using a specified threshold value over which an event is considered to have occurred.
 }
 \details{
-The reflected points act to resolve spin up issues and are removed before the baseflow is removed.
+The \code{threshold} can be thought of a value below which the \code{data} are considered to be "zero".
+The \code{min.diff} can be viewed as the minimum spacing for event independence.
 }
 \examples{
-## STREAMFLOW EXAMPLES
-# Extract events
-bf = baseFlow(dataBassRiver, alpha = 0.925)
-qf = dataBassRiver - bf
+# Example using streamflow data
+data(dataBassRiver)
+bf = baseflowB(dataBassRiver, alpha = 0.925)
+qf = dataBassRiver - bf$bf
 events = eventPOT(qf)
+plotEvents(qf, dates = NULL, events = events, type = "lineover",
+    main = "Events (plotted on quickflow)")
+plotEvents(dataBassRiver, dates = NULL, events = events, type = "lineover",
+    main = "Events (plotted on streamflow)")
 
-# Plot original flow
-plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
-     ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
-lines(1:length(dataBassRiver), bf, lwd = 2, lty = 2, col = "darkgreen")
-points(events$srt, dataBassRiver[events$srt], col = "red3", pch = 1, cex = 1.2)
-points(events$end, dataBassRiver[events$end], col = "black", pch = 2, cex = 1.2)
-legend("topright", legend = c("Flow", "Baseflow", "Start Event", "End Event"), cex = 0.8,
-       lwd = c(2, 2, NA, NA), pch = c(NA, NA, 1, 2), col = c("steelblue", "darkgreen", "red3", "black"), bty = "n")
+# Examples using rainfall data
+events = eventPOT(dataLoch, threshold = 0, min.diff = 1)
+plotEvents(dataLoch, dates = NULL, events = events, type = "hyet",
+    main = "Rainfall Events (threshold = 0, min.diff = 1)")
 
-# Plot quickflow only
-plot(1:length(dataBassRiver), qf, type = "h", lwd = 2, col = "steelblue",
-     ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
-points(events$srt, qf[events$srt], col = "red3", pch = 1, cex = 1.2)
-points(events$end, qf[events$end], col = "black", pch = 2, cex = 1.2)
-points(events$srt + events$which.max - 1, events$max, col = "red", pch = 16, cex = 0.8)
-legend("topright", legend = c("Quickflow", "Start Event", "End Event", "Max"), cex = 0.8,
-       lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
-
-## RAINFALL EXAMPLES
-# Extract events and plot
-rain.min = 2
-events = eventPOT(dataLoch, threshold = rain.min, min.diff = 2)
-plot(1:length(dataLoch), dataLoch, type = "h", lwd = 2, col = "steelblue",
-    ylab = "Rainfall (mm)", xlab = "Time index", mgp = c(2, 0.6, 0))
-abline(h = rain.min, lty = 3)
-points(events$srt, rep(rain.min, length(events$srt)), col = "red3", pch = 1, cex = 1.2)
-points(events$end, rep(rain.min, length(events$end)), col = "black", pch = 2, cex = 1.2)
-points(events$srt + events$which.max - 1, events$max, col = "red", pch = 16, cex = 0.8)
-legend("topright", legend = c("Rainfall", "Start Event", "End Event", "Max"), cex = 0.8,
-     lwd = c(2, NA, NA, NA), pch = c(NA, 1, 2, 16), col = c("steelblue", "red3", "black", "red"), bty = "n")
+events = eventPOT(dataLoch, threshold = 2, min.diff = 2)
+plotEvents(dataLoch, dates = NULL, events = events, type = "hyet",
+    main = "Rainfall Events (threshold = 2, min.diff = 2)")
 }
-\references{
-None
+\seealso{
+\code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventMinima}}
 }
 \keyword{baseflow}
 \keyword{events}

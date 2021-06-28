@@ -1,0 +1,70 @@
+1. Check all highlighted errors are fixed:
+
+Thanks, we see from the title and description text:
+
+   Possibly mis-spelled words in DESCRIPTION:
+     Hyrdrologic (2:36)
+     extractred (6:64)
+
+
+If there are references describing the methods in your package, please
+add these in the description field of your DESCRIPTION file in the form
+authors (year) <doi:...>
+authors (year) <arXiv:...>
+authors (year, ISBN:...)
+or if those are not available: <https:...>
+with no space after 'doi:', 'arXiv:', 'https:' and angle brackets for
+auto-linking.
+(If you want to add a title as well please put it in quotes: "Title")
+
+
+Please write TRUE and FALSE instead of T and F.
+
+Please add \value to .Rd files regarding exported methods and explain
+the functions results in the documentation. Please write about the
+structure of the output (class) and also what the output means. (If a
+function does not return a value, please document that too, e.g.
+\value{No return value, called for side effects} or similar)
+Missing Rd-tags:
+      plotEvents.Rd: \value
+      plotPairs.Rd: \value
+
+
+Please make sure that you do not change the user's options, par or
+working directory. If you really have to do so within functions, please
+ensure with an *immediate* call of on.exit() that the settings are reset
+when the function is exited. e.g.:
+...
+oldpar <- par(no.readonly = TRUE)    # code line i
+on.exit(par(oldpar))            # code line i + 1
+...
+par(new=TRUE)            # somewhere after
+
+...
+e.g.: R/plotPairs.R
+If you're not familiar with the function, please check ?on.exit. This
+function makes it possible to restore options before exiting a function
+even if the function breaks. Therefore it needs to be called immediately
+after the option change within a function.
+
+
+In examples, vignettes and demos: Please always make sure to reset to
+user's options(), working directory or par() after you changed it
+e.g.:
+oldpar <- par(mfrow = c(1,2))
+...
+par(oldpar)
+...
+e.g. man/pairEvents.Rd, man/plotPairs.Rd
+
+Please fix and resubmit.
+
+Best,
+Julia Haider
+
+
+2. delete the .git folder, the hydroEvents.Rproj and this file
+
+3. Run R CMD build from the root directory containing this folder with 'R CMD build hydroEvents'
+
+4. Run R CMD check from the root directory containing this folder with 'R CMD check --as-cran hydroEvents'
