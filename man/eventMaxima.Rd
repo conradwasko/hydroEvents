@@ -42,15 +42,15 @@ metric.
 }
 \examples{
 # Example extracting events from quickflow
-data(dataBassRiver)
 bf = baseflowB(dataBassRiver, alpha = 0.925)
 qf = dataBassRiver - bf$bf
 events = eventMaxima(qf, delta.y = 200, delta.x = 1, threshold = 0)
 print(events)
 plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "")
-# Other examples to try delta.y = 200; delta.x = 1 # 5 events identified
-# delta.y = 500; delta.x = 1 # 3 events identified delta.y = 10; delta.x = 7 #
-# 2 events identified
+# Other examples to try
+# delta.y = 200; delta.x = 1 # 5 events identified
+# delta.y = 500; delta.x = 1 # 3 events identified
+# delta.y = 10;  delta.x = 7 # 2 events identified
 }
 \seealso{
 \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}

@@ -41,17 +41,17 @@ metric.
 }
 \examples{
 # Example extracting events from quickflow
-data(dataBassRiver)
 bf = baseflowB(dataBassRiver, alpha = 0.925)
 qf = dataBassRiver - bf$bf
 events = eventMinima(qf, delta.x = 5, delta.y = 20)
 print(events)
 plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "")
-# delta.x = 5, delta.y = 20 # 5 events identified delta.x = 5, delta.y = 10 # 4
-# events identified delta.x = 1, delta.y = 20 # 6 events identified
+# delta.x = 5, delta.y = 20 # 5 events identified
+# delta.x = 5, delta.y = 10 # 4 events identified
+# delta.x = 1, delta.y = 20 # 6 events identified
 }
 \references{
-Tang and Carey (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
+Tang, W., & Carey, S. K. (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
 Hydrological Processes (31) 2670-2682
 }
 \seealso{

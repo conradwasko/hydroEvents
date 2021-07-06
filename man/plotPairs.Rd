@@ -14,7 +14,7 @@ plotPairs(
   xlab = "",
   ylab.1 = "",
   ylab.2 = "",
-  cex.2 = 1, 
+  cex.2 = 1,
   main = ""
 )
 }
@@ -29,20 +29,23 @@ plotPairs(
 
 \item{type}{The type of plot (see details)}
 
+\item{color.list}{Vector of colours used for plotting}
+
 \item{xlab}{x-axis label}
 
 \item{ylab.1}{primary y-axis label}
 
 \item{ylab.2}{secondary y-axis label}
 
-\item{main}{Plot title}
-
 \item{cex.2}{cex for secondary y-axis label}
 
-\item{color.list}{Vector of colours used for plotting}
+\item{main}{Plot title}
+}
+\value{
+No return value.
 }
 \description{
-Wrapper function for plotting paired events
+Wrapper function for plotting paired events.
 }
 \details{
 If the type is \code{"hyet"} then \code{data.1} is plotted as a vertical lines and \code{data.2} as a line.
@@ -50,17 +53,15 @@ If the type is \code{"lineover"} then all data is plotted as lines.
 }
 \examples{
 library(hydroEvents)
-data(dataBassRiver)
 BFI_res = eventBaseflow(dataBassRiver)
 POT_res = eventPOT(dataLoch)
 pairs.1 = pairEvents(POT_res, BFI_res, type = 1, lag = 5)
 pairs.3 = pairEvents(POT_res, BFI_res, type = 3, lag = 3)
-d = as.Date("1974-06-30") + 0:(length(dataBassRiver) - 1)
-par(mar = c(3, 3.5, 2, 3.5), mfrow = c(2, 1))
-plotPairs(dataLoch, dataBassRiver, pairs.1, dates = d, type = "hyet", xlab = "Date",
-    ylab.1 = "Rain (mm)", ylab.2 = "Flow (ML/day)", main = "Matching Forward")
-plotPairs(dataLoch, dataBassRiver, pairs.3, dates = d, type = "hyet", xlab = "Date",
-    ylab.1 = "Flow (ML/day)", ylab.2 = "Rain (mm)", main = "Matching Backward")
+d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
+oldpar <- par(mar = c(3, 3.5, 2, 3.5), mfrow = c(2, 1))
+plotPairs(dataLoch, dataBassRiver, pairs.1, dates = d, type = "hyet", xlab = "Date", ylab.1 = "Rain (mm)", ylab.2 = "Flow (ML/day)", main = "Matching Forward")
+plotPairs(dataLoch, dataBassRiver, pairs.3, dates = d, type = "hyet", xlab = "Date", ylab.1 = "Flow (ML/day)", ylab.2 = "Rain (mm)", main = "Matching Backward")
+par(oldpar)
 }
 \seealso{
 \code{\link{pairEvents}}

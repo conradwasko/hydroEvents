@@ -8,7 +8,7 @@ limbs(
   data,
   dates = NULL,
   events,
-  plot = T,
+  plot = TRUE,
   main = "Event hydrographs",
   filter = F,
   min.rates = c(0, 0)
@@ -17,33 +17,30 @@ limbs(
 \arguments{
 \item{data}{The data vector (e.g. a streamflow time series)}
 
-\item{dates}{date variable, default to NULL (inputing data as a simple vector)}
+\item{dates}{Date variable, default to NULL (inputting data as a simple vector)}
 
-\item{events}{event extracted}
+\item{events}{Event extracted}
 
-\item{plot}{c(T,F) whether a plot is produced for the limbs}
+\item{plot}{c(TRUE,FALSE) whether a plot is produced for the limbs}
 
-\item{main}{desired title of the plot if plot=T}
+\item{main}{Desired title of the plot if plot=T}
 
 \item{filter}{c("simple", "spline") Optional smoothing of data series}
 
-\item{min.rates}{vector of length 2, mininum increasing rate during rising limb & minimum decreasing rate during falling limb}
+\item{min.rates}{Vector of length 2, mininum increasing rate during rising limb & minimum decreasing rate during falling limb}
 }
 \value{
 Returns indices of start and end of events and the rising/falling limbs within each event
 }
 \description{
-...
+Identify the rising and falling limbs within each event (and optionally plot)
 }
 \examples{
 library(hydroEvents)
-data(WQ_Q)
-qdata = WQ_Q$qdata[[1]]
+data("WQ_Q")
+qdata=WQ_Q$qdata[[1]]
 Q = as.vector(qdata$Q_cumecs)
 BF_res = eventBaseflow(Q)
-limbs(data = Q, dates = NULL, events = BF_res, main = "with 'eventBaseflow'")
-}
-\references{
-...
+limbs(data = Q, dates=NULL, events = BF_res, main="with 'eventBaseflow'")
 }
 \keyword{events}

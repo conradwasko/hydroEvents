@@ -41,8 +41,11 @@ plotEvents(
 
 \item{main}{Plot title}
 }
+\value{
+No return value.
+}
 \description{
-Wrapper function for plotting identified events
+Wrapper function for plotting identified events.
 }
 \details{
 Three plot types are implemented: \code{"lineover"}, \code{"bound"}, \code{"hyet"}. See examples.
@@ -51,17 +54,14 @@ If events contains a column titled "which.max" the maxima are also plotted.
 \examples{
 # Plot events
 library(hydroEvents)
-data(dataBassRiver)
 BFI_res = eventBaseflow(dataBassRiver)
 
-par(mfrow = c(3, 1), mar = c(3, 2.7, 2, 1))
-d = as.Date("1974-06-30") + 0:(length(dataBassRiver) - 1)
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "lineover",
-    xlab = "Date", ylab = "Flow (ML/day)", main = "lineover")
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "bound",
-    xlab = "Date", ylab = "Flow (ML/day)", main = "bound")
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "hyet",
-    xlab = "Date", ylab = "Flow (ML/day)", main = "hyet")
+oldpar <- par(mfrow = c(3, 1), mar = c(3, 2.7, 2, 1))
+d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", main = "lineover")
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "bound", xlab = "Date", ylab = "Flow (ML/day)", main = "bound")
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "hyet", xlab = "Date", ylab = "Flow (ML/day)", main = "hyet")
+par(oldpar)
 }
 \seealso{
 \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventMinima}} \code{\link{eventPOT}}

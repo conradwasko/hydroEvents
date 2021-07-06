@@ -31,8 +31,8 @@ data(dataBassRiver)
 alpha.list = c(0, 0.9, 0.925, 0.95, 0.98, 0.987)
 BFI = numeric(length(alpha.list))
 for (i in 1:length(alpha.list)) {
-    bf = baseflowB(dataBassRiver, alpha = alpha.list[i])
-    BFI[i] = sum(bf$bf)/sum(dataBassRiver)
+  bf = baseflowB(dataBassRiver, alpha = alpha.list[i])
+  BFI[i] = sum(bf$bf)/sum(dataBassRiver)
 }
 print(cbind(alpha.list, BFI))
 }
