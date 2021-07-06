@@ -1,5 +1,5 @@
 # hydroEvents
-Insert description of package here
+Events from individual hydrologic time series are extracted, and events from multiple time series can be matched to each other.
 
 ## Example 1
 Aim: Present baseflow filter
@@ -25,8 +25,9 @@ legend("topright", legend = c("Flow", "Baseflow (0.925)", "Baseflow (0.980)"), c
 
 ## Example 2
 Aim: Extract precipitation events
-data(dataLoch)
+
 ```R
+data(dataLoch)
 events = eventPOT(dataLoch, threshold = 0, min.diff = 1)
 plotEvents(dataLoch, dates = NULL, events = events, type = "hyet", main = "Rainfall Events (threshold = 0, min.diff = 1)")
 ```
