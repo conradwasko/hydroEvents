@@ -150,7 +150,8 @@ par(mfrow = c(2, 1), mar = c(3, 2.7, 2, 1))
 plotEvents(dat$Precip_mm, events = events.P, type = "hyet", colpnt = "#E41A1C", colline = "#E41A1C", ylab = "Precipitation (mm)", xlab = "Index", main = "2015")
 plotEvents(dat$Flow_ML, events = events.Q, type = "lineover", colpnt = "#E41A1C", colline = "#377EB8", ylab = "Flow (ML/day)", xlab = "Index", main = "")
 ```
-<img src="https://user-images.githubusercontent.com/39328041/124549966-4a0e7980-de73-11eb-8e10-c18de4da922f.jpg" width="150">
+<img src="https://user-images.githubusercontent.com/39328041/124549966-4a0e7980-de73-11eb-8e10-c18de4da922f.jpg" width="400">
+
 ```R
 matched.1 = pairEvents(events.P, events.Q, lag = 5,  type = 1)
 matched.2 = pairEvents(events.P, events.Q, lag = 5,  type = 2)
