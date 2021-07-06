@@ -149,9 +149,8 @@ events.Q = eventMaxima(dat$Flow_ML, delta.y = 2, delta.x = 1, thresh = 70)
 par(mfrow = c(2, 1), mar = c(3, 2.7, 2, 1))
 plotEvents(dat$Precip_mm, events = events.P, type = "hyet", colpnt = "#E41A1C", colline = "#E41A1C", ylab = "Precipitation (mm)", xlab = "Index", main = "2015")
 plotEvents(dat$Flow_ML, events = events.Q, type = "lineover", colpnt = "#E41A1C", colline = "#377EB8", ylab = "Flow (ML/day)", xlab = "Index", main = "")
-
 ```
-#<insert figure 1>
+![figure_pairing_1_github](https://user-images.githubusercontent.com/39328041/124549966-4a0e7980-de73-11eb-8e10-c18de4da922f.jpg)
 
 ```R
 matched.1 = pairEvents(events.P, events.Q, lag = 5,  type = 1)
@@ -171,9 +170,8 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4, col 
 ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, col = rainbow(nrow(events.P)), 
 ylab.1 = "P (mm)", ylab.2 = "Q ML/day)", cex.2 = 0.66)
-
 ```
-#<insert figure 2>
+![figure_pairing_2_github](https://user-images.githubusercontent.com/39328041/124549995-5abeef80-de73-11eb-9b82-4b83f4ab3128.jpg)
 
 ## Example 7
 Aim: Demonstrate matching of rainfall and water level surge (residuals)
