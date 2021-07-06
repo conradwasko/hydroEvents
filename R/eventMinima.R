@@ -3,7 +3,7 @@
 #' @description Events are identified on the basis of local minima with an "event" considered to have
 #' occurred once the data has returned to within a thresholdold level of the start of the event.
 #'
-#' @references Tang and Carey (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
+#' @references Tang, W., & Carey, S. K. (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
 #' Hydrological Processes (31) 2670-2682
 #'
 #' @param data The data vector

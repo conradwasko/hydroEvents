@@ -1,17 +1,14 @@
 #' Extract rising/falling limbs
 #'
-#' @description ...
-#'
-#' @references  ...
+#' @description Identify the rising and falling limbs within each event (and optionally plot)
 #'
 #' @param data The data vector (e.g. a streamflow time series)
-#' @param dates date variable, default to NULL (inputing data as a simple vector)
-#' @param events event extracted
-#' @param plot c(T,F) whether a plot is produced for the limbs
-#' @param main desired title of the plot if plot=T
+#' @param dates Date variable, default to NULL (inputting data as a simple vector)
+#' @param events Event extracted
+#' @param plot c(TRUE,FALSE) whether a plot is produced for the limbs
+#' @param main Desired title of the plot if plot=T
 #' @param filter c("simple", "spline") Optional smoothing of data series
-#' @param min.rates vector of length 2, mininum increasing rate during rising limb & minimum decreasing rate during falling limb
-#'
+#' @param min.rates Vector of length 2, mininum increasing rate during rising limb & minimum decreasing rate during falling limb
 #'
 #' @return Returns indices of start and end of events and the rising/falling limbs within each event
 #'
@@ -24,13 +21,13 @@
 #' Q = as.vector(qdata$Q_cumecs)
 #' BF_res = eventBaseflow(Q)
 #' limbs(data = Q, dates=NULL, events = BF_res, main="with 'eventBaseflow'")
-limbs <- function(data,dates=NULL,events,plot=T,main="Event hydrographs",filter=F,min.rates=c(0,0)) {
+limbs <- function(data,dates=NULL,events,plot=TRUE,main="Event hydrographs",filter=F,min.rates=c(0,0)) {
   if (!is.null(dates)) {
-    if(plot==T) {
+    if(plot==TRUE) {
       plot(data~dates,type="o",pch=20,cex=0.7,main=main,col="grey")
     }
   } else {
-    if(plot==T) {
+    if(plot==TRUE) {
       plot(data,type="o",pch=20,cex=0.7,main=main,col="grey")
     }
 
@@ -46,7 +43,7 @@ limbs <- function(data,dates=NULL,events,plot=T,main="Event hydrographs",filter=
       } else {
         eventid[[k]] = events$srt[k]:events$end[k]
       }
-      if (filter==T) {
+      if (filter==TRUE) {
         # min.rates = min increasing rate during rising & min decreasing rate during falling
         if (any(diff(extevents[[k]])>=min.rates[1])&any(diff(extevents[[k]])<=min.rates[2])) {
           if (all(c(min(which(diff(extevents[[k]])>=min.rates[1])),
@@ -78,7 +75,7 @@ limbs <- function(data,dates=NULL,events,plot=T,main="Event hydrographs",filter=
       colnames(rising)=c("ris.srt","ris.end")
       colnames(falling)=c("fal.srt","fal.end")
 
-      if(plot==T) {
+      if(plot==TRUE) {
         if (!k %in% dropevent) {
           lines(extevents[[k]]~eventid[[k]],type="l",pch=20,cex=0.7)
 
@@ -96,7 +93,7 @@ limbs <- function(data,dates=NULL,events,plot=T,main="Event hydrographs",filter=
       }
 
     }
-    if(plot==T) {
+    if(plot==TRUE) {
     legend("topright",legend=c("rising","falling","peak"),col=c("blue","red","orange"),lty=c(1,1,NA),pch=c(20,20,17))
 }
     if (length(dropevent) > 0) {

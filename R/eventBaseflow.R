@@ -1,27 +1,30 @@
 #' Event identification (using baseflow index)
 #'
-#' @description Events are identified on the basis BFI etc etc
+#' @description Events are identified on the basis of the Baseflow Index (BFI).
 #'
-#' @references Rory?
+#' @references Kaur, S., Horne, A., Stewardson, M.J., Nathan, R., Costa, A.M., Szemis, J.M., & Webb, J.A., (2017)
+#' Challenges for determining frequency of high flow spells for varying thresholds in environmental flows programmes. J. Ecohydraulics 2, 28–37.
 #'
 #' @param data The data vector (e.g. a streamflow time series)
 #' @param BFI_Th Minimum BFI to identify baseflow
 #' @param min.diff Minimum length for an event
-#' @param threshold Value above which an event is considered to have occurred
 #' @param out.style The type of output (currently either "summary" or "none")
 #'
+#' @details Any flow above the \code{BFI_Th} will be considered an event with a minimum event separation of \code{min.diff}.
 #'
-#' @return Returns indices of start and end of events as a two column dataframe and event statistics
+#' @return By default, the \code{out.style} returns the indices of the maximum in each event, as well as the value of
+#' the maximum and the sum of the \code{data} in each event, alongside the start and end of the events. Otherwise just
+#' the indices of start and end of events as a two column dataframe are returned.
 #'
 #' @export
 #' @keywords events
-#' @seealso \code{\link{calcStats}} \code{\link{eventPOT}}
+#' @seealso \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}
 #' @examples
 #' # Example extracting events from quickflow
 #' bf = baseflowB(dataBassRiver)
-#' BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
+#' BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
 
-eventBaseflow <- function(data, BFI_Th = 0.5, min.diff = 1, threshold = 0, out.style = "summary") {
+eventBaseflow <- function(data, BFI_Th = 0.5, min.diff = 1, out.style = "summary") {
   bfi = baseflowB(data)$bfi
 
   baseind = which(bfi>BFI_Th)
@@ -30,8 +33,6 @@ eventBaseflow <- function(data, BFI_Th = 0.5, min.diff = 1, threshold = 0, out.s
   evS = baseind[which(diff(baseind)>min.diff)]
   evE = baseind[which(diff(baseind)>min.diff)+1]
 
-  #PeakTh = quantile(data,PeakQ,na.rm=T)
-  PeakTh = threshold
   ris_ind=fal_ind=rawev=list()
   peakind=sumev=maxev=vector()
   for(i in 1:length(evS)) {

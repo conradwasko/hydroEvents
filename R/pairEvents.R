@@ -28,34 +28,33 @@
 #' @seealso \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventMinima}} \code{\link{eventPOT}}
 #' @export
 #' @examples
+#' # Load package
 #' library(hydroEvents)
-#' srt = as.Date("2011-05-01")
-#' end = as.Date("2011-08-30")
-#' data = data314213[which(data314213$Date >= srt & data314213$Date <= end),]
-#' events.P = eventPOT(data$precip_mm, threshold = 1, min.diff = 2)
-#' bf = baseflowB(data$Flow_ML)$bf
-#' plotEvents(data = data$precip_mm, events = events.P, main = "Precipitation", type = "hyet")
-#'
-#' events.Q1 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 0)
-#' events.Q2 = eventMaxima(data$Flow_ML-bf, delta.y = 1,   delta.x = 1, thresh = 20)
-#' events.Q3 = eventMaxima(data$Flow_ML-bf, delta.y = 500, delta.x = 1, thresh = 100)
-#' events.Q4 = eventMaxima(data$Flow_ML-bf, delta.y = 500, delta.x = 7, thresh = 100)
-#'
-#' par(mfrow = c(4, 1), mar = c(2, 2, 2, 2))
-#' plotEvents(data = data$Flow_ML-bf, events = events.Q1, main = "Flow", type = "lineover")
-#' plotEvents(data = data$Flow_ML-bf, events = events.Q2, main = "Flow", type = "lineover")
-#' plotEvents(data = data$Flow_ML-bf, events = events.Q3, main = "Flow", type = "lineover")
-#' plotEvents(data = data$Flow_ML-bf, events = events.Q4, main = "Flow", type = "lineover")
-#'
-#' matched.1 = pairEvents(events.P, events.Q1, lag = 5,  type = 1)
-#' matched.2 = pairEvents(events.P, events.Q2, lag = 10, type = 2)
-#' matched.3 = pairEvents(events.P, events.Q3, lag = 5,  type = 3)
-#' matched.4 = pairEvents(events.P, events.Q4, lag = 10, type = 4)
-#' par(mfrow = c(4, 1), mar = c(2, 2, 2, 2))
-#' plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.1)
-#' plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.2)
-#' plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.3)
-#' plotPairedEvents(data.1 = data$precip_mm, data.2 = data$Flow_ML-bf, events = matched.4)
+#' # Identify events
+#' srt = as.Date("2015-02-05")
+#' end = as.Date("2015-04-01")
+#' dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & dataCatchment$`105105A`$Date <= end),]
+#' events.P = eventPOT(dat$Precip_mm, threshold = 1, min.diff = 2)
+#' events.Q = eventMaxima(dat$Flow_ML, delta.y = 2, delta.x = 1, thresh = 70)
+#' # Plot events
+#' oldpar <- par(mfrow = c(2, 1), mar = c(3, 2.7, 2, 1))
+#' plotEvents(dat$Precip_mm, events = events.P, type = "hyet", colpnt = "#E41A1C", colline = "#E41A1C", ylab = "Precipitation (mm)", xlab = "Index", main = "2015")
+#' plotEvents(dat$Flow_ML, events = events.Q, type = "lineover", colpnt = "#E41A1C", colline = "#377EB8", ylab = "Flow (ML/day)", xlab = "Index", main = "")
+#' par(oldpar)
+#' # Pair events
+#' matched.1 = pairEvents(events.P, events.Q, lag = 5,  type = 1)
+#' matched.2 = pairEvents(events.P, events.Q, lag = 5,  type = 2)
+#' matched.3 = pairEvents(events.P, events.Q, lag = 3,  type = 3)
+#' matched.4 = pairEvents(events.P, events.Q, lag = 7, type = 4)
+#' matched.5 = pairEvents(events.P, events.Q, lag = 5, type = 5)
+#' # Plot Pairs
+#' oldpar <- par(mfrow = c(5, 1), mar = c(2, 3, 2, 3))
+#' plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1, col = rainbow(nrow(events.P)), ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
+#' plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2, col = rainbow(nrow(events.P)), ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
+#' plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3, col = rainbow(nrow(events.P)), ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
+#' plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4, col = rainbow(nrow(events.P)), ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
+#' plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, col = rainbow(nrow(events.P)), ylab.1 = "P (mm)", ylab.2 = "Q ML/day)", cex.2 = 0.66)
+#' par(oldpar)
 
 pairEvents <- function(events.1, events.2, lag = 5, type = 1) {
 

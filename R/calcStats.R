@@ -8,8 +8,6 @@
 #' @param data Vector of data
 #' @param f.vec c("which.max", "max", "min") Functions to be applied to the events
 #'
-#' @details
-#'
 #' @return Returns a dataframe where the row is each event and the column is each statistic. If \code{which.min} or
 #' \code{which.max} are called the indices returned are global, that is, relative to the start of \code{data}.
 #'

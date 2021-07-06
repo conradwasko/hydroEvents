@@ -1,6 +1,6 @@
 #' Plot Paired Events
 #'
-#' @description Wrapper function for plotting paired events
+#' @description Wrapper function for plotting paired events.
 #'
 #' @param data.1 The first data vector
 #' @param data.2 The second data vector
@@ -17,6 +17,8 @@
 #' @details If the type is \code{"hyet"} then \code{data.1} is plotted as a vertical lines and \code{data.2} as a line.
 #' If the type is \code{"lineover"} then all data is plotted as lines.
 #'
+#' @return No return value.
+#'
 #' @keywords plot events pairs
 #' @seealso \code{\link{pairEvents}}
 #' @export
@@ -27,9 +29,10 @@
 #' pairs.1 = pairEvents(POT_res, BFI_res, type = 1, lag = 5)
 #' pairs.3 = pairEvents(POT_res, BFI_res, type = 3, lag = 3)
 #' d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
-#' par(mar = c(3, 3.5, 2, 3.5), mfrow = c(2, 1))
+#' oldpar <- par(mar = c(3, 3.5, 2, 3.5), mfrow = c(2, 1))
 #' plotPairs(dataLoch, dataBassRiver, pairs.1, dates = d, type = "hyet", xlab = "Date", ylab.1 = "Rain (mm)", ylab.2 = "Flow (ML/day)", main = "Matching Forward")
 #' plotPairs(dataLoch, dataBassRiver, pairs.3, dates = d, type = "hyet", xlab = "Date", ylab.1 = "Flow (ML/day)", ylab.2 = "Rain (mm)", main = "Matching Backward")
+#' par(oldpar)
 
 plotPairs <- function(data.1, data.2, events, dates = NULL, type = "hyet", color.list = rainbow(nrow(events)),
                       xlab = "", ylab.1 = "", ylab.2 = "", cex.2 = 1, main = "") {
@@ -47,14 +50,13 @@ plotPairs <- function(data.1, data.2, events, dates = NULL, type = "hyet", color
       p = plot(data.1, type = plot.type, mgp = c(1.7, 0.6, 0), col = "black", xlab = xlab, ylab = ylab.1, main = main)
     } else {
       plot(dates, data.1, type = "n", bty = "n", yaxt = "n", mgp = c(1.7, 0.6, 0), xlab = "", ylab = "", main = "")
-      par(new = T); plot(data.1, type = plot.type, mgp = c(1.7, 0.6, 0), col = "black", xaxt = "n", xlab = xlab, ylab = ylab.1, main = main)
+      oldpar <- par(new = TRUE); on.exit(par(oldpar)); plot(data.1, type = plot.type, mgp = c(1.7, 0.6, 0), col = "black", xaxt = "n", xlab = xlab, ylab = ylab.1, main = main)
     }
     for (i in 1:n.events) {
       points(events$srt[i]:events$end[i], data.1[events$srt[i]:events$end[i]],
              type = plot.type, col = color.list[i], lwd = 2)
     }
-    par(new = TRUE)
-    plot(data.2, type = "l", col = "black", lwd = 1, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+    oldpar <- par(new = TRUE); on.exit(par(oldpar)); plot(data.2, type = "l", col = "black", lwd = 1, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
     axis(side = 4, mgp = c(1.7, 0.6, 0)); mtext(ylab.2, side = 4, line = 1.7, cex = cex.2)
     for (i in 1:n.events) {
       if (!is.na(events$matched.srt[i])) {
@@ -70,14 +72,13 @@ plotPairs <- function(data.1, data.2, events, dates = NULL, type = "hyet", color
       plot(data.2, type = "l", mgp = c(1.7, 0.6, 0), col = "black", xlab = xlab, ylab = ylab.1, main = main)
     } else {
       plot(dates, data.2, type = "n", bty = "n", yaxt = "n", mgp = c(1.7, 0.6, 0), xlab = "", ylab = "", main = "")
-      par(new = T); plot(data.2, type = "l", mgp = c(1.7, 0.6, 0), col = "black", xaxt = "n", xlab = xlab, ylab = ylab.1, main = main)
+      oldpar <- par(new = TRUE); on.exit(par(oldpar)); plot(data.2, type = "l", mgp = c(1.7, 0.6, 0), col = "black", xaxt = "n", xlab = xlab, ylab = ylab.1, main = main)
     }
     for (i in 1:n.events) {
       lines(events$srt[i]:events$end[i], data.2[events$srt[i]:events$end[i]],
              col = color.list[i], lwd = 2)
     }
-    par(new = TRUE)
-    plot(data.1, type = plot.type, col = "black", lwd = 1, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+    oldpar <- par(new = TRUE); on.exit(par(oldpar)); plot(data.1, type = plot.type, col = "black", lwd = 1, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
     axis(side = 4, mgp = c(1.7, 0.6, 0)); mtext(ylab.2, side = 4, line = 1.7, cex = cex.2)
     for (i in 1:n.events) {
       if (!is.na(events$matched.srt[i])) {

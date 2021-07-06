@@ -1,6 +1,6 @@
 #' Plot Events
 #'
-#' @description Wrapper function for plotting identified events
+#' @description Wrapper function for plotting identified events.
 #'
 #' @param data The data vector
 #' @param dates Optional date vector
@@ -17,6 +17,8 @@
 #' @details Three plot types are implemented: \code{"lineover"}, \code{"bound"}, \code{"hyet"}. See examples.
 #' If events contains a column titled "which.max" the maxima are also plotted.
 #'
+#' @return No return value.
+#'
 #' @keywords plot events
 #' @seealso \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventMinima}} \code{\link{eventPOT}}
 #' @export
@@ -25,11 +27,12 @@
 #' library(hydroEvents)
 #' BFI_res = eventBaseflow(dataBassRiver)
 #'
-#' par(mfrow = c(3, 1), mar = c(3, 2.7, 2, 1))
+#' oldpar <- par(mfrow = c(3, 1), mar = c(3, 2.7, 2, 1))
 #' d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
 #' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", main = "lineover")
 #' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "bound", xlab = "Date", ylab = "Flow (ML/day)", main = "bound")
 #' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "hyet", xlab = "Date", ylab = "Flow (ML/day)", main = "hyet")
+#' par(oldpar)
 
 plotEvents <- function(data, dates = NULL, events, type = "lineover",
                        colline = "red", colpnt = "blue", colbound = "red", ymax = max(data),
