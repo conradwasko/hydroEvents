@@ -1,5 +1,5 @@
 # hydroEvents
-Insert description of package here
+Events from individual hydrologic time series are extracted, and events from multiple time series can be matched to each other.
 
 ## Example 1
 Aim: Present baseflow filter
@@ -42,10 +42,11 @@ events.1 = eventMaxima(qf, delta.y = 200, delta.x = 1, threshold = 0)
 events.2 = eventMaxima(qf, delta.y = 500, delta.x = 1, threshold = 0)
 events.3 = eventMaxima(qf, delta.y = 10,  delta.x = 7, threshold = 0)
 
-par(mfrow = c(3, 1), mar = c(2, 2, 2, 2))
+oldpar <- par(mfrow = c(3, 1), mar = c(2, 2, 2, 2))
 plotEvents(qf, dates = NULL, events = events.1, type = "lineover", main = "delta.y = 200, delta.x = 1")
 plotEvents(qf, dates = NULL, events = events.2, type = "lineover", main = "delta.y = 500, delta.x = 1")
 plotEvents(qf, dates = NULL, events = events.3, type = "lineover", main = "delta.y = 10, delta.x = 7")
+par(oldpar)
 ```
 ![flow_maxima01](https://user-images.githubusercontent.com/39328041/120246780-9e429e80-c2b4-11eb-8d05-8f2a1d1ca7d3.jpg)
 
@@ -61,11 +62,12 @@ Min_res = eventMinima(dataBassRiver-bf$bf, delta.x = 5, delta.y = 20, threshold 
 PoT_res = eventPOT(dataBassRiver-bf$bf, threshold = 0, min.diff = 1)
 BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
 
-par(mfrow = c(4, 1), mar = c(2, 2, 2, 2))
+oldpar <- par(mfrow = c(4, 1), mar = c(2, 2, 2, 2))
 plotEvents(data = dataBassRiver-bf$bf, events = Max_res, main = "eventMaxima")
 plotEvents(data = dataBassRiver-bf$bf, events = Min_res, main = "eventMinima")
 plotEvents(data = dataBassRiver-bf$bf, events = PoT_res, main = "eventPOT")
 plotEvents(data = dataBassRiver-bf$bf, events = BFI_res, main = "eventBaseflow")
+par(oldpar)
 ```
 ![example_02](https://user-images.githubusercontent.com/39328041/109441738-364ca400-7a8a-11eb-81da-0e5a5ac313d2.jpeg)
 
@@ -89,10 +91,10 @@ MAX_res = eventMaxima(Q-bf$bf, delta.x =3, delta.y = 0.5, threshold = 0.1)
 plotEvents(data = Q, events = MAX_res)
 
 # compare rising/falling limbs identified from two event methods
-par(mfrow=c(2,1))
-par(mar=c(2,2,2,2))
+oldpar <- par(mfrow=c(2,1), mar=c(2,2,2,2))
 limbs(data = Q, dates=qdata$time, events = BF_res, main="with 'eventBaseflow'")
 limbs(data = Q, dates=qdata$time, events = MAX_res, main="with 'eventMaxima', delta.x = 3, delta.y = 0.5, threshold = 0.1") 
+par(oldpar)
 ```
 ![Example5](https://user-images.githubusercontent.com/29298475/111926773-4ba17500-8b02-11eb-9a19-873f38295747.jpeg)
 
@@ -125,10 +127,10 @@ CQ_event = function(C,Q,event_method,methodname) {
 }
 
 # Final plot on CQ comparison from two event approaches
-par(mfrow=c(2,2))
-par(mar=c(2,2,2,1))
+oldpar <- par(mfrow=c(2,2), mar=c(2,2,2,1))
 CQ_event(ECzoo,Qzoo,BF_res,"Baseflow method")
 CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
+par(oldpar)
 ```
 ![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
 
@@ -145,12 +147,13 @@ dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & dataCa
 events.P = eventPOT(dat$Precip_mm, threshold = 1, min.diff = 2)
 events.Q = eventMaxima(dat$Flow_ML, delta.y = 2, delta.x = 1, thresh = 70)
 
-par(mfrow = c(2, 1), mar = c(3, 2.7, 2, 1))
+olpar <- par(mfrow = c(2, 1), mar = c(3, 2.7, 2, 1))
 plotEvents(dat$Precip_mm, events = events.P, type = "hyet", colpnt = "#E41A1C", colline = "#E41A1C", ylab = "Precipitation (mm)", xlab = "Index", main = "2015")
 plotEvents(dat$Flow_ML, events = events.Q, type = "lineover", colpnt = "#E41A1C", colline = "#377EB8", ylab = "Flow (ML/day)", xlab = "Index", main = "")
-
+par(oldpar)
 ```
-#<insert figure 1>
+
+![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
 
 ```R
 matched.1 = pairEvents(events.P, events.Q, lag = 5,  type = 1)
@@ -159,7 +162,7 @@ matched.3 = pairEvents(events.P, events.Q, lag = 3,  type = 3)
 matched.4 = pairEvents(events.P, events.Q, lag = 7, type = 4)
 matched.5 = pairEvents(events.P, events.Q, lag = 5, type = 5)
 
-par(mfrow = c(5, 1), mar = c(2, 3, 2, 3))
+oldpar <- par(mfrow = c(5, 1), mar = c(2, 3, 2, 3))
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1, col = rainbow(nrow(events.P)), 
 ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2, col = rainbow(nrow(events.P)), 
@@ -170,9 +173,9 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4, col 
 ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, col = rainbow(nrow(events.P)), 
 ylab.1 = "P (mm)", ylab.2 = "Q ML/day)", cex.2 = 0.66)
-
+par(oldpar)
 ```
-#<insert figure 2>
+<img src="https://user-images.githubusercontent.com/39328041/124549966-4a0e7980-de73-11eb-8e10-c18de4da922f.jpg" width="400">
 
 ## Example 7
 Aim: Demonstrate matching of rainfall and water level surge (residuals)
@@ -187,10 +190,10 @@ events.P = eventPOT(Psel, threshold = 4, min.diff = 3) # Rain over 4mm is consid
 
 bf = baseflowB(WLsel)
 events.Q1 = eventMaxima(WLsel, delta.y = 0.05, delta.x = 3, thresh = 0.05) # WL surge residual over 0.05m is considered an event; events over 3 hrs apart are considered as separate
-par(mfrow=c(2,1))
-par(mar=c(2,2,2,2))
+oldpar <- par(mfrow=c(2,1), mar=c(2,2,2,2))
 plotEvents(data = Psel, events = events.P, main = "Hourly precipitation (mm)", type = "hyet")
 plotEvents(data = WLsel, events = events.Q1, main = "Hourly water level surge (m)", type = "lineover")
+par(oldpar)
 ```
 ![Example7a](https://user-images.githubusercontent.com/29298475/122487933-ba1da280-d01f-11eb-8522-74816f76fc73.jpeg)
 ```R
