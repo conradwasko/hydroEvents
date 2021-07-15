@@ -12,3 +12,8 @@ export(localMin)
 export(pairEvents)
 export(plotEvents)
 export(plotPairs)
+  importFrom("grDevices", "adjustcolor", "rainbow")
+  importFrom("graphics", "abline", "axis", "legend", "lines", "mtext",
+             "par", "plot", "points", "rect", "text")
+  importFrom("stats", "median", "quantile")
+  importFrom("utils", "head", "tail")

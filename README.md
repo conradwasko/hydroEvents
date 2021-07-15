@@ -184,6 +184,8 @@ Aim: Demonstrate matching of rainfall and water level surge (residuals)
 library(hydroEvents)
 # rainfall (P) and water level surge (WL) at Burnie, Tasmania (Pluvio 91009; Tide gauge: IDO71005)
 data(data_P_WL) 
+Psel = data_P_WL$Psel
+WLsel = data_P_WL$WLsel
 
 # find events in P and WL data
 events.P = eventPOT(Psel, threshold = 4, min.diff = 3) # Rain over 4mm is considered an event; events over 3 hrs apart are considered as separate

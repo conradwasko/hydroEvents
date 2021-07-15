@@ -34,21 +34,24 @@ points(m, x[m], pch = 16, col = "red")
 
 # Minima in streamflow
 m = localMin(dataBassRiver)
-plot(dataBassRiver, type = "l", col = "steelblue", lwd = 2, ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+plot(dataBassRiver, type = "l", col = "steelblue", lwd = 2, ylab = "Flow (ML/d)", 
+xlab = "Time index", mgp = c(2, 0.6, 0))
 points(m, dataBassRiver[m], col = "red", pch = 16)
 
 # Minima in quickflow
 bf = baseflowA(dataBassRiver, alpha = 0.925)
 qf = dataBassRiver - bf$bf
 m = localMin(qf)
-plot(qf, type = "l", lwd = 2, ylab = "Quickflow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+plot(qf, type = "l", lwd = 2, ylab = "Quickflow (ML/d)", xlab = "Time index", 
+mgp = c(2, 0.6, 0))
 points(m, qf[m], col = "red", pch = 16)
 
 # Maxima in quickflow
 bf = baseflowA(dataBassRiver, alpha = 0.925)
 qf = dataBassRiver - bf$bf
 m = localMin(-qf)
-plot(qf, type = "l", lwd = 2, ylab = "Quickflow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+plot(qf, type = "l", lwd = 2, ylab = "Quickflow (ML/d)", xlab = "Time index", 
+mgp = c(2, 0.6, 0))
 points(m, qf[m], col = "red", pch = 16)
 }
 \keyword{maxima}

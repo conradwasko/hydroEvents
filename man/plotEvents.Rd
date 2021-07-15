@@ -58,9 +58,15 @@ BFI_res = eventBaseflow(dataBassRiver)
 
 oldpar <- par(mfrow = c(3, 1), mar = c(3, 2.7, 2, 1))
 d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", main = "lineover")
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "bound", xlab = "Date", ylab = "Flow (ML/day)", main = "bound")
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "hyet", xlab = "Date", ylab = "Flow (ML/day)", main = "hyet")
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res, 
+type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", 
+main = "lineover")
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res, 
+type = "bound", xlab = "Date", ylab = "Flow (ML/day)", 
+main = "bound")
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res, 
+type = "hyet", xlab = "Date", ylab = "Flow (ML/day)", 
+main = "hyet")
 par(oldpar)
 }
 \seealso{

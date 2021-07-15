@@ -23,9 +23,6 @@ the implementation in the EcoHydRology package.
 The formulation is orginally after Lyne and Hollick (1979) and described in Furey and Gupta (2001).
 Reccomended parameters are after Nathan and McMahon (1990).
 }
-\details{
-
-}
 \examples{
 library(hydroEvents)
 data(dataBassRiver)

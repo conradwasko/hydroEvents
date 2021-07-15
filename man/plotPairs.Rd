@@ -59,8 +59,12 @@ pairs.1 = pairEvents(POT_res, BFI_res, type = 1, lag = 5)
 pairs.3 = pairEvents(POT_res, BFI_res, type = 3, lag = 3)
 d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
 oldpar <- par(mar = c(3, 3.5, 2, 3.5), mfrow = c(2, 1))
-plotPairs(dataLoch, dataBassRiver, pairs.1, dates = d, type = "hyet", xlab = "Date", ylab.1 = "Rain (mm)", ylab.2 = "Flow (ML/day)", main = "Matching Forward")
-plotPairs(dataLoch, dataBassRiver, pairs.3, dates = d, type = "hyet", xlab = "Date", ylab.1 = "Flow (ML/day)", ylab.2 = "Rain (mm)", main = "Matching Backward")
+plotPairs(dataLoch, dataBassRiver, pairs.1, dates = d, type = "hyet", 
+xlab = "Date", ylab.1 = "Rain (mm)", ylab.2 = "Flow (ML/day)", 
+main = "Matching Forward")
+plotPairs(dataLoch, dataBassRiver, pairs.3, dates = d, type = "hyet", 
+xlab = "Date", ylab.1 = "Flow (ML/day)", ylab.2 = "Rain (mm)", 
+main = "Matching Backward")
 par(oldpar)
 }
 \seealso{
