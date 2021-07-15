@@ -4,9 +4,9 @@ Version: 0.10
 Author:	Conrad Wasko [aut, cre], Danlu Guo [aut]
 Maintainer: Conrad Wasko <conrad.wasko@gmail.com>
 Description: Events from individual hydrologic time series are extracted, and events from multiple time series can be matched to each other.
-	Tang, W. & Carey, S. K. (2017) <doi:10.1002/hyp.11185>
-	Kaur, S., Horne, A., Stewardson, M.J., Nathan, R., Costa, A.M., Szemis, J.M., & Webb, J.A. (2017) <doi:10.1080/24705357.2016.1276418>
-	Ladson, A., Brown, R., Neal, B., & Nathan, R. J. (2013) <doi:10.7158/W12-028.2013.17.1>
+	Tang, W. & Carey, S. K. (2017) <doi:10.1002/hyp.11185>.
+	Kaur, S., Horne, A., Stewardson, M.J., Nathan, R., Costa, A.M., Szemis, J.M., & Webb, J.A. (2017) <doi:10.1080/24705357.2016.1276418>.
+	Ladson, A., Brown, R., Neal, B., & Nathan, R. J. (2013) <doi:10.7158/W12-028.2013.17.1>.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
