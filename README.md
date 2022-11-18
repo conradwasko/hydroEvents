@@ -127,71 +127,37 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, date
 <img width="800" alt="Figure 7" src = "https://user-images.githubusercontent.com/39328041/202609761-4bb88578-20ca-4308-ae05-bf134df816fd.jpg">
 
 ## Example 6
-Aim: Derive event-based concentration-discharge (C-Q) relationships to explore influences of baseflow 
-
-Guo, D., Minaudo, C., Lintern, A., Bende-Michl, U., Liu, S., Zhang, K., Duvert, C., 2022. Synthesizing the impacts of baseflow contribution on concentration–discharge (C–Q) relationships across Australia using a Bayesian hierarchical model. Hydrol. Earth Syst. Sci. 26, 1–16. https://doi.org/10.5194/hess-26-1-2022
-
-```R
-# a function to plot CQ with different colours by event periods (rising, falling limbs and baseflow)
-CQ_event = function(C,Q,event_method,methodname) {
-  risfal_res = limbs(data=as.vector(Q),events=event_method)
-  RL_ind = FL_ind = ev_ind = NULL
-  for(i in 1:nrow(risfal_res)) {
-    RL_ind = c(RL_ind,risfal_res$ris.srt[i]:risfal_res$ris.end[i])
-    FL_ind = c(FL_ind,risfal_res$fal.srt[i]:risfal_res$fal.end[i])
-    ev_ind = c(ev_ind,risfal_res$srt[i]:risfal_res$end[i])
-  }
-
-  BF_ind = as.vector(1:length(as.vector(Q)))[-ev_ind] # extract data index under baseflow conditions (i.e. not part of an event)
-  plot(C~Q,xlab="Q (mm/d)",ylab="C (mg/L)",main = paste("C-Q relationship -",methodname),pch=20) # plot C-Q relationships, coloured by rising/falling limbs and baseflow
-  points(C[RL_ind]~Q[RL_ind],col="blue",pch=20)
-  points(C[FL_ind]~Q[FL_ind],col="green",pch=20)
-  points(C[BF_ind]~Q[BF_ind],col="red",pch=20)
-  legend("topright",legend=c("rising limb","falling limb","baseflow"),pch=20,col=c("blue","green","red"))
-
-  CQ = merge.zoo(ECzoo,Qzoo)
-  res = list(event=ev_ind,base=BF_ind,rising=RL_ind,falling=FL_ind,
-             eventCQ=CQ[ev_ind,],baseCQ=CQ[BF_ind,],
-             risingCQ=CQ[RL_ind,],fallingCQ=CQ[FL_ind,])
-
-}
-
-# Final plot on CQ comparison from two event approaches
-oldpar <- par(mfrow=c(2,2), mar=c(2,2,2,1))
-CQ_event(ECzoo,Qzoo,BF_res,"Baseflow method")
-CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
-par(oldpar)
-```
-![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
-
-## Example 7
 Aim: Demonstrate matching of rainfall and water level surge (residuals)
 
 ```R
 library(hydroEvents)
-# rainfall (P) and water level surge (WL) at Burnie, Tasmania (Pluvio 91009; Tide gauge: IDO71005)
-data(data_P_WL) 
-Psel = data_P_WL$Psel
+
+# Hourly rainfall (P) and water level surge (WL) at Burnie, Tasmania (Pluvio 91009; Tide gauge: IDO71005)
+Psel  = data_P_WL$Psel
 WLsel = data_P_WL$WLsel
 
-# find events in P and WL data
-events.P = eventPOT(Psel, threshold = 4, min.diff = 3) # Rain over 4mm is considered an event; events over 3 hrs apart are considered as separate
+# Find events in P and WL data
+# Rain over 4mm is considered an event; events over 3 hrs apart are considered as separate
+events.P = eventPOT(Psel, threshold = 4, min.diff = 3)
 
-bf = baseflowB(WLsel)
-events.Q1 = eventMaxima(WLsel, delta.y = 0.05, delta.x = 3, thresh = 0.05) # WL surge residual over 0.05m is considered an event; events over 3 hrs apart are considered as separate
-oldpar <- par(mfrow=c(2,1), mar=c(2,2,2,2))
+# WL surge residual over 0.05m is considered an event; events over 3 hrs apart are considered as separate
+events.Q1 = eventMaxima(WLsel, delta.y = 0.05, delta.x = 3, thresh = 0.05) 
+
+# Plot events
 plotEvents(data = Psel, events = events.P, main = "Hourly precipitation (mm)", type = "hyet")
 plotEvents(data = WLsel, events = events.Q1, main = "Hourly water level surge (m)", type = "lineover")
-par(oldpar)
+
 ```
 ![Example7a](https://user-images.githubusercontent.com/29298475/122487933-ba1da280-d01f-11eb-8522-74816f76fc73.jpeg)
 ```R
-# pairning events - use type = 5 to search both ways for the pairing, try two values for the lag (search radius)
+# Pairing events - use type = 5 to search both ways for the pairing
+# Try two different values for the lag (search radius)
 matched.1 = pairEvents(events.P, events.Q1, lag = 12, type = 5) 
 matched.2 = pairEvents(events.P, events.Q1, lag = 24, type = 5)
 
 plotPairs(data.1 = Psel, data.2 = WLsel, events = matched.1, type = "hyet", color.list=rainbow(nrow(matched.1)))
 plotPairs(data.1 = Psel, data.2 = WLsel, events = matched.2, type = "hyet", color.list=rainbow(nrow(matched.2)))
+
 ```
 ![Example7b](https://user-images.githubusercontent.com/29298475/122487944-c275dd80-d01f-11eb-8e3d-63b26fa733fa.jpeg)
 
