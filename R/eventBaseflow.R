@@ -7,6 +7,7 @@
 #'
 #' @param data The data vector (e.g. a streamflow time series)
 #' @param BFI_Th Minimum BFI to identify baseflow
+#' @param bfi If no BFI is provided the BFI is calculated automatically using baseflowB
 #' @param min.diff Minimum length for an event
 #' @param out.style The type of output (currently either "summary" or "none")
 #'
@@ -20,13 +21,10 @@
 #' @keywords events
 #' @seealso \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}
 #' @examples
-#' # Example extracting events from quickflow
-#' bf = baseflowB(dataBassRiver)
+#' # Example
 #' BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
 
-eventBaseflow <- function(data, BFI_Th = 0.5, min.diff = 1, out.style = "summary") {
-  bfi = baseflowB(data)$bfi
-
+eventBaseflow <- function(data, BFI_Th = 0.5, bfi = baseflowB(data)$bfi, min.diff = 1, out.style = "summary") {
   baseind = which(bfi>BFI_Th)
   evind = which(bfi<BFI_Th)
 
