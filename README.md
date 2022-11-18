@@ -3,9 +3,11 @@ Events from individual hydrologic time series are extracted, and events from mul
 
 This code can be downloaded from CRAN: https://cran.r-project.org/package=hydroEvents
 
-If using this code a citation to the following would be greatly appreciate:
+A detailed description of each function, usage, and suggested parametrs is provided in the following:
 Wasko, C., Guo, D., 2022. Understanding event runoff coefficient variability across Australia using the hydroEvents R package. 
 Hydrol. Process. 36, e14563. https://doi.org/10.1002/hyp.14563
+
+If using this code a citation to the above manuscript would be greatly appreciated.
 
 ## Example 1
 Aim: Calculate baseflow and baseflow index
@@ -36,55 +38,42 @@ legend("topright", lty = c(2, 3, 1, 4), col = c("black", "black", "black", "blac
                   paste0("BFI(B, 0.925) = ", format(round(bfi.B.925, 2), nsmall = 2)),
                   paste0("BFI(B, 0.980) = ", format(round(bfi.B.980, 2), nsmall = 2))))
 ```
-<img src = "https://user-images.githubusercontent.com/39328041/202600440-9a0cdca9-13b0-4abc-b1f2-2b0ddd11a005.jpg" | width=50% height=50%)
+<img width="500" alt="Figure 5" src="https://user-images.githubusercontent.com/39328041/202600440-9a0cdca9-13b0-4abc-b1f2-2b0ddd11a005.jpg">
 
 ## Example 2
 Aim: Extract precipitation events
-data(dataLoch)
-```R
-events = eventPOT(dataLoch, threshold = 0, min.diff = 1)
-plotEvents(dataLoch, dates = NULL, events = events, type = "hyet", main = "Rainfall Events (threshold = 0, min.diff = 1)")
-```
-![precip01](https://user-images.githubusercontent.com/39328041/120242717-ef4c9580-c2a8-11eb-99cb-210f625aa4f6.jpg)
-
-## Example 3.1
-Aim: Extract flow events - sensitivity to parameter choice. All the choices are reasonable but result in very different event choice
 
 ```R
-bf = baseflowB(dataBassRiver, alpha = 0.925)
-qf = dataBassRiver - bf$bf
-events.1 = eventMaxima(qf, delta.y = 200, delta.x = 1, threshold = 0)
-events.2 = eventMaxima(qf, delta.y = 500, delta.x = 1, threshold = 0)
-events.3 = eventMaxima(qf, delta.y = 10,  delta.x = 7, threshold = 0)
-
-oldpar <- par(mfrow = c(3, 1), mar = c(2, 2, 2, 2))
-plotEvents(qf, dates = NULL, events = events.1, type = "lineover", main = "delta.y = 200, delta.x = 1")
-plotEvents(qf, dates = NULL, events = events.2, type = "lineover", main = "delta.y = 500, delta.x = 1")
-plotEvents(qf, dates = NULL, events = events.3, type = "lineover", main = "delta.y = 10, delta.x = 7")
-par(oldpar)
+events = eventPOT(dataLoch, threshold = 1, min.diff = 2)
+plotEvents(dataLoch, dates = NULL, events = events, type = "hyet", ylab = "Rainfall [mm]", main = "Rainfall Events (threshold = 1, min.diff = 2)")
 ```
-![flow_maxima01](https://user-images.githubusercontent.com/39328041/120246780-9e429e80-c2b4-11eb-8d05-8f2a1d1ca7d3.jpg)
+<img width="500" alt="Example 2" src="https://user-images.githubusercontent.com/39328041/202602585-fb83cfe3-2cee-483e-a5e2-93ea55048bb0.jpg">
 
-## Example 3.2
-Aim: Extract flow events - sensitivity to method choice.
+## Example 3
+Aim: Extract flow events (and demonstrate the different methods available)
+
+*This code reproduces Figure 6 in Wasko and Guo (2022).*
 
 ```R
 library(hydroEvents)
-
 bf = baseflowB(dataBassRiver)
-Max_res = eventMaxima(dataBassRiver-bf$bf, delta.y = 200, delta.x = 1, threshold = 0)
-Min_res = eventMinima(dataBassRiver-bf$bf, delta.x = 5, delta.y = 20, threshold = 0)
+Max_res = eventMaxima(dataBassRiver-bf$bf, delta.y = 10, delta.x = 1, threshold = 0)
+Min_res = eventMinima(dataBassRiver-bf$bf, delta.y = 100, delta.x = 3, threshold = 0)
 PoT_res = eventPOT(dataBassRiver-bf$bf, threshold = 0, min.diff = 1)
-BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1, threshold = 0)
+BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
 
-oldpar <- par(mfrow = c(4, 1), mar = c(2, 2, 2, 2))
-plotEvents(data = dataBassRiver-bf$bf, events = Max_res, main = "eventMaxima")
-plotEvents(data = dataBassRiver-bf$bf, events = Min_res, main = "eventMinima")
-plotEvents(data = dataBassRiver-bf$bf, events = PoT_res, main = "eventPOT")
-plotEvents(data = dataBassRiver-bf$bf, events = BFI_res, main = "eventBaseflow")
-par(oldpar)
+par(mfrow = c(2, 2), mar = c(3, 2.7, 2, 1))
+plotEvents(data = dataBassRiver, events = PoT_res, ymax = 1160, xlab = "Index", ylab = "Flow (ML/day)", colpnt = "#E41A1C", colline = "#377EB8", main = "eventPOT")
+lines(1:length(bf$bf), bf$bf, lty = 2)
+plotEvents(data = dataBassRiver, events = Max_res, ymax = 1160, xlab = "Index", ylab = "Flow (ML/day)", colpnt = "#E41A1C", colline = "#377EB8", main = "eventMaxima")
+lines(1:length(bf$bf), bf$bf, lty = 2)
+plotEvents(data = dataBassRiver, events = Min_res, ymax = 1160, xlab = "Index", ylab = "Flow (ML/day)", colpnt = "#E41A1C", colline = "#377EB8", main = "eventMinima")
+lines(1:length(bf$bf), bf$bf, lty = 2)
+plotEvents(data = dataBassRiver, events = BFI_res, ymax = 1160, xlab = "Index", ylab = "Flow (ML/day)", colpnt = "#E41A1C", colline = "#377EB8", main = "eventBaseflow")
+lines(1:length(bf$bf), bf$bf, lty = 2)
+
 ```
-![example_02](https://user-images.githubusercontent.com/39328041/109441738-364ca400-7a8a-11eb-81da-0e5a5ac313d2.jpeg)
+<img width="600" alt="Figure 6" src="https://user-images.githubusercontent.com/39328041/202603394-e2ad8cc6-5258-462c-8306-7d14bd3484fc.jpg">
 
 ## Example 4
 Aim: To see how different event methods affect rising/falling limbs identified
