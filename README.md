@@ -76,32 +76,56 @@ lines(1:length(bf$bf), bf$bf, lty = 2)
 <img width="600" alt="Figure 6" src="https://user-images.githubusercontent.com/39328041/202603394-e2ad8cc6-5258-462c-8306-7d14bd3484fc.jpg">
 
 ## Example 4
-Aim: To see how different event methods affect rising/falling limbs identified
+Aim: Identify rising and falling limbs
 
 ```R
 library(hydroEvents)
-data(WQ_Q)
-
-# streamflow and water quality data for 410073 TUMUT RIVER AT ODDYS BRIDGE
-qdata=qdata[[1]]
-
-# identify streamflow events - two ways
-Q = as.vector(qdata$Q_cumecs)
-BF_res = eventBaseflow(Q)
-plotEvents(data = Q, events = BF_res)
-
-bf = baseflowB(Q)
-MAX_res = eventMaxima(Q-bf$bf, delta.x =3, delta.y = 0.5, threshold = 0.1)
-plotEvents(data = Q, events = MAX_res)
-
-# compare rising/falling limbs identified from two event methods
-oldpar <- par(mfrow=c(2,1), mar=c(2,2,2,2))
-limbs(data = Q, dates=qdata$time, events = BF_res, main="with 'eventBaseflow'")
-limbs(data = Q, dates=qdata$time, events = MAX_res, main="with 'eventMaxima', delta.x = 3, delta.y = 0.5, threshold = 0.1") 
-par(oldpar)
+qdata = WQ_Q$qdata[[1]]
+BF_res = eventBaseflow(qdata$Q_cumecs)
+limbs(data = qdata$Q_cumecs, dates = NULL, events = BF_res, main = "with 'eventBaseflow'")
 ```
-![Example5](https://user-images.githubusercontent.com/29298475/111926773-4ba17500-8b02-11eb-9a19-873f38295747.jpeg)
+<img width="600" alt="Example 4" src="https://user-images.githubusercontent.com/39328041/202606920-88411677-48b4-4edc-a2c2-c7b21de3309a.jpg">
 
+## Example 5
+Aim: Demonstrate matching rainfall to runoff
+
+```R
+library(hydroEvents)
+# Prepare data
+srt = as.Date("2015-02-05"))
+end = as.Date("2015-04-01"))
+dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & dataCatchment$`105105A`$Date <= end),]
+  
+# Extract events
+events.P = eventPOT(dat$Precip_mm, threshold = 1, min.diff = 1)
+events.Q = eventMaxima(dat$Flow_ML, delta.y = 2, delta.x = 1, thresh = 70)
+
+par(mfrow = c(2, 1), mar = c(3, 2.7, 2, 1))
+plotEvents(dat$Precip_mm, dates = dat$Date, events = events.P, type = "hyet", colline = "#377EB8", colpnt = "#E41A1C",ylab = "Rainfall (mm)", xlab = 2015, main = "")
+plotEvents(dat$Flow_ML,   dates = dat$Date, events = events.Q, type = "lineover", colpnt = "#E41A1C", colline = "#377EB8", ylab = "Flow (ML/day)", xlab = 2015, main = "")
+```
+<img width="400" alt="Example 4" src = "https://user-images.githubusercontent.com/39328041/202608867-ff7c5d7a-2aed-42f9-9752-5a9c129c0fbe.jpg">
+
+```R
+# Match events
+library(RColorBrewer)
+matched.1 = pairEvents(events.P, events.Q, lag = 5,  type = 1)  
+matched.2 = pairEvents(events.P, events.Q, lag = 5,  type = 2)
+matched.3 = pairEvents(events.P, events.Q, lag = 3,  type = 3)
+matched.4 = pairEvents(events.P, events.Q, lag = 7, type = 4)
+matched.5 = pairEvents(events.P, events.Q, lag = 5, type = 5)
+
+par(mfrow = c(3, 2), mar = c(1.7, 3, 2.1, 3))
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 1", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK PRESENT
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 2", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 3", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3) # OK PRESENT (In discussion?)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 4", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 5", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK
+```
+<img width="800" alt="Example 4" src = "https://user-images.githubusercontent.com/39328041/202609761-4bb88578-20ca-4308-ae05-bf134df816fd.jpg">
+
+
+# UP TO HERE
 ## Example 5
 Aim: Derive event-based concentration-discharge (C-Q) relationships, explore influces of baseflow 
 
@@ -137,49 +161,6 @@ CQ_event(ECzoo,Qzoo,Min_res,"LocalMinima method")
 par(oldpar)
 ```
 ![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
-
-## Example 6
-Aim: Demonstrate matching rainfall to runoff
-
-```R
-library(hydroEvents)
-
-srt = as.Date("2015-02-05")
-end = as.Date("2015-04-01")
-dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & dataCatchment$`105105A`$Date <= end),]
-
-events.P = eventPOT(dat$Precip_mm, threshold = 1, min.diff = 2)
-events.Q = eventMaxima(dat$Flow_ML, delta.y = 2, delta.x = 1, thresh = 70)
-
-olpar <- par(mfrow = c(2, 1), mar = c(3, 2.7, 2, 1))
-plotEvents(dat$Precip_mm, events = events.P, type = "hyet", colpnt = "#E41A1C", colline = "#E41A1C", ylab = "Precipitation (mm)", xlab = "Index", main = "2015")
-plotEvents(dat$Flow_ML, events = events.Q, type = "lineover", colpnt = "#E41A1C", colline = "#377EB8", ylab = "Flow (ML/day)", xlab = "Index", main = "")
-par(oldpar)
-```
-
-![Example6](https://user-images.githubusercontent.com/29298475/111926779-4cd2a200-8b02-11eb-9d3a-f2c8131117b0.jpeg)
-
-```R
-matched.1 = pairEvents(events.P, events.Q, lag = 5,  type = 1)
-matched.2 = pairEvents(events.P, events.Q, lag = 5,  type = 2)
-matched.3 = pairEvents(events.P, events.Q, lag = 3,  type = 3)
-matched.4 = pairEvents(events.P, events.Q, lag = 7, type = 4)
-matched.5 = pairEvents(events.P, events.Q, lag = 5, type = 5)
-
-oldpar <- par(mfrow = c(5, 1), mar = c(2, 3, 2, 3))
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1, col = rainbow(nrow(events.P)), 
-ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2, col = rainbow(nrow(events.P)), 
-ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3, col = rainbow(nrow(events.P)), 
-ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4, col = rainbow(nrow(events.P)), 
-ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, col = rainbow(nrow(events.P)), 
-ylab.1 = "P (mm)", ylab.2 = "Q ML/day)", cex.2 = 0.66)
-par(oldpar)
-```
-<img src="https://user-images.githubusercontent.com/39328041/124549966-4a0e7980-de73-11eb-8e10-c18de4da922f.jpg" width="400">
 
 ## Example 7
 Aim: Demonstrate matching of rainfall and water level surge (residuals)
