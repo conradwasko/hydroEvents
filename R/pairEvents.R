@@ -20,7 +20,7 @@
 #'   \item{Type = 5:} Search for the peak in \code{events.2} within the peak of \code{event.1} - \code{lag} to the peak of \code{event.1} + \code{lag}
 #' }
 #'
-#' It is appropriate to pick a lag time that is equiavelent to the catchment time of concentratio if matching rainfall to streamflow.
+#' It is appropriate to pick a lag time that is equiavelent to the catchment time of concentration if matching rainfall to streamflow.
 #'
 #' @return Returns indices of start and end of events as well as the matched events as a four column dataframe.
 #'
