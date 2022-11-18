@@ -106,6 +106,8 @@ plotEvents(dat$Flow_ML,   dates = dat$Date, events = events.Q, type = "lineover"
 ```
 <img width="400" alt="Example 4" src = "https://user-images.githubusercontent.com/39328041/202608867-ff7c5d7a-2aed-42f9-9752-5a9c129c0fbe.jpg">
 
+*The following code reproduces Figure 7 in Wasko and Guo (2022).*
+
 ```R
 # Match events
 library(RColorBrewer)
@@ -122,12 +124,12 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3, date
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 4", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3)
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 5", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK
 ```
-<img width="800" alt="Example 4" src = "https://user-images.githubusercontent.com/39328041/202609761-4bb88578-20ca-4308-ae05-bf134df816fd.jpg">
+<img width="800" alt="Figure 7" src = "https://user-images.githubusercontent.com/39328041/202609761-4bb88578-20ca-4308-ae05-bf134df816fd.jpg">
 
+## Example 6
+Aim: Derive event-based concentration-discharge (C-Q) relationships to explore influences of baseflow 
 
-# UP TO HERE
-## Example 5
-Aim: Derive event-based concentration-discharge (C-Q) relationships, explore influces of baseflow 
+Guo, D., Minaudo, C., Lintern, A., Bende-Michl, U., Liu, S., Zhang, K., Duvert, C., 2022. Synthesizing the impacts of baseflow contribution on concentration–discharge (C–Q) relationships across Australia using a Bayesian hierarchical model. Hydrol. Earth Syst. Sci. 26, 1–16. https://doi.org/10.5194/hess-26-1-2022
 
 ```R
 # a function to plot CQ with different colours by event periods (rising, falling limbs and baseflow)
