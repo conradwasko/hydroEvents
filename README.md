@@ -10,9 +10,10 @@ Hydrol. Process. 36, e14563. https://doi.org/10.1002/hyp.14563
 ## Example 1
 Aim: Calculate baseflow and baseflow index
 
-*This code reproduces Figure 5 in Wasko and Guo (2022).
+*This code reproduces Figure 5 in Wasko and Guo (2022).*
 
 ```R
+library(hydroEvents)
 bf.A.925 = baseflowA(dataBassRiver, alpha = 0.925)$bf
 bf.A.980 = baseflowA(dataBassRiver, alpha = 0.980)$bf
 
