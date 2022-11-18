@@ -1,27 +1,41 @@
 # hydroEvents
 Events from individual hydrologic time series are extracted, and events from multiple time series can be matched to each other.
 
+This code can be downloaded from CRAN: https://cran.r-project.org/package=hydroEvents
+
+If using this code a citation to the following would be greatly appreciate:
+Wasko, C., Guo, D., 2022. Understanding event runoff coefficient variability across Australia using the hydroEvents R package. 
+Hydrol. Process. 36, e14563. https://doi.org/10.1002/hyp.14563
+
 ## Example 1
-Aim: Present baseflow filter
+Aim: Calculate baseflow and baseflow index
+
+*This code reproduces Figure 5 in Wasko and Guo (2022).
 
 ```R
-# Implementation from hydroEvents
-library(hydroEvents)
-data(dataBassRiver)
-bf.1 = baseflowB(dataBassRiver, alpha = 0.925)
-bf.2 = baseflowB(dataBassRiver, alpha = 0.980)
-BFI.1 = sum(bf.1$bf)/sum(dataBassRiver)
-BFI.2 = sum(bf.2$bf)/sum(dataBassRiver)
-print(BFI.1) # 0.39
-print(BFI.2) # 0.20
-plot(1:length(dataBassRiver), dataBassRiver, type = "l", lwd = 2, col = "steelblue",
-     ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
-lines(1:length(dataBassRiver), bf.1$bf, lwd = 2, lty = 2, col = "darkgreen")
-lines(1:length(dataBassRiver), bf.2$bf, lwd = 2, lty = 2, col = "darkorange")
-legend("topright", legend = c("Flow", "Baseflow (0.925)", "Baseflow (0.980)"), cex = 0.8,
-       lwd = 2, col = c("steelblue", "darkgreen", "darkorange"), bty = "n")
+bf.A.925 = baseflowA(dataBassRiver, alpha = 0.925)$bf
+bf.A.980 = baseflowA(dataBassRiver, alpha = 0.980)$bf
+
+bf.B.925 = baseflowB(dataBassRiver, alpha = 0.925)$bf
+bf.B.980 = baseflowB(dataBassRiver, alpha = 0.980)$bf
+
+bfi.A.925 = sum(bf.A.925)/sum(dataBassRiver) # 0.22
+bfi.A.980 = sum(bf.A.980)/sum(dataBassRiver) # 0.09
+bfi.B.925 = sum(bf.B.925)/sum(dataBassRiver) # 0.39
+bfi.B.980 = sum(bf.B.980)/sum(dataBassRiver) # 0.20
+
+plot(dataBassRiver, type = "l", col = "#377EB8", lwd = 2, mgp = c(2, 0.6, 0), ylab = "Flow (ML/day)", xlab = "Index", xlim = c(0, 70))
+lines(bf.A.925, lty = 2)
+lines(bf.A.980, lty = 3)
+lines(bf.B.925, lty = 1)
+lines(bf.B.980, lty = 4)
+legend("topright", lty = c(2, 3, 1, 4), col = c("black", "black", "black", "black"), cex = 0.8, bty = "n",
+       legend = c(paste0("BFI(A, 0.925) = ", format(round(bfi.A.925, 2), nsmall = 2)),
+                  paste0("BFI(A, 0.980) = ", format(round(bfi.A.980, 2), nsmall = 2)),
+                  paste0("BFI(B, 0.925) = ", format(round(bfi.B.925, 2), nsmall = 2)),
+                  paste0("BFI(B, 0.980) = ", format(round(bfi.B.980, 2), nsmall = 2))))
 ```
-![baseflow01](https://user-images.githubusercontent.com/39328041/120128453-59abfa00-c205-11eb-825a-4eb59b25f188.jpg)
+![baseflow03](https://user-images.githubusercontent.com/39328041/202600440-9a0cdca9-13b0-4abc-b1f2-2b0ddd11a005.jpg)
 
 ## Example 2
 Aim: Extract precipitation events
