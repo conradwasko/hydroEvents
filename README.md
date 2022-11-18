@@ -36,7 +36,7 @@ legend("topright", lty = c(2, 3, 1, 4), col = c("black", "black", "black", "blac
                   paste0("BFI(B, 0.925) = ", format(round(bfi.B.925, 2), nsmall = 2)),
                   paste0("BFI(B, 0.980) = ", format(round(bfi.B.980, 2), nsmall = 2))))
 ```
-![baseflow03](https://user-images.githubusercontent.com/39328041/202600440-9a0cdca9-13b0-4abc-b1f2-2b0ddd11a005.jpg)
+<img src = "https://user-images.githubusercontent.com/39328041/202600440-9a0cdca9-13b0-4abc-b1f2-2b0ddd11a005.jpg" | width=50% height=50%)
 
 ## Example 2
 Aim: Extract precipitation events
