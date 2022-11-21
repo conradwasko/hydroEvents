@@ -9,6 +9,7 @@
 #' @param colline Line colour
 #' @param colpnt Point colour
 #' @param colbound Background colour for plot type \code{"bound"}
+#' @param ymin Minimum plot extend in vertical direction
 #' @param ymax Maxiumum plot extent in vertical direction
 #' @param xlab x-axis label
 #' @param ylab y-axis label
@@ -35,15 +36,15 @@
 #' par(oldpar)
 
 plotEvents <- function(data, dates = NULL, events, type = "lineover",
-                       colline = "red", colpnt = "blue", colbound = "red", ymax = max(data),
+                       colline = "red", colpnt = "blue", colbound = "red", ymin = min(data), ymax = max(data),
                        xlab = "", ylab = "", main = "events") {
 
     if (type=="lineover") {
 
       if (!is.null(dates)) {
-        plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+        plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(ymin,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
       } else {
-        plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+        plot(data,type="o",pch=20,cex=0.7,ylim=c(ymin,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
       }
 
       extevents = eventid = list()
@@ -57,9 +58,8 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
         }
 
         lines(extevents[[k]]~eventid[[k]],col=colline,type="o",pch=20,cex=0.7)
-        points(data[events$srt[k]]~events$srt[k],col=colline,type="o",pch=20,cex=1.5)
-        points(data[events$end[k]]~events$end[k],col=colline,type="o",pch=20,cex=1.5)
-
+        points(head(extevents[[k]],1)~head(eventid[[k]],1),col=colline,type="o",pch=20,cex=1.5)
+        points(tail(extevents[[k]],1)~tail(eventid[[k]],1),col=colline,type="o",pch=20,cex=1.5)
         text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 1.2)
       }
 
@@ -75,9 +75,9 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
     } else if (type=="bound") {
 
       if (!is.null(dates)) {
-        plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+        plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(ymin,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
       } else {
-        plot(data,type="o",pch=20,cex=0.7,ylim=c(0,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+        plot(data,type="o",pch=20,cex=0.7,ylim=c(ymin,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
       }
 
       if (!is.null(dates)) {
@@ -104,9 +104,9 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
     } else if (type == "hyet") {
 
       if (!is.null(dates)) {
-        plot(data~dates,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main,xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+        plot(data~dates,type="h",pch=20,cex=0.7,ylim=c(ymin,ymax),main=main,xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
       } else {
-        plot(data,type="h",pch=20,cex=0.7,ylim=c(0,ymax),main=main,xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+        plot(data,type="h",pch=20,cex=0.7,ylim=c(ymin,ymax),main=main,xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
       }
 
       extevents = eventid = list()
@@ -120,8 +120,8 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
         }
 
         lines(extevents[[k]]~eventid[[k]],col=colline,type="h",pch=20,cex=0.7)
-        points(events$srt[k],0,col=colline,type="o",pch=20,cex=1.5)
-        points(events$end[k],0,col=colline,type="o",pch=20,cex=1.5)
+        points(head(eventid[[k]],1),0,col=colline,type="o",pch=20,cex=1.5)
+        points(tail(eventid[[k]],1),0,col=colline,type="o",pch=20,cex=1.5)
 
         text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"),cex = 1.2)
 
