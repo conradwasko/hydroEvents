@@ -10,7 +10,7 @@
 #' @param colpnt Point colour
 #' @param colbound Background colour for plot type \code{"bound"}
 #' @param ymin Minimum plot extend in vertical direction
-#' @param ymax Maxiumum plot extent in vertical direction
+#' @param ymax Maximum plot extent in vertical direction
 #' @param xlab x-axis label
 #' @param ylab y-axis label
 #' @param main Plot title
