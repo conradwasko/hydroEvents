@@ -17,10 +17,19 @@
 #' @export
 #' @keywords events
 #' @examples
+#' # Example 1
 #' library(hydroEvents)
 #' qdata = WQ_Q$qdata[[1]]
 #' BF_res = eventBaseflow(qdata$Q_cumecs)
 #' limbs(data = qdata$Q_cumecs, dates = NULL, events = BF_res, main = "with 'eventBaseflow'")
+#' BFI_res = eventBaseflow(dataBassRiver)
+#'
+#' # Example 2
+#' library(hydroEvents)
+#' BFI_res = eventBaseflow(dataBassRiver)
+#' d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
+#' limbs(data = dataBassRiver, dates = NULL, events = BFI_res)
+#' limbs(data = dataBassRiver, dates = d, events = BFI_res)
 
 limbs <- function(data, dates = NULL, events, to.plot = TRUE,
                   ymin = min(data), ymax = max(data), xlab = "", ylab ="", main = "") {
