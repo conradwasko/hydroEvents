@@ -20,8 +20,6 @@
 #' @param alpha Filter parameter
 #' @param passes Number of passes
 #'
-#' @details
-#'
 #' @return A list of the baseflow and baseflow index at each timestep.
 #'
 #' @keywords baseflow
