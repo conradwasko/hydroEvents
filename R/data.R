@@ -4,7 +4,7 @@
 #' @format A vector of 67 daily streamflow values in (ML/day)
 #' @seealso \code{\link{dataLoch}}
 #' @references Grayson, R., Argent, R. M., Nathan, R. J., McMahon, T. A. & Mein, R. G. (1996) Hydrological
-#' Recipes, Cooperative Reserach Centre for Catchment Hydrology, Melbourne.
+#' Recipes, Cooperative Research Centre for Catchment Hydrology, Melbourne.
 "dataBassRiver"
 
 #' @title Rainfall data
@@ -29,7 +29,7 @@
 "dataCatchment"
 
 #' @title Example water quality and streamflow data
-#' @description Data from 4 HRS (Hydrologic Reference Stations, Australian Bureau of Meteorolgy) catchments are included:
+#' @description Data from 4 HRS (Hydrologic Reference Stations, Australian Bureau of Meteorology) catchments are included:
 #' catchment IDs: 410073, 424002, G8150018, A5020502.
 #' @format
 #' Water quality (WQ) and streamflow (Q) data at matching time steps from 4 HRS catchments.

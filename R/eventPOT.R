@@ -4,7 +4,7 @@
 #'
 #' @param data A data vector
 #' @param threshold Value above which an event is considered to have occurred
-#' @param min.diff Spacing required for two events to be considered seperate
+#' @param min.diff Spacing required for two events to be considered separate
 #' @param out.style The type of output (currently either "summary" or "none")
 #'
 #' @details The \code{threshold} can be thought of a value below which the \code{data} are considered to be "zero".

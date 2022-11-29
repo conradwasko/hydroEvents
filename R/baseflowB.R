@@ -9,7 +9,7 @@
 #' @param q The vector series of streamflow
 #' @param alpha Filter parameter
 #' @param passes Number of passes
-#' @param r number of points refelcted at start and end of data set
+#' @param r number of points reflected at start and end of data set
 #'
 #' @details The reflected points act to resolve spin up issues and are removed before the baseflow is removed.
 #'

@@ -1,7 +1,7 @@
 #' Event identification (using local minima as a basis)
 #'
 #' @description Events are identified on the basis of local minima with an "event" considered to have
-#' occurred once the data has returned to within a thresholdold level of the start of the event.
+#' occurred once the data has returned to within a threshold level of the start of the event.
 #'
 #' @references Tang, W., & Carey, S. K. (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
 #' Hydrological Processes (31) 2670-2682
@@ -15,7 +15,7 @@
 #' @details The \code{threshold} is applied after the event separation meaning that if a trough
 #' goes below the threshold but was originally considered one event it will continue to be considered one event.
 #' This makes this method distinct from the peaks over threshold algorithm in \code{eventPOT}. The \code{threshold}
-#' here should be thought of as a filter to remove trace amounts that are not part of an event rather than event seperation
+#' here should be thought of as a filter to remove trace amounts that are not part of an event rather than event separation
 #' metric.
 #'
 #' @return By default, the \code{out.style} returns the indices of the maximum in each event, as well as the value of

@@ -1,10 +1,10 @@
 #' Baseflow removal (after Fuka et al. 2018)
 #'
-#' @description This function caclualates baseflow using a recursive digital filter and is based on
+#' @description This function calculates baseflow using a recursive digital filter and is based on
 #' the implementation in the EcoHydRology package.
 #'
 #' The formulation is orginally after Lyne and Hollick (1979) and described in Furey and Gupta (2001).
-#' Reccomended parameters are after Nathan and McMahon (1990).
+#' Recommended parameters are after Nathan and McMahon (1990).
 #'
 #' @references Fuka D. R., Walter, M.T., Archiblad, J.A., Steenhuis, T.S., & Easton, Z. M. (2018).
 #' A Community Modeling Foundation for Eco-Hydrology, R package version 0.4.12.1
