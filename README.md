@@ -3,7 +3,7 @@ Events from individual hydrologic time series are extracted, and events from mul
 
 This code can be downloaded from CRAN: https://cran.r-project.org/package=hydroEvents
 
-A detailed description of each function, usage, and suggested parametrs is provided in the following:
+A detailed description of each function, usage, and suggested parameters is provided in the following:
 Wasko, C., Guo, D., 2022. Understanding event runoff coefficient variability across Australia using the hydroEvents R package. 
 Hydrol. Process. 36, e14563. https://doi.org/10.1002/hyp.14563
 
