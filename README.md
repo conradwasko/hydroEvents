@@ -150,7 +150,7 @@ par(mar=c(2,2,2,2))
 CQ_event(wqdailydata,qdata, BF_res, methodname="eventBaseflow")
 CQ_event(wqdailydata,qdata, MAX_res, methodname="eventMaxima")
 ```
-<img width="400" alt="Example 5" src = "https://user-images.githubusercontent.com/39328041/204439737-eeb1706e-f365-408f-ae24-12c70954c531.jpg">
+<img width="800" alt="Example 5" src = "https://user-images.githubusercontent.com/39328041/204439737-eeb1706e-f365-408f-ae24-12c70954c531.jpg">
 
 ## Example 6
 Aim: Demonstrate matching rainfall to runoff
