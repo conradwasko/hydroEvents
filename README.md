@@ -87,6 +87,72 @@ limbs(data = qdata$Q_cumecs, dates = NULL, events = BF_res, main = "with 'eventB
 <img width="600" alt="Example 4" src="https://user-images.githubusercontent.com/39328041/202606920-88411677-48b4-4edc-a2c2-c7b21de3309a.jpg">
 
 ## Example 5
+Aim: Calculate CQ (concentration-discharge) relationships
+
+```R
+library(hydroEvents)
+# Identify flow events
+qdata = WQ_Q$qdata[[1]]
+BF_res = eventBaseflow(qdata$Q_cumecs)
+MAX_res = eventMaxima(qdata$Q_cumecs, delta.y = 0.5, threshold = 0.5)
+
+# Aggregate water quality data to daily time step
+wqdata=WQ_Q$wqdata[[1]]
+wqdata = data.frame(time=wqdata$time,wq=as.vector(wqdata$WQ))
+
+wqdaily = rep(NA,length(unique(substr(wqdata$time,1,10))))
+for (i in 1:length(unique(substr(wqdata$time,1,10)))) {
+  wqdaily[i] = mean(wqdata$wq[which(substr(wqdata$time,1,10)==
+                                      unique(substr(wqdata$time,1,10))[i])])
+}
+wqdailydata = data.frame(time=as.Date(strptime(unique(substr(wqdata$time,1,10)),"%d/%m/%Y")),wq=wqdaily)
+
+# A function to plot the CQ relationship by event period
+CQ_event = function(C,Q,events,methodname) {
+  QinWQ = which(Q$time%in%C$time)
+
+  risfal_res = limbs(data=as.vector(Q$Q_cumecs),events=events,main = paste("Events identified -",methodname))
+
+  allRL_ind = unlist(apply(risfal_res,1,function(x){x[6]:x[7]}))
+  allFL_ind = unlist(apply(risfal_res,1,function(x){x[8]:x[9]}))
+
+  RL_ind = which(allRL_ind%in%QinWQ)
+  FL_ind = which(allFL_ind%in%QinWQ)
+
+  allEV_ind = unlist(apply(risfal_res,1,function(x){x[1]:x[2]}))
+  allBF_ind = as.vector(1:length(as.vector(Q$Q_cumecs)))[-allEV_ind]
+  EV_ind = which(allEV_ind%in%QinWQ)
+  BF_ind = which(allBF_ind%in%QinWQ)
+
+  RL_indwq = which(QinWQ%in%allRL_ind[RL_ind])
+  FL_indwq = which(QinWQ%in%allFL_ind[FL_ind])
+  BF_indwq = which(QinWQ%in%allBF_ind[BF_ind])
+  EV_indwq = which(QinWQ%in%allEV_ind[EV_ind])
+
+  plot(C$wq~Q$Q_cumecs[QinWQ],xlab="Q (mm/d)",ylab="C (mg/L)",main = paste("C-Q relationship -",methodname),pch=20)
+  points(C$wq[RL_indwq]~Q$Q_cumecs[allRL_ind[RL_ind]],col="blue",pch=20)
+  points(C$wq[FL_indwq]~Q$Q_cumecs[allFL_ind[FL_ind]],col="red",pch=20)
+  points(C$wq[BF_indwq]~Q$Q_cumecs[allBF_ind[BF_ind]],col="grey",pch=20)
+
+  legend("topright",
+         legend=c("rising limb","falling limb","baseflow"),
+         pch=20,col=c("blue","red","grey"))
+
+  CQ = cbind(C$wq,Q$Q_cumecs[QinWQ])
+  res = list(event=EV_indwq,base=BF_indwq,rising=RL_indwq,falling=FL_indwq,
+             eventCQ=CQ[EV_indwq,],baseCQ=CQ[BF_indwq,],
+             risingCQ=CQ[RL_indwq,],fallingCQ=CQ[FL_indwq,])
+}
+
+# Final plot of CQ comparison from two event approaches
+par(mfcol=c(2,2))
+par(mar=c(2,2,2,2))
+CQ_event(wqdailydata,qdata, BF_res, methodname="eventBaseflow")
+CQ_event(wqdailydata,qdata, MAX_res, methodname="eventMaxima")
+```
+<img width="400" alt="Example 5" src = "https://user-images.githubusercontent.com/39328041/204439737-eeb1706e-f365-408f-ae24-12c70954c531.jpg">
+
+## Example 6
 Aim: Demonstrate matching rainfall to runoff
 
 ```R
@@ -126,7 +192,7 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, date
 ```
 <img width="800" alt="Figure 7" src = "https://user-images.githubusercontent.com/39328041/202609761-4bb88578-20ca-4308-ae05-bf134df816fd.jpg">
 
-## Example 6
+## Example 7
 Aim: Demonstrate matching of rainfall and water level surge (residuals)
 
 ```R
