@@ -84,7 +84,7 @@ qdata = WQ_Q$qdata[[1]]
 BF_res = eventBaseflow(qdata$Q_cumecs)
 limbs(data = qdata$Q_cumecs, dates = NULL, events = BF_res, main = "with 'eventBaseflow'")
 ```
-<img width="600" alt="Example 4" src="https://user-images.githubusercontent.com/39328041/202606920-88411677-48b4-4edc-a2c2-c7b21de3309a.jpg">
+<img width="600" alt="Example 4" src="https://user-images.githubusercontent.com/39328041/204440149-e9c60f1d-f227-4024-858b-9d243d11737d.jpg">
 
 ## Example 5
 Aim: Calculate CQ (concentration-discharge) relationships
