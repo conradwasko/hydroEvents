@@ -3,7 +3,7 @@
 #' @description This function calculates baseflow using a recursive digital filter and is based on
 #' the implementation in the EcoHydRology package.
 #'
-#' The formulation is orginally after Lyne and Hollick (1979) and described in Furey and Gupta (2001).
+#' The formulation is originally after Lyne and Hollick (1979) and described in Furey and Gupta (2001).
 #' Recommended parameters are after Nathan and McMahon (1990).
 #'
 #' @references Fuka D. R., Walter, M.T., Archiblad, J.A., Steenhuis, T.S., & Easton, Z. M. (2018).

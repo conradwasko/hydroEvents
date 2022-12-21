@@ -26,7 +26,8 @@
 #'
 #' # Minima in streamflow
 #' m = localMin(dataBassRiver)
-#' plot(dataBassRiver, type = "l", col = "steelblue", lwd = 2, ylab = "Flow (ML/d)", xlab = "Time index", mgp = c(2, 0.6, 0))
+#' plot(dataBassRiver, type = "l", col = "steelblue", lwd = 2, ylab = "Flow (ML/d)",
+#'    xlab = "Time index", mgp = c(2, 0.6, 0))
 #' points(m, dataBassRiver[m], col = "red", pch = 16)
 #'
 #' # Minima in quickflow

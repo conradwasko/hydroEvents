@@ -23,6 +23,7 @@
 #' @keywords plot events
 #' @seealso \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventMinima}} \code{\link{eventPOT}}
 #' @export
+#' @import graphics stats grDevices
 #' @examples
 #' # Plot events
 #' library(hydroEvents)
@@ -30,16 +31,20 @@
 #'
 #' oldpar <- par(mfrow = c(3, 1), mar = c(3, 2.7, 2, 1))
 #' d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
-#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", main = "lineover")
-#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "bound", xlab = "Date", ylab = "Flow (ML/day)", main = "bound")
-#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "hyet", xlab = "Date", ylab = "Flow (ML/day)", main = "hyet")
+#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res,
+#'    type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", main = "lineover")
+#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "bound",
+#'    xlab = "Date", ylab = "Flow (ML/day)", main = "bound")
+#' plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "hyet",
+#'    xlab = "Date", ylab = "Flow (ML/day)", main = "hyet")
 #' par(oldpar)
 
 plotEvents <- function(data, dates = NULL, events, type = "lineover",
-                       colline = "red", colpnt = "blue", colbound = "red", ymin = min(data), ymax = max(data),
+                       colline = "red", colpnt = "blue", colbound = "red",
+                       ymin = min(data), ymax = max(data),
                        xlab = "", ylab = "", main = "events") {
 
-    if (type=="lineover") {
+    if (type == "lineover") {
 
       if (!is.null(dates)) {
         plot(data~dates,type="o",pch=20,cex=0.7,ylim=c(ymin,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
