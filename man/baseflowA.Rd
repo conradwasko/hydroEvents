@@ -17,11 +17,11 @@ baseflowA(q, alpha = 0.925, passes = 3)
 A list of the baseflow and baseflow index at each timestep.
 }
 \description{
-This function caclualates baseflow using a recursive digital filter and is based on
+This function calculates baseflow using a recursive digital filter and is based on
 the implementation in the EcoHydRology package.
 
-The formulation is orginally after Lyne and Hollick (1979) and described in Furey and Gupta (2001).
-Reccomended parameters are after Nathan and McMahon (1990).
+The formulation is originally after Lyne and Hollick (1979) and described in Furey and Gupta (2001).
+Recommended parameters are after Nathan and McMahon (1990).
 }
 \examples{
 library(hydroEvents)

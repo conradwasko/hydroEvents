@@ -37,7 +37,7 @@ If \code{delta.y} is negative it is applied a fractional decrease from the peak,
 treated as an absolute value. The \code{threshold} is applied after the event separation meaning that if a trough
 goes below the threshold but was originally considered one event it will continue to be considered one event.
 This makes this method distinct from the peaks over threshold algorithm in \code{eventPOT}. The \code{threshold}
-here should be thought of as a filter to remove trace amounts that are not part of an event rather than event seperation
+here should be thought of as a filter to remove trace amounts that are not part of an event rather than event separation
 metric.
 }
 \examples{

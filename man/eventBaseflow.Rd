@@ -4,12 +4,20 @@
 \alias{eventBaseflow}
 \title{Event identification (using baseflow index)}
 \usage{
-eventBaseflow(data, BFI_Th = 0.5, min.diff = 1, out.style = "summary")
+eventBaseflow(
+  data,
+  BFI_Th = 0.5,
+  bfi = baseflowB(data)$bfi,
+  min.diff = 1,
+  out.style = "summary"
+)
 }
 \arguments{
 \item{data}{The data vector (e.g. a streamflow time series)}
 
 \item{BFI_Th}{Minimum BFI to identify baseflow}
+
+\item{bfi}{If no BFI is provided the BFI is calculated automatically using baseflowB}
 
 \item{min.diff}{Minimum length for an event}
 
@@ -27,8 +35,7 @@ Events are identified on the basis of the Baseflow Index (BFI).
 Any flow above the \code{BFI_Th} will be considered an event with a minimum event separation of \code{min.diff}.
 }
 \examples{
-# Example extracting events from quickflow
-bf = baseflowB(dataBassRiver)
+# Example
 BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
 }
 \references{

@@ -30,13 +30,13 @@ the indices of start and end of events as a two column dataframe are returned.
 }
 \description{
 Events are identified on the basis of local minima with an "event" considered to have
-occurred once the data has returned to within a thresholdold level of the start of the event.
+occurred once the data has returned to within a threshold level of the start of the event.
 }
 \details{
 The \code{threshold} is applied after the event separation meaning that if a trough
 goes below the threshold but was originally considered one event it will continue to be considered one event.
 This makes this method distinct from the peaks over threshold algorithm in \code{eventPOT}. The \code{threshold}
-here should be thought of as a filter to remove trace amounts that are not part of an event rather than event seperation
+here should be thought of as a filter to remove trace amounts that are not part of an event rather than event separation
 metric.
 }
 \examples{

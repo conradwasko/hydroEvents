@@ -18,7 +18,7 @@ This data is obtained from Grayson et al (1996)
 }
 \references{
 Grayson, R., Argent, R. M., Nathan, R. J., McMahon, T. A. & Mein, R. G. (1996) Hydrological
-Recipes, Cooperative Reserach Centre for Catchment Hydrology, Melbourne.
+Recipes, Cooperative Research Centre for Catchment Hydrology, Melbourne.
 }
 \seealso{
 \code{\link{dataLoch}}

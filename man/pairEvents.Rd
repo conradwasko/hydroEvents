@@ -35,7 +35,7 @@ the function event matching functions. The method types are:
 \item{Type = 5:} Search for the peak in \code{events.2} within the peak of \code{event.1} - \code{lag} to the peak of \code{event.1} + \code{lag}
 }
 
-It is appropriate to pick a lag time that is equiavelent to the catchment time of concentratio if matching rainfall to streamflow.
+It is appropriate to pick a lag time that is equivalent to the catchment time of concentration if matching rainfall to streamflow.
 }
 \examples{
 # Load package
@@ -43,18 +43,16 @@ library(hydroEvents)
 # Identify events
 srt = as.Date("2015-02-05")
 end = as.Date("2015-04-01")
-dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & 
-dataCatchment$`105105A`$Date <= end),]
+idx = which(dataCatchment$`105105A`$Date >= srt & dataCatchment$`105105A`$Date <= end)
+dat = dataCatchment$`105105A`[idx,]
 events.P = eventPOT(dat$Precip_mm, threshold = 1, min.diff = 2)
 events.Q = eventMaxima(dat$Flow_ML, delta.y = 2, delta.x = 1, thresh = 70)
 # Plot events
 oldpar <- par(mfrow = c(2, 1), mar = c(3, 2.7, 2, 1))
-plotEvents(dat$Precip_mm, events = events.P, type = "hyet", 
-colpnt = "#E41A1C", colline = "#E41A1C", ylab = "Precipitation (mm)", 
-xlab = "Index", main = "2015")
-plotEvents(dat$Flow_ML, events = events.Q, type = "lineover", 
-colpnt = "#E41A1C", colline = "#377EB8", ylab = "Flow (ML/day)", 
-xlab = "Index", main = "")
+plotEvents(dat$Precip_mm, events = events.P, type = "hyet", colpnt = "#E41A1C",
+   colline = "#E41A1C", ylab = "Precipitation (mm)", xlab = "Index", main = "2015")
+plotEvents(dat$Flow_ML, events = events.Q, type = "lineover", colpnt = "#E41A1C",
+   colline = "#377EB8", ylab = "Flow (ML/day)", xlab = "Index", main = "")
 par(oldpar)
 # Pair events
 matched.1 = pairEvents(events.P, events.Q, lag = 5,  type = 1)
@@ -64,21 +62,16 @@ matched.4 = pairEvents(events.P, events.Q, lag = 7, type = 4)
 matched.5 = pairEvents(events.P, events.Q, lag = 5, type = 5)
 # Plot Pairs
 oldpar <- par(mfrow = c(5, 1), mar = c(2, 3, 2, 3))
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, 
-events = matched.1, col = rainbow(nrow(events.P)), 
-ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, 
-events = matched.2, col = rainbow(nrow(events.P)), 
-ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, 
-events = matched.3, col = rainbow(nrow(events.P)), 
-ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, 
-events = matched.4, col = rainbow(nrow(events.P)), 
-ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, 
-events = matched.5, col = rainbow(nrow(events.P)), 
-ylab.1 = "P (mm)", ylab.2 = "Q ML/day)", cex.2 = 0.66)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1,
+   col = rainbow(nrow(events.P)), ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2,
+   col = rainbow(nrow(events.P)), ylab.1 = "P (mm)", ylab.2 = "Q (ML/day)", cex.2 = 0.66)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3,
+   col = rainbow(nrow(events.P)), ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4,
+   col = rainbow(nrow(events.P)), ylab.1 = "Q (ML/day)", ylab.2 = "P (mm)", cex.2 = 0.66)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5,
+   col = rainbow(nrow(events.P)), ylab.1 = "P (mm)", ylab.2 = "Q ML/day)", cex.2 = 0.66)
 par(oldpar)
 }
 \seealso{

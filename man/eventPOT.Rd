@@ -11,7 +11,7 @@ eventPOT(data, threshold = 0, min.diff = 1, out.style = "summary")
 
 \item{threshold}{Value above which an event is considered to have occurred}
 
-\item{min.diff}{Spacing required for two events to be considered seperate}
+\item{min.diff}{Spacing required for two events to be considered separate}
 
 \item{out.style}{The type of output (currently either "summary" or "none")}
 }
@@ -32,19 +32,19 @@ The \code{min.diff} can be viewed as the minimum spacing for event independence.
 bf = baseflowB(dataBassRiver, alpha = 0.925)
 qf = dataBassRiver - bf$bf
 events = eventPOT(qf)
-plotEvents(qf, dates = NULL, events = events, type = "lineover", 
-main = "Events (plotted on quickflow)")
-plotEvents(dataBassRiver, dates = NULL, events = events, 
-type = "lineover", main = "Events (plotted on streamflow)")
+plotEvents(qf, dates = NULL, events = events, type = "lineover",
+   main = "Events (plotted on quickflow)")
+plotEvents(dataBassRiver, dates = NULL, events = events, type = "lineover",
+   main = "Events (plotted on streamflow)")
 
 # Examples using rainfall data
 events = eventPOT(dataLoch, threshold = 0, min.diff = 1)
-plotEvents(dataLoch, dates = NULL, events = events, type = "hyet", 
-main = "Rainfall Events (threshold = 0, min.diff = 1)")
+plotEvents(dataLoch, dates = NULL, events = events, type = "hyet",
+   main = "Rainfall Events (threshold = 0, min.diff = 1)")
 
 events = eventPOT(dataLoch, threshold = 2, min.diff = 2)
-plotEvents(dataLoch, dates = NULL, events = events, type = "hyet", 
-main = "Rainfall Events (threshold = 2, min.diff = 2)")
+plotEvents(dataLoch, dates = NULL, events = events, type = "hyet",
+   main = "Rainfall Events (threshold = 2, min.diff = 2)")
 }
 \seealso{
 \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventMinima}}

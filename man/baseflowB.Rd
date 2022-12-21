@@ -13,7 +13,7 @@ baseflowB(q, alpha = 0.925, passes = 3, r = 30)
 
 \item{passes}{Number of passes}
 
-\item{r}{number of points refelcted at start and end of data set}
+\item{r}{number of points reflected at start and end of data set}
 }
 \value{
 A list of the baseflow and baseflow index at each timestep.

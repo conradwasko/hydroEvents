@@ -8,10 +8,12 @@ limbs(
   data,
   dates = NULL,
   events,
-  plot = TRUE,
-  main = "Event hydrographs",
-  filter = F,
-  min.rates = c(0, 0)
+  to.plot = TRUE,
+  ymin = min(data),
+  ymax = max(data),
+  xlab = "",
+  ylab = "",
+  main = ""
 )
 }
 \arguments{
@@ -21,13 +23,17 @@ limbs(
 
 \item{events}{Event extracted}
 
-\item{plot}{c(TRUE,FALSE) whether a plot is produced for the limbs}
+\item{to.plot}{c(TRUE,FALSE) whether a plot is produced for the limbs}
 
-\item{main}{Desired title of the plot if plot=T}
+\item{ymin}{Minimum plot extend in vertical direction}
 
-\item{filter}{c("simple", "spline") Optional smoothing of data series}
+\item{ymax}{Maximum plot extent in vertical direction}
 
-\item{min.rates}{Vector of length 2, mininum increasing rate during rising limb & minimum decreasing rate during falling limb}
+\item{xlab}{x-axis label}
+
+\item{ylab}{y-axis label}
+
+\item{main}{Plot title}
 }
 \value{
 Returns indices of start and end of events and the rising/falling limbs within each event
@@ -36,11 +42,18 @@ Returns indices of start and end of events and the rising/falling limbs within e
 Identify the rising and falling limbs within each event (and optionally plot)
 }
 \examples{
+# Example 1
 library(hydroEvents)
-data("WQ_Q")
-qdata=WQ_Q$qdata[[1]]
-Q = as.vector(qdata$Q_cumecs)
-BF_res = eventBaseflow(Q)
-limbs(data = Q, dates=NULL, events = BF_res, main="with 'eventBaseflow'")
+qdata = WQ_Q$qdata[[1]]
+BF_res = eventBaseflow(qdata$Q_cumecs)
+limbs(data = qdata$Q_cumecs, dates = NULL, events = BF_res, main = "with 'eventBaseflow'")
+BFI_res = eventBaseflow(dataBassRiver)
+
+# Example 2
+library(hydroEvents)
+BFI_res = eventBaseflow(dataBassRiver)
+d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
+limbs(data = dataBassRiver, dates = NULL, events = BFI_res)
+limbs(data = dataBassRiver, dates = d, events = BFI_res)
 }
 \keyword{events}

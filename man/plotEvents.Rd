@@ -12,6 +12,7 @@ plotEvents(
   colline = "red",
   colpnt = "blue",
   colbound = "red",
+  ymin = min(data),
   ymax = max(data),
   xlab = "",
   ylab = "",
@@ -33,7 +34,9 @@ plotEvents(
 
 \item{colbound}{Background colour for plot type \code{"bound"}}
 
-\item{ymax}{Maxiumum plot extent in vertical direction}
+\item{ymin}{Minimum plot extend in vertical direction}
+
+\item{ymax}{Maximum plot extent in vertical direction}
 
 \item{xlab}{x-axis label}
 
@@ -58,15 +61,12 @@ BFI_res = eventBaseflow(dataBassRiver)
 
 oldpar <- par(mfrow = c(3, 1), mar = c(3, 2.7, 2, 1))
 d = as.Date("1974-06-30") + 0:(length(dataBassRiver)-1)
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, 
-type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", 
-main = "lineover")
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, 
-type = "bound", xlab = "Date", ylab = "Flow (ML/day)", 
-main = "bound")
-plotEvents(data = dataBassRiver, dates = d, events = BFI_res, 
-type = "hyet", xlab = "Date", ylab = "Flow (ML/day)", 
-main = "hyet")
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res,
+   type = "lineover", xlab = "Date", ylab = "Flow (ML/day)", main = "lineover")
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "bound",
+   xlab = "Date", ylab = "Flow (ML/day)", main = "bound")
+plotEvents(data = dataBassRiver, dates = d, events = BFI_res, type = "hyet",
+   xlab = "Date", ylab = "Flow (ML/day)", main = "hyet")
 par(oldpar)
 }
 \seealso{

@@ -12,15 +12,15 @@ Each dataset (qdata and wqdata) is a list of length 4, corresponding to the 4 ca
 HRS streamflow data:
 \url{http://www.bom.gov.au/water/hrs/}
 water quality data:
-WaterNSW: \url{https://www.waternsw.com.au/waterinsights/real-time-data}
-Northern Territory Department of Environment, Parks and Water Security \url{https://water.nt.gov.au/}
+WaterNSW: \url{https://realtimedata.waternsw.com.au/}
+Northern Territory Department of Environment, Parks and Water Security \url{https://ntg.aquaticinformatics.net/AQWebportal/}
 South Australia Department for Environment and Water \url{https://www.waterconnect.sa.gov.au/}
 }
 \usage{
 WQ_Q
 }
 \description{
-Data from 4 HRS (Hydrologic Reference Stations, Australian Bureau of Meteorolgy) catchments are included:
+Data from 4 HRS (Hydrologic Reference Stations, Australian Bureau of Meteorology) catchments are included:
 catchment IDs: 410073, 424002, G8150018, A5020502.
 }
 \keyword{datasets}

@@ -5,10 +5,10 @@
 \alias{data_P_WL}
 \title{Example sub-daily rainfall and tidal water level data}
 \format{
-Each of P and WL data is a simple vector with no timestamp. The original data is in hourly time step.
+Each of P and WL data is a simple vector with no time stamp. The original data is in hourly time step.
 }
 \source{
-Sub-daily rainfall data are from Australian Bureau of Meteorolgy:
+Sub-daily rainfall data are from Australian Bureau of Meteorology:
 \url{http://www.bom.gov.au/climate/data/stations/}
 Sub-daily tidal water level data are from Australian Bureau of Meteorolgy Australian Baseline Sea Level Monitoring Project:
 \url{http://www.bom.gov.au/oceanography/projects/abslmp/data/index.shtml}
