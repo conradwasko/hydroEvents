@@ -24,7 +24,10 @@
 #' # Example
 #' BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
 
-eventBaseflow <- function(data, BFI_Th = 0.5, bfi = baseflowB(data)$bfi, min.diff = 1, out.style = "summary") {
+eventBaseflow <- function(data, BFI_Th = 0.5, alpha_bfi = alpha_bfi  , min.diff = 1, out.style = "summary") {
+  
+  bfi = baseflowB(data, alpha_bfi =alpha_bfi)$bfi
+  
   baseind = which(bfi>BFI_Th)
   evind = which(bfi<BFI_Th)
 
@@ -57,6 +60,9 @@ eventBaseflow <- function(data, BFI_Th = 0.5, bfi = baseflowB(data)$bfi, min.dif
   } else {
     res = rawev
   }
+  
+  out = list(res ,ris_ind ,fal_ind)
+  names(out) = c('res','ris_ind','fal_ind')
+  return(out)
 
-  return(res)
 }
