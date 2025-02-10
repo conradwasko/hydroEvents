@@ -4,7 +4,7 @@
 #'
 #' @param data.1 The first data vector
 #' @param data.2 The second data vector
-#' @param events The pairedeEvents data frame from \link{pairEvents}
+#' @param events The paired events data frame from \link{pairEvents}
 #' @param dates Optional date vector
 #' @param type The type of plot (see details)
 #' @param color.list Vector of colours used for plotting
