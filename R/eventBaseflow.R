@@ -11,7 +11,7 @@
 #' @param min.diff Minimum length for an event
 #' @param out.style The type of output (currently either "summary" or "none")
 #'
-#' @details Any flow above the \code{BFI_Th} will be considered an event with a minimum event separation of \code{min.diff}.
+#' @details Any flow associated with a BFI below \code{BFI_Th} will be considered an event with a minimum event separation of \code{min.diff}.
 #'
 #' @return By default, the \code{out.style} returns the indices of the maximum in each event, as well as the value of
 #' the maximum and the sum of the \code{data} in each event, alongside the start and end of the events. Otherwise just
