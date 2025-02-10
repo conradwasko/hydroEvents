@@ -32,13 +32,15 @@
 #' limbs(data = dataBassRiver, dates = d, events = BFI_res)
 
 limbs <- function(data, dates = NULL, events, to.plot = TRUE,
-                  ymin = min(data), ymax = max(data), xlab = "", ylab ="", main = "") {
+                  ymin = min(data), ymax = max(data), 
+                  xmin = NULL, xmax = NULL, 
+                  xlab = "", ylab ="", main = "") {
 
   if (to.plot == TRUE) {
     if (!is.null(dates)) {
-      plot(data~dates,type="o",pch=20,cex=0.7,col="grey",ylim=c(ymin,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      plot(data~dates,type="o",pch=20,cex=0.7,col="grey",ylim=c(ymin,ymax),xlim = c(xmin,xmax), main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
     } else {
-      plot(data,type="o",pch=20,cex=0.7,col="grey",ylim=c(ymin,ymax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
+      plot(data,type="o",pch=20,cex=0.7,col="grey",ylim=c(ymin,ymax),xlim = c(xmin,xmax),main=main, xlab=xlab, ylab=ylab, mgp = c(1.7, 0.6, 0))
     }
   }
 
@@ -47,13 +49,16 @@ limbs <- function(data, dates = NULL, events, to.plot = TRUE,
   colnames(rising)  = c("ris.srt","ris.end")
   colnames(falling) = c("fal.srt","fal.end")
 
+  event.stats = calcStats(events$srt, events$end, data, 
+                          f.vec = c("which.max", "max", "sum"))
+  maxID = event.stats$which.max
   dropevent = vector()
   for (k in 1:nrow(events)) {
     extevents[[k]] = data[events$srt[k]:events$end[k]]
     eventid[[k]] = events$srt[k]:events$end[k]
 
-    rising[k,]  = eventid[[k]][c(1,(min(which(diff(extevents[[k]])<0))))]
-    falling[k,] = eventid[[k]][c((min(which(diff(extevents[[k]])<0))),length(eventid[[k]]))]
+    rising[k,]  = c(events$srt[k],maxID[k])
+    falling[k,] = c(maxID[k],events$end[k])
 
     if (to.plot == TRUE) {
       if (!k %in% dropevent) {

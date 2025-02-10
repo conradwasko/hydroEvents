@@ -31,29 +31,14 @@ eventBaseflow <- function(data, BFI_Th = 0.5, bfi = baseflowB(data)$bfi, min.dif
   evS = baseind[which(diff(baseind)>min.diff)]
   evE = baseind[which(diff(baseind)>min.diff)+1]
 
-  ris_ind=fal_ind=rawev=list()
-  peakind=sumev=maxev=vector()
-  for(i in 1:length(evS)) {
-    id = c(evS[i]:evE[i])
-    val = data[evS[i]:evE[i]]
-    rawev[[i]] = as.data.frame(cbind(id,val))
-    peakind[i] = c(evS[i]:evE[i])[which(data[evS[i]:evE[i]]==max(data[evS[i]:evE[i]]))]
-    sumev[i] = sum(data[evS[i]:evE[i]])
-    maxev[i] = data[evS[i]:evE[i]][which(data[evS[i]:evE[i]]==max(data[evS[i]:evE[i]]))]
-    ris_ind[[i]] = c(evS[i]:evE[i])[-1][which(diff(data[evS[i]:evE[i]])>0)]
-    fal_ind[[i]] = c(evS[i]:evE[i])[-1][which(diff(data[evS[i]:evE[i]])<0)]
-  }
   srt.index = evS
   end.index = evE
 
-  n.events  = length(srt.index)
-
-  risingind = evind[-1][which(diff(data)[evind[-1]]>0)]
-  fallingind = evind[-1][which(diff(data)[evind[-1]]<0)]
-
   if (out.style=="summary") {
-    res = data.frame(srt=srt.index,end=end.index, which.max=peakind,max=maxev,sum=sumev)
-    # can also output BFI with 'baseind'
+    event.stats = calcStats(srt.index, end.index, data, 
+                            f.vec = c("which.max", "max", "sum"))
+    return(data.frame(srt = srt.index, end = end.index, 
+                      event.stats))
   } else {
     res = rawev
   }
