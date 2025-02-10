@@ -9,8 +9,10 @@
 #' @param colline Line colour
 #' @param colpnt Point colour
 #' @param colbound Background colour for plot type \code{"bound"}
-#' @param ymin Minimum plot extend in vertical direction
+#' @param ymin Minimum plot extent in vertical direction
 #' @param ymax Maximum plot extent in vertical direction
+#' @param xmin Minimum plot extent in horizontal direction
+#' @param xmax Maximum plot extent in horizontal direction
 #' @param xlab x-axis label
 #' @param ylab y-axis label
 #' @param main Plot title
