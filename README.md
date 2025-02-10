@@ -60,7 +60,7 @@ bf = baseflowB(dataBassRiver)
 Max_res = eventMaxima(dataBassRiver-bf$bf, delta.y = -0.75, delta.x = 1, threshold = 0)
 Min_res = eventMinima(dataBassRiver-bf$bf, delta.y = 100, delta.x = 3, threshold = 0)
 PoT_res = eventPOT(dataBassRiver-bf$bf, threshold = 0, min.diff = 1)
-BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
+BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.length = 1)
 
 par(mfrow = c(2, 2), mar = c(3, 2.7, 2, 1))
 plotEvents(data = dataBassRiver, events = PoT_res, ymax = 1160, xlab = "Index", ylab = "Flow (ML/day)", colpnt = "#E41A1C", colline = "#377EB8", main = "eventPOT")
