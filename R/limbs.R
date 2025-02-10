@@ -6,8 +6,10 @@
 #' @param dates Date variable, default to NULL (inputting data as a simple vector)
 #' @param events Event extracted
 #' @param to.plot c(TRUE,FALSE) whether a plot is produced for the limbs
-#' @param ymin Minimum plot extend in vertical direction
+#' @param ymin Minimum plot extent in vertical direction
 #' @param ymax Maximum plot extent in vertical direction
+#' @param xmin Minimum plot extent in horizontal direction
+#' @param xmax Maximum plot extent in horizontal direction
 #' @param xlab x-axis label
 #' @param ylab y-axis label
 #' @param main Plot title
