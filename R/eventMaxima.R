@@ -58,9 +58,9 @@ eventMaxima <- function(data, delta.y = 200, delta.x = 1, threshold = -1, out.st
     current.max = max(maxima.y[i:(j-1)])
     # Test if true end of event
     if (delta.y > 0) {
-      test.1 = (current.max - max(current.y.1, current.y.2)) > delta.y
+      test.1 = (current.max - current.y.2) > delta.y
     } else {
-      test.1 = (current.max - max(current.y.1, current.y.2)) > -current.max*delta.y
+      test.1 = (current.max - current.y.2) > -current.max*delta.y
     }
     test.2 = ((maxima.x[j]-maxima.x[j-1]) > delta.x)
     if (test.1 & test.2) {
