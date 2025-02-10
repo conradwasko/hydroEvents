@@ -8,10 +8,10 @@
 #' @param data The data vector (e.g. a streamflow time series)
 #' @param BFI_Th Minimum BFI to identify baseflow
 #' @param bfi If no BFI is provided the BFI is calculated automatically using baseflowB
-#' @param min.diff Minimum length for an event
+#' @param min.length Minimum length for an event
 #' @param out.style The type of output (currently either "summary" or "none")
 #'
-#' @details Any flow associated with a BFI below \code{BFI_Th} will be considered an event with a minimum event separation of \code{min.diff}.
+#' @details Any flow associated with a BFI below \code{BFI_Th} will be considered an event with a minimum length \code{min.length}.
 #'
 #' @return By default, the \code{out.style} returns the indices of the maximum in each event, as well as the value of
 #' the maximum and the sum of the \code{data} in each event, alongside the start and end of the events. Otherwise just
@@ -22,17 +22,13 @@
 #' @seealso \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}
 #' @examples
 #' # Example
-#' BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
+#' BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.length = 1)
 
-eventBaseflow <- function(data, BFI_Th = 0.5, bfi = baseflowB(data)$bfi, min.diff = 1, out.style = "summary") {
+eventBaseflow <- function(data, BFI_Th = 0.5, bfi = baseflowB(data)$bfi, min.length = 1, out.style = "summary") {
   baseind = which(bfi>BFI_Th)
-  evind = which(bfi<BFI_Th)
-
-  evS = baseind[which(diff(baseind)>min.diff)]
-  evE = baseind[which(diff(baseind)>min.diff)+1]
-
-  srt.index = evS
-  end.index = evE
+ 
+  srt.index = baseind[which(diff(baseind)>min.length)]
+  end.index = baseind[which(diff(baseind)>min.length)+1]
 
   if (out.style=="summary") {
     event.stats = calcStats(srt.index, end.index, data, 
@@ -40,8 +36,6 @@ eventBaseflow <- function(data, BFI_Th = 0.5, bfi = baseflowB(data)$bfi, min.dif
     return(data.frame(srt = srt.index, end = end.index, 
                       event.stats))
   } else {
-    res = rawev
+    return(data.frame(srt = srt.index, end = end.index))
   }
-
-  return(res)
 }
