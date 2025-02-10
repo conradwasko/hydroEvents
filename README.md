@@ -158,8 +158,8 @@ Aim: Demonstrate matching rainfall to runoff
 ```R
 library(hydroEvents)
 # Prepare data
-srt = as.Date("2015-02-05"))
-end = as.Date("2015-04-01"))
+srt = as.Date("2015-02-05")
+end = as.Date("2015-04-01")
 dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & dataCatchment$`105105A`$Date <= end),]
   
 # Extract events
