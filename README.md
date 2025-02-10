@@ -184,11 +184,11 @@ matched.4 = pairEvents(events.P, events.Q, lag = 7, type = 4)
 matched.5 = pairEvents(events.P, events.Q, lag = 5, type = 5)
 
 par(mfrow = c(3, 2), mar = c(1.7, 3, 2.1, 3))
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 1", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK PRESENT
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 2", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 3", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3) # OK PRESENT (In discussion?)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 1", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 2", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) 
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 3", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3) 
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 4", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 5", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 5", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) 
 ```
 <img width="800" alt="Figure 7" src = "https://user-images.githubusercontent.com/39328041/202609761-4bb88578-20ca-4308-ae05-bf134df816fd.jpg">
 
