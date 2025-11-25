@@ -74,8 +74,8 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
         }
 
         lines(extevents[[k]]~eventid[[k]],col=colline,type="o",pch=20,cex=0.7)
-        points(head(extevents[[k]],1)~head(eventid[[k]],1),col=colline,type="o",pch=20,cex=1.5)
-        points(tail(extevents[[k]],1)~tail(eventid[[k]],1),col=colline,type="o",pch=20,cex=1.5)
+        points(head(extevents[[k]],1)~head(eventid[[k]],1),col=colpnt,type="o",pch=20,cex=1.5)
+        points(tail(extevents[[k]],1)~tail(eventid[[k]],1),col=colpnt,type="o",pch=20,cex=1.5)
         text(x=median(eventid[[k]]),y=quantile(extevents[[k]],.9),label=paste0("(",k,")"), cex = 1.2)
       }
 
@@ -151,5 +151,4 @@ plotEvents <- function(data, dates = NULL, events, type = "lineover",
 
       }
     }
-
 }
