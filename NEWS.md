@@ -7,4 +7,5 @@
 * 3. calcREIC, which calculates the REIC value for a set of rainfall–runoff events given rainfall, quickflow, 
 and event data, following the approach introduced in Mohammadpour Khoie et al. (2025). https://doi.org/10.1016/j.envsoft.2025.106521. REIC is a simple objective metric to assess the plausibility of the rainfall-runoff events chosen.
 * Added new dataset:
-* 1. q138903A, and hourly streamflow dataset to demonstrate event identification with hourly data.
+
+* 1. hourly_Q, and hourly streamflow dataset to demonstrate event identification with hourly data.
