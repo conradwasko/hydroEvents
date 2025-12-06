@@ -228,3 +228,78 @@ plotPairs(data.1 = Psel, data.2 = WLsel, events = matched.2, type = "hyet", colo
 ![Example7b](https://user-images.githubusercontent.com/29298475/122487944-c275dd80-d01f-11eb-8e3d-63b26fa733fa.jpeg)
 
 
+
+## Example 8
+Aim: Demonstrate event identification with hourly streamflow data
+
+```R
+library(hydroEvents)
+library(stats)
+# Prepare data
+data(hourlyQ)
+
+# smoothing for hourly data to remove local fluctuation
+flow = hourlyQ$q
+n = length(flow)
+flow.smoothed = filter(flow, c(0.1, 0.2, 0.4, 0.2, 0.1))[3:(n-2)]
+
+# baseflow filtering and event identification with eventMaxima
+bf = baseflowA(flow.smoothed, alpha = 0.925)
+events = eventMaxima(flow.smoothed-bf$bf, -0.75, 12, threshold = 1)
+idx = 63800
+events$srt = events$srt - idx
+events$end = events$end - idx
+plotEvents(data = flow[3:(n-2)][idx:(idx+200)], events = events[120,], type = "lineover", xlab = "Index", ylab = "Flow (m3/s)", colpnt = "#E41A1C", colline = "#377EB8", main = "Event Identification with Hourly Data")
+lines(1:201, bf$bf[idx:(idx+200)], lty = 2)
+
+```
+![Example8](https://raw.githubusercontent.com/DanluGuo/hydroEvents/refs/heads/0.13/Example8_figure.png)
+
+
+
+## Example 9
+Aim: Demonstrate the calculation of the Robust Event Identification Criteria (REIC), following Mohammadpour Khoie, et al. (2025): https://doi.org/10.1016/j.envsoft.2025.106521.
+Calculation of the REIC value for a set of rainfall-runoff events given rainfall and runoff time series and events
+
+
+```R
+library(RColorBrewer)
+dat = dataCatchment$`105105A`
+srt = as.Date("2015-02-05")
+end = as.Date("2015-11-01")
+dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & dataCatchment$`105105A`$Date <= end),]
+
+
+events.P = eventPOT(dat$Precip_mm, threshold = 1, min.diff = 1)
+QF <- dat$Flow_ML-baseflowA(dat$Flow_ML, alpha = 0.925, passes = 3)$bf
+events.Qbest1 = eventMinima(QF, delta.y = 14.24, delta.x = 1, thresh = 6.58)
+matched.best1 = PostCorrection(pairEvents(events.P, events.Qbest1, lag = 6,  type = 3))  
+
+events.Qbest2 = eventMinima(QF, delta.y = 21.37, delta.x = 5, thresh = 2.42)
+matched.best2 = PostCorrection(pairEvents(events.P, events.Qbest1, lag = 7,  type = 5))  
+
+events.Qworst1 = eventMaxima(QF, delta.y = -0.861, delta.x = 1, thresh = 127.1)
+matched.worst1 = PostCorrection(pairEvents(events.P, events.Qworst1, lag = 1,  type = 4))  
+
+events.Qworst2 = eventMaxima(QF, delta.y = -0.825, delta.x = 9, thresh = 39.26)
+matched.worst2 = PostCorrection(pairEvents(events.P, events.Qworst2, lag = 1,  type = 4))
+
+REIC.b1 <- round(calcREIC(dat$Precip_mm, dat$Flow_ML, matched.best1, n_rainfall = nrow(events.P), area = 297),2) # see manual 'dataCatchment'
+REIC.b2 <- round(calcREIC(dat$Precip_mm, dat$Flow_ML, matched.best2, n_rainfall = nrow(events.P), area = 297),2) # see manual 'dataCatchment'
+
+REIC.w1 <- round(calcREIC(dat$Precip_mm, dat$Flow_ML, matched.worst1, n_rainfall = nrow(events.P), area = 297),2) # see manual 'dataCatchment'
+REIC.w2 <- round(calcREIC(dat$Precip_mm, dat$Flow_ML, matched.worst2, n_rainfall = nrow(events.P), area = 297),2) # see manual 'dataCatchment'
+
+par(mfrow = c(2, 2), mar = c(1.7, 3, 2.1, 3))
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.best1, date = dat$Date, col = colorRampPalette(brewer.pal(12, "Set3"))(nrow(events.P)), 
+          main = paste("Result 1, REIC =",REIC.b1), ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.best2, date = dat$Date, col = colorRampPalette(brewer.pal(12, "Set3"))(nrow(events.P)), 
+          main = paste("Result 2, REIC =",REIC.b2), ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) 
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst1, date = dat$Date, col = colorRampPalette(brewer.pal(12, "Set3"))(nrow(events.P)), 
+          main = paste("Result 3, REIC =",REIC.w1), ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3) 
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst2, date = dat$Date, col = colorRampPalette(brewer.pal(12, "Set3"))(nrow(events.P)), 
+          main = paste("Result 4, REIC =",REIC.w2), ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3)
+```
+![Example9](https://raw.githubusercontent.com/DanluGuo/hydroEvents/refs/heads/0.13/Example9_Figure.png)
+
+
