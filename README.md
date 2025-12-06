@@ -57,10 +57,10 @@ Aim: Extract flow events (and demonstrate the different methods available)
 ```R
 library(hydroEvents)
 bf = baseflowB(dataBassRiver)
-Max_res = eventMaxima(dataBassRiver-bf$bf, delta.y = 10, delta.x = 1, threshold = 0)
+Max_res = eventMaxima(dataBassRiver-bf$bf, delta.y = -0.75, delta.x = 1, threshold = 0)
 Min_res = eventMinima(dataBassRiver-bf$bf, delta.y = 100, delta.x = 3, threshold = 0)
 PoT_res = eventPOT(dataBassRiver-bf$bf, threshold = 0, min.diff = 1)
-BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
+BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.length = 1)
 
 par(mfrow = c(2, 2), mar = c(3, 2.7, 2, 1))
 plotEvents(data = dataBassRiver, events = PoT_res, ymax = 1160, xlab = "Index", ylab = "Flow (ML/day)", colpnt = "#E41A1C", colline = "#377EB8", main = "eventPOT")
@@ -150,7 +150,7 @@ par(mar=c(2,2,2,2))
 CQ_event(wqdailydata,qdata, BF_res, methodname="eventBaseflow")
 CQ_event(wqdailydata,qdata, MAX_res, methodname="eventMaxima")
 ```
-<img width="800" alt="Example 5" src = "https://user-images.githubusercontent.com/39328041/204439737-eeb1706e-f365-408f-ae24-12c70954c531.jpg">
+<img width="800" alt="Example 5" src = "https://github.com/user-attachments/assets/bd2561a7-c23b-4d2f-bb5e-70ebe2837c19">
 
 ## Example 6
 Aim: Demonstrate matching rainfall to runoff
@@ -158,8 +158,8 @@ Aim: Demonstrate matching rainfall to runoff
 ```R
 library(hydroEvents)
 # Prepare data
-srt = as.Date("2015-02-05"))
-end = as.Date("2015-04-01"))
+srt = as.Date("2015-02-05")
+end = as.Date("2015-04-01")
 dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & dataCatchment$`105105A`$Date <= end),]
   
 # Extract events
@@ -184,11 +184,11 @@ matched.4 = pairEvents(events.P, events.Q, lag = 7, type = 4)
 matched.5 = pairEvents(events.P, events.Q, lag = 5, type = 5)
 
 par(mfrow = c(3, 2), mar = c(1.7, 3, 2.1, 3))
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 1", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK PRESENT
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 2", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 3", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3) # OK PRESENT (In discussion?)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.1, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 1", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3)
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.2, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 2", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) 
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.3, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 3", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3) 
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.4, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 4", ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3)
-plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 5", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) # OK
+plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.5, date = dat$Date, col = brewer.pal(nrow(events.P), "Set3"), main = "Type 5", ylab.1 = "Rainfall (mm)", ylab.2 = "Flow (ML/day)", cex.2 = 2/3) 
 ```
 <img width="800" alt="Figure 7" src = "https://user-images.githubusercontent.com/39328041/202609761-4bb88578-20ca-4308-ae05-bf134df816fd.jpg">
 
