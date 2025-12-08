@@ -253,7 +253,7 @@ plotEvents(data = flow[3:(n-2)][idx:(idx+200)], events = events[120,], type = "l
 lines(1:201, bf$bf[idx:(idx+200)], lty = 2)
 
 ```
-![Example8](https://raw.githubusercontent.com/DanluGuo/hydroEvents/refs/heads/0.13/Example8_figure.png)
+![Example8](https://raw.githubusercontent.com/conradwasko/hydroEvents/refs/heads/0.13/Example8_figure.png)
 
 
 
@@ -300,6 +300,6 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst1,
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst2, date = dat$Date, col = colorRampPalette(brewer.pal(12, "Set3"))(nrow(events.P)), 
           main = paste("Result 4, REIC =",REIC.w2), ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3)
 ```
-![Example9](https://raw.githubusercontent.com/DanluGuo/hydroEvents/refs/heads/0.13/Example9_Figure.png)
+![Example9](https://raw.githubusercontent.com/conradwasko/hydroEvents/refs/heads/0.13/Example9_Figure.png)
 
 
