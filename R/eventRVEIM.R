@@ -1,8 +1,5 @@
 eventRVEIM= function(rainfall,streamflow, dvar=3, alpha=0.925, 
-  #################### DG. 20251019. Added Section to return consistent format with original event functions e.g., eventMaxima #######
                      out.style = "summary") 
-  #################### DG. 20251019. Added Section to return consistent format with original event functions e.g., eventMaxima #######
-
 {  
   # cHECKING DATA:
   if (length(rainfall) != length(streamflow))
