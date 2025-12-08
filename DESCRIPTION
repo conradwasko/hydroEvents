@@ -1,20 +1,12 @@
 Package: hydroEvents
 Title: Extract Event Statistics in Hydrologic Time Series
 Version: 0.13.0
-Authors@R: c(person("Conrad", "Wasko", email = "conrad.wasko@gmail.com", 
-    role = c("aut", "cre")),
-    person("Danlu", "Guo",  role = c("aut")),
-    person("Mohammad Masoud", "Mohammadpour Khoie",  role = c("ctb")))
-Description: Events from individual hydrologic time series are extracted, and 
-events from multiple time series can be matched to each other.
-
-  Wasko, C. & Guo, D. (2022) Understanding event runoff coefficient variability 
-  across Australia using the hydroEvents R package. 
-  Hydrological Processes <doi:10.1002/hyp.14563>.
-  Mohammadpour Khoie, M. M., Guo, D. & Wasko, C. (2025) Improving the 
-  consistency of hydrologic event identification. Environmental Modelling and 
-  Software. <doi:10.1016/j.envsoft.2025.106521>.
-  
+Authors@R: c(person("Conrad", "Wasko", email="conrad.wasko@gmail.com", role=c("aut","cre")), person("Danlu","Guo", role="aut"), person("Mohammad Masoud","Mohammadpour Khoie", role="ctb"))
+Author: Conrad Wasko [aut, cre], Danlu Guo [aut], Mohammad Masoud Mohammadpour Khoie [ctb]
+Description: Events from individual hydrologic time series are extracted, and events
+ are matched across multiple time series. The package has been applied in studies
+ such as Wasko and Guo (2022) <doi:10.1002/hyp.14563> and Mohammadpour Khoie,
+ Guo and Wasko (2025) <doi:10.1016/j.envsoft.2025.106521>.
 URL: https://github.com/conradwasko/hydroEvents
 License: GPL-3
 Encoding: UTF-8
@@ -22,10 +14,4 @@ LazyData: true
 RoxygenNote: 7.3.2
 Depends: R (>= 2.10)
 NeedsCompilation: no
-Packaged: 2025-12-06 23:31:32 UTC; cwas0229
-Author: Conrad Wasko [aut, cre],
-  Danlu Guo [aut],
-  Mohammad Masoud Mohammadpour Khoie [ctb].
 Maintainer: Conrad Wasko <conrad.wasko@gmail.com>
-Repository: CRAN
-Date/Publication: 2025-12-06 16:40:07 UTC
