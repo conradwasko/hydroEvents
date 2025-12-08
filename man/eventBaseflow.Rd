@@ -8,7 +8,7 @@ eventBaseflow(
   data,
   BFI_Th = 0.5,
   bfi = baseflowB(data)$bfi,
-  min.diff = 1,
+  min.length = 1,
   out.style = "summary"
 )
 }
@@ -19,7 +19,7 @@ eventBaseflow(
 
 \item{bfi}{If no BFI is provided the BFI is calculated automatically using baseflowB}
 
-\item{min.diff}{Minimum length for an event}
+\item{min.length}{Minimum length for an event}
 
 \item{out.style}{The type of output (currently either "summary" or "none")}
 }
@@ -32,15 +32,14 @@ the indices of start and end of events as a two column dataframe are returned.
 Events are identified on the basis of the Baseflow Index (BFI).
 }
 \details{
-Any flow above the \code{BFI_Th} will be considered an event with a minimum event separation of \code{min.diff}.
+Any flow associated with a BFI below \code{BFI_Th} will be considered an event with a minimum length \code{min.length}.
 }
 \examples{
 # Example
-BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.diff = 1)
+BFI_res = eventBaseflow(dataBassRiver, BFI_Th = 0.5, min.length = 1)
 }
 \references{
-Kaur, S., Horne, A., Stewardson, M.J., Nathan, R., Costa, A.M., Szemis, J.M., & Webb, J.A., (2017)
-Challenges for determining frequency of high flow spells for varying thresholds in environmental flows programmes. J. Ecohydraulics 2, 28–37.
+  Wasko, C. & Guo, D. (2022) Understanding event runoff coefficient variability across Australia using the hydroEvents R package. Hydrological Processes <doi:10.1002/hyp.14563>.
 }
 \seealso{
 \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}

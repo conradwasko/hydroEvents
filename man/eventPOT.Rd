@@ -46,6 +46,9 @@ events = eventPOT(dataLoch, threshold = 2, min.diff = 2)
 plotEvents(dataLoch, dates = NULL, events = events, type = "hyet",
    main = "Rainfall Events (threshold = 2, min.diff = 2)")
 }
+\references{
+  Wasko, C. & Guo, D. (2022) Understanding event runoff coefficient variability across Australia using the hydroEvents R package. Hydrological Processes <doi:10.1002/hyp.14563>.
+}
 \seealso{
 \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventMinima}}
 }

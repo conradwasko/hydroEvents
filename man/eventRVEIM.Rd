@@ -49,8 +49,9 @@ Institute of Engineers, Australia National Conference.
 }
 
 \examples{
-\dontrun{
 # Example usage
 events <- eventRVEIM(dataLoch, dataBassRiver, dvar = 3, alpha = 0.925)
 }
+\references{
+  Mohammadpour Khoie, M. M., Guo, D. & Wasko, C. (2025) Improving the consistency of hydrologic event identification<doi:10.1016/j.envsoft.2025.106521>.
 }

@@ -51,8 +51,7 @@ plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "")
 # delta.x = 1, delta.y = 20 # 6 events identified
 }
 \references{
-Tang, W., & Carey, S. K. (2017) HydRun: A MATLAB toolbox for rainfall-runoff analysis,
-Hydrological Processes (31) 2670-2682
+  Wasko, C. & Guo, D. (2022) Understanding event runoff coefficient variability across Australia using the hydroEvents R package. Hydrological Processes <doi:10.1002/hyp.14563>.
 }
 \seealso{
 \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}

@@ -52,6 +52,9 @@ plotEvents(qf, dates = NULL, events = events, type = "lineover", main = "")
 # delta.y = 500; delta.x = 1 # 3 events identified
 # delta.y = 10;  delta.x = 7 # 2 events identified
 }
+\references{
+  Wasko, C. & Guo, D. (2022) Understanding event runoff coefficient variability across Australia using the hydroEvents R package. Hydrological Processes <doi:10.1002/hyp.14563>.
+}
 \seealso{
 \code{\link{calcStats}} \code{\link{eventBaseflow}} \code{\link{eventMaxima}} \code{\link{eventPOT}}
 }
