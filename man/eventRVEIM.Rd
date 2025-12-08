@@ -35,14 +35,6 @@ the maximum and the sum of the \code{data} in each event, alongside the start an
 the indices of start and end of events as a two column dataframe are returned.
 }
 
-\references{
-Mohammadpour Khoie, M.M., Guo, D., & Wasko, C. (2025). \emph{Characterising runoff processes for Australia: Insights from a parsimonious rainfall-runoff event identification method.} 
-Hydrology and Earth System Sciences.
-
-Lyne, V., & Hollick, M. (1979). \emph{Stochastic Time-Variable Rainfall-Runoff Modeling.} 
-Institute of Engineers, Australia National Conference.
-}
-
 \seealso{
 \code{\link{baseflowA}}, \code{\link{calcREIC}}, 
 \code{\link{eventMaxima}}, \code{\link{eventMinima}}, \code{\link{eventBaseflow}}
