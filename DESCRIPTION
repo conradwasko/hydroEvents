@@ -12,6 +12,7 @@ License: GPL-3
 Encoding: UTF-8
 LazyData: true
 RoxygenNote: 7.3.2
-Depends: R (>= 2.10)
+Depends: R (>= 3.5.0)
 NeedsCompilation: no
 Maintainer: Conrad Wasko <conrad.wasko@gmail.com>
+Packaged: 2025-12-11 04:53:30 UTC; u1134574

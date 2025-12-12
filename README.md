@@ -228,7 +228,6 @@ plotPairs(data.1 = Psel, data.2 = WLsel, events = matched.2, type = "hyet", colo
 ![Example7b](https://user-images.githubusercontent.com/29298475/122487944-c275dd80-d01f-11eb-8e3d-63b26fa733fa.jpeg)
 
 
-
 ## Example 8
 Aim: Demonstrate event identification with hourly streamflow data
 
@@ -299,7 +298,7 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst1,
           main = paste("Result 3, REIC =",REIC.w1), ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3) 
 plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst2, date = dat$Date, col = colorRampPalette(brewer.pal(12, "Set3"))(nrow(events.P)), 
           main = paste("Result 4, REIC =",REIC.w2), ylab.2 = "Rainfall (mm)", ylab.1 = "Flow (ML/day)", cex.2 = 2/3)
+
+
 ```
 ![Example9](https://raw.githubusercontent.com/conradwasko/hydroEvents/refs/heads/0.13/Example9_Figure.png)
-
-
