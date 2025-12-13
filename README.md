@@ -272,16 +272,16 @@ dat = dataCatchment$`105105A`[which(dataCatchment$`105105A`$Date >= srt & dataCa
 events.P = eventPOT(dat$Precip_mm, threshold = 1, min.diff = 1)
 QF <- dat$Flow_ML-baseflowA(dat$Flow_ML, alpha = 0.925, passes = 3)$bf
 events.Qbest1 = eventMinima(QF, delta.y = 14.24, delta.x = 1, thresh = 6.58)
-matched.best1 = PostCorrection(pairEvents(events.P, events.Qbest1, lag = 6,  type = 3))  
+matched.best1 = postCorrection(pairEvents(events.P, events.Qbest1, lag = 6,  type = 3))  
 
 events.Qbest2 = eventMinima(QF, delta.y = 21.37, delta.x = 5, thresh = 2.42)
-matched.best2 = PostCorrection(pairEvents(events.P, events.Qbest1, lag = 7,  type = 5))  
+matched.best2 = postCorrection(pairEvents(events.P, events.Qbest1, lag = 7,  type = 5))  
 
 events.Qworst1 = eventMaxima(QF, delta.y = -0.861, delta.x = 1, thresh = 127.1)
-matched.worst1 = PostCorrection(pairEvents(events.P, events.Qworst1, lag = 1,  type = 4))  
+matched.worst1 = postCorrection(pairEvents(events.P, events.Qworst1, lag = 1,  type = 4))  
 
 events.Qworst2 = eventMaxima(QF, delta.y = -0.825, delta.x = 9, thresh = 39.26)
-matched.worst2 = PostCorrection(pairEvents(events.P, events.Qworst2, lag = 1,  type = 4))
+matched.worst2 = postCorrection(pairEvents(events.P, events.Qworst2, lag = 1,  type = 4))
 
 REIC.b1 <- round(calcREIC(dat$Precip_mm, dat$Flow_ML, matched.best1, n_rainfall = nrow(events.P), area = 297),2) # see manual 'dataCatchment'
 REIC.b2 <- round(calcREIC(dat$Precip_mm, dat$Flow_ML, matched.best2, n_rainfall = nrow(events.P), area = 297),2) # see manual 'dataCatchment'
@@ -302,3 +302,4 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst2,
 
 ```
 ![Example9](https://raw.githubusercontent.com/conradwasko/hydroEvents/refs/heads/0.13/Example9_Figure.png)
+
