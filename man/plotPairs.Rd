@@ -23,7 +23,7 @@ plotPairs(
 
 \item{data.2}{The second data vector}
 
-\item{events}{The pairedeEvents data frame from \link{pairEvents}}
+\item{events}{The paired events data frame from \link{pairEvents}}
 
 \item{dates}{Optional date vector}
 

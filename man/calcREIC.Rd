@@ -48,10 +48,12 @@ Mohammadpour Khoie, M.M., Guo, D., & Wasko, C. (2025). \emph{Improving the consi
 \dontrun{
 # Example usage
 rain_events <- eventPOT(dataLoch, threshold = 1, min.diff = 1)
-flow_events <- eventMaxima(dataBassRiver, delta.y = 200, delta.x = 1, threshold = 0)
+flow_events <- eventMaxima(dataBassRiver, delta.y = 200, delta.x = 1, 
+threshold = 0)
 paired_events <- pairEvents(rain_events, flow_events, lag = 5, type = 1)
 quickflow <- baseflowA(dataBassRiver, alpha = 0.925, passes = 3)$bf
 
-REIC_values <- calcREIC(dataLoch, quickflow, paired_events, n_rainfall = nrow(rain_events), area = 3012)
+REIC_values <- calcREIC(dataLoch, quickflow, paired_events, 
+n_rainfall = nrow(rain_events), area = 3012)
 }
 }

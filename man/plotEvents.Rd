@@ -14,6 +14,8 @@ plotEvents(
   colbound = "red",
   ymin = min(data),
   ymax = max(data),
+  xmin = NULL,
+  xmax = NULL,
   xlab = "",
   ylab = "",
   main = "events"
@@ -34,9 +36,13 @@ plotEvents(
 
 \item{colbound}{Background colour for plot type \code{"bound"}}
 
-\item{ymin}{Minimum plot extend in vertical direction}
+\item{ymin}{Minimum plot extent in vertical direction}
 
 \item{ymax}{Maximum plot extent in vertical direction}
+
+\item{xmin}{Minimum plot extent in horizontal direction}
+
+\item{xmax}{Maximum plot extent in horizontal direction}
 
 \item{xlab}{x-axis label}
 

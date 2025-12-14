@@ -5,15 +5,17 @@
 \alias{hourlyQ}
 \title{Hourly streamflow data}
 \format{
-A data frame with two columns: time stamp (hourly) and streamflow (units?)
+A data frame with two columns: time stamp (hourly) and streamflow (cubic meter per second).
+Data is for station 138903A Tinana Creek at Bauple East. Instantaneous streamflow data can be downloaded from Bureau of Meteorology's Water Data Online: https://www.bom.gov.au/waterdata/. 
+The hourly data here is a result of a linear interpolation of the instantaneous data to an hourly time step.
 }
 \source{
-\url{http://www.bom.gov.au/water/hrs/ check??}
+\url{https://www.bom.gov.au/waterdata/}
 }
 \usage{
 dataCatchment
 }
 \description{
-Hourly streamflow data from site q138903A. check??
+Hourly streamflow data from site q138903A (Tinana Creek at Bauple East). 
 }
 \keyword{datasets}

@@ -11,6 +11,8 @@ limbs(
   to.plot = TRUE,
   ymin = min(data),
   ymax = max(data),
+  xmin = NULL,
+  xmax = NULL,
   xlab = "",
   ylab = "",
   main = ""
@@ -25,9 +27,13 @@ limbs(
 
 \item{to.plot}{c(TRUE,FALSE) whether a plot is produced for the limbs}
 
-\item{ymin}{Minimum plot extend in vertical direction}
+\item{ymin}{Minimum plot extent in vertical direction}
 
 \item{ymax}{Maximum plot extent in vertical direction}
+
+\item{xmin}{Minimum plot extent in horizontal direction}
+
+\item{xmax}{Maximum plot extent in horizontal direction}
 
 \item{xlab}{x-axis label}
 
