@@ -34,8 +34,8 @@
 #' limbs(data = dataBassRiver, dates = d, events = BFI_res)
 
 limbs <- function(data, dates = NULL, events, to.plot = TRUE,
-                  ymin = min(data), ymax = max(data), 
-                  xmin = NULL, xmax = NULL, 
+                  ymin = min(data), ymax = max(data),
+                  xmin = NULL, xmax = NULL,
                   xlab = "", ylab ="", main = "") {
 
   if (to.plot == TRUE) {
@@ -51,7 +51,7 @@ limbs <- function(data, dates = NULL, events, to.plot = TRUE,
   colnames(rising)  = c("ris.srt","ris.end")
   colnames(falling) = c("fal.srt","fal.end")
 
-  event.stats = calcStats(events$srt, events$end, data, 
+  event.stats = calcStats(events$srt, events$end, data,
                           f.vec = c("which.max", "max", "sum"))
   maxID = event.stats$which.max
   dropevent = vector()

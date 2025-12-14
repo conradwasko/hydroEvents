@@ -37,9 +37,9 @@
 #' @source
 #' HRS streamflow data:
 #' \url{http://www.bom.gov.au/water/hrs/}
-#' water quality data:
-#' WaterNSW: \url{https://realtimedata.waternsw.com.au/}
-#' Northern Territory Department of Environment, Parks and Water Security \url{https://ntg.aquaticinformatics.net/AQWebportal/}
+#' Water quality data:
+#' WaterNSW \url{https://waterinsights.waternsw.com.au/}
+#' Northern Territory Department of Environment, Parks and Water Security \url{https://ntg.aquaticinformatics.net/Data}
 #' South Australia Department for Environment and Water \url{https://www.waterconnect.sa.gov.au/}
 "WQ_Q"
 
