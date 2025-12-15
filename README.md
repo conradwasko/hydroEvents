@@ -252,7 +252,7 @@ plotEvents(data = flow[3:(n-2)][idx:(idx+200)], events = events[120,], type = "l
 lines(1:201, bf$bf[idx:(idx+200)], lty = 2)
 
 ```
-![Example8](src="https://github.com/user-attachments/assets/47155bbe-c986-40d7-85ac-2322dde7daf6")
+![Example8]("https://github.com/user-attachments/assets/47155bbe-c986-40d7-85ac-2322dde7daf6")
 
 
 
@@ -302,4 +302,5 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst2,
 
 ```
 ![Example9](https://raw.githubusercontent.com/conradwasko/hydroEvents/refs/heads/0.13/Example9_Figure.png)
+
 
