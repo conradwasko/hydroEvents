@@ -28,7 +28,7 @@
 #' }
 #' print(cbind(alpha.list, BFI))
 
-baseflowB <- function(q, alpha = 0.925, passes = 3, r = 30) {
+baseflowB <- function(q, alpha = 0.98, passes = 3, r = 30) {
   # Pad with reflected data
   n.i = length(q)
   q.c = c(q[(r+1):2], q, q[(n.i-1):(n.i-r)])
