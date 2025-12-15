@@ -299,7 +299,9 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst2,
 
 
 ```
-![Example9](https://raw.githubusercontent.com/conradwasko/hydroEvents/refs/heads/0.13/Example9_Figure.png)
+<img width="750" alt="Example9_Figure" src="https://github.com/user-attachments/assets/8ae0d0a1-1f1f-4b41-af68-cedd2fd125bc" />
+
+
 
 
 
