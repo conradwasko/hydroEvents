@@ -252,7 +252,7 @@ plotEvents(data = flow[3:(n-2)][idx:(idx+200)], events = events[120,], type = "l
 lines(1:201, bf$bf[idx:(idx+200)], lty = 2)
 
 ```
-<img width="950" height="577" alt="Example8_figure" src="https://github.com/user-attachments/assets/82c44c81-0c78-453c-9898-a40fdb9500d8" />
+<img width="750" alt="Example8_figure" src="https://github.com/user-attachments/assets/82c44c81-0c78-453c-9898-a40fdb9500d8" />
 
 ## Example 9
 Aim: Demonstrate the calculation of the Robust Event Identification Criteria (REIC), following Mohammadpour Khoie, et al. (2025): https://doi.org/10.1016/j.envsoft.2025.106521.
@@ -300,6 +300,7 @@ plotPairs(data.1 = dat$Precip_mm, data.2 = dat$Flow_ML, events = matched.worst2,
 
 ```
 ![Example9](https://raw.githubusercontent.com/conradwasko/hydroEvents/refs/heads/0.13/Example9_Figure.png)
+
 
 
 
